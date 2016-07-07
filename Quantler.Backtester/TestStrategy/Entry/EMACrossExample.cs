@@ -24,6 +24,13 @@ class EMACrossExample : EntryTemplate
         //initialize this entry template
         emaslow = Indicators.ExponentialMovingAverage(slowperiod, Agent.Stream);
         emafast = Indicators.ExponentialMovingAverage(fastperiod, Agent.Stream);
+
+        //AddStream(SecurityType.Forex, "AUDJPY", BarInterval.Hour);
+        //AddStream(SecurityType.Forex, "AUDNZD", BarInterval.Hour);
+        //AddStream(SecurityType.Forex, "AUDUSD", BarInterval.Hour);
+        //AddStream(SecurityType.Forex, "CADJPY", BarInterval.Hour);
+        //AddStream(SecurityType.Forex, "CHFJPY", BarInterval.Hour);
+        //AddStream(SecurityType.Forex, "EURGBP", BarInterval.Hour);
     }
 
     public override void OnCalculate()

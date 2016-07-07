@@ -138,7 +138,7 @@ namespace Quantler.Trades
 
         public decimal Xquantity
         {
-            get { return Xsize / Security.LotSize; }
+            get { return Xsize / (decimal)Security.LotSize; }
         }
 
         public int Xsize { get { return _xsize; } set { _xsize = value; } }

@@ -370,7 +370,9 @@ namespace Quantler.Trades
 
             // if we closed something, update return
             decimal grosspl = pospl;
-            decimal netpl = grosspl - tr.Commission;
+            decimal interest = tr.Swap;
+            InterestPaid += interest;
+            decimal netpl = grosspl - tr.Commission - interest;
 
             // count return
             _grossreturn.Add(grosspl);
@@ -475,5 +477,12 @@ namespace Quantler.Trades
         }
 
         #endregion Private Methods
+
+
+        public decimal InterestPaid
+        {
+            get;
+            set;
+        }
     }
 }

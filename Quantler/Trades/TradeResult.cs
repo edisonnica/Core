@@ -72,9 +72,10 @@ namespace Quantler.Trades
             TradeResult toreturn = new TradeResult { ClosedPl = pnL };
             toreturn.ClosedPl += Calc.OpenPL(fill.Xprice, pos);
             if (toreturn.ClosedPl != 0) toreturn.ClosedSize = fill.Xsize;
-            toreturn.AvgPrice = pos.AvgPrice;
+            toreturn.AvgPrice = fill.Xprice;
             toreturn.Source = fill;
             toreturn.Commission = fill.Commission;
+            toreturn.Swap = fill.Swap;
 
             return toreturn;
         }

@@ -110,6 +110,11 @@ namespace Quantler.Interfaces
         decimal InitialCapital { get; }
 
         /// <summary>
+        /// Total amount of interest paid (FX = Swap)
+        /// </summary>
+        decimal InterestPaid { get; }
+
+        /// <summary>
         /// number of total losers
         /// </summary>
         int Losers { get; }

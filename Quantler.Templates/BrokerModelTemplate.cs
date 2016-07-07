@@ -22,9 +22,12 @@ namespace Quantler.Templates
     {
         #region Public Methods
 
-        public virtual decimal CalculateMarginInterest(Order o)
+        public virtual decimal CalculateMarginInterest(Trade o)
         {
-            return 0;
+            if (o.Direction == Direction.Long)
+                return o.Xquantity * -43.22M;
+            else
+                return o.Xquantity * 10.38M;
         }
 
         public virtual decimal GetCommission(Order o)

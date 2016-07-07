@@ -60,6 +60,7 @@ namespace Quantler.Broker
         private FillMode _fm = FillMode.OwnBook;
 
         private long _nextorderid = OrderImpl.Unique;
+        private DateTime _nextcostcalc = DateTime.MinValue;
 
         private int _pendorders;
 
@@ -244,6 +245,7 @@ namespace Quantler.Broker
             //TODO: in order to calculate the floating PnL ticks are send to the account for calculations.
             //Also this location is incorrect!
             Default.OnTick(tick);
+            BrokerCostCalculation(tick);
             if (_pendorders == 0) return 0;
 
             //Check if we need to process the order as a trade or use the bid ask fills
@@ -657,6 +659,23 @@ namespace Quantler.Broker
             //Send updates to any templates
             if (GotOrderUpdate != null)
                 GotOrderUpdate(pendingorder);
+        }
+
+        /// <summary>
+        /// Perform any cost calculations
+        /// </summary>
+        /// <param name="t"></param>
+        private void BrokerCostCalculation(Tick t)
+        {
+            //Check for timing
+            if (t.TickDateTime < _nextcostcalc)
+                return;
+
+            foreach (var trade in Default.Positions.SelectMany(x => x.Trades))
+                ((TradeImpl)trade).Swap += BrokerModel.CalculateMarginInterest(trade);
+
+            //Set next calculation date and time
+            _nextcostcalc = t.TickDateTime.Date.AddDays(1);
         }
 
         #endregion Private Methods

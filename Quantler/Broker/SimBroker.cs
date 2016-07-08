@@ -1,6 +1,5 @@
-#region License
 /*
-Copyright Quantler BV, based on original code copyright Tradelink.org. 
+Copyright Quantler BV, based on original code copyright Tradelink.org.
 This file is released under the GNU Lesser General Public License v3. http://www.gnu.org/copyleft/lgpl.html
 
 This library is free software; you can redistribute it and/or
@@ -13,7 +12,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
 */
-#endregion
 
 using Quantler.Data.Ticks;
 using Quantler.Interfaces;
@@ -59,9 +57,8 @@ namespace Quantler.Broker
         private readonly List<string> _hasopened = new List<string>();
         private FillMode _fm = FillMode.OwnBook;
 
-        private long _nextorderid = OrderImpl.Unique;
         private DateTime _nextcostcalc = DateTime.MinValue;
-
+        private long _nextorderid = OrderImpl.Unique;
         private int _pendorders;
 
         #endregion Private Fields
@@ -565,6 +562,23 @@ namespace Quantler.Broker
         #region Private Methods
 
         /// <summary>
+        /// Perform any cost calculations
+        /// </summary>
+        /// <param name="t"></param>
+        private void BrokerCostCalculation(Tick t)
+        {
+            //Check for timing
+            if (t.TickDateTime < _nextcostcalc)
+                return;
+
+            foreach (var trade in Default.Positions.SelectMany(x => x.Trades))
+                ((TradeImpl)trade).Swap += BrokerModel.CalculateMarginInterest(trade);
+
+            //Set next calculation date and time
+            _nextcostcalc = t.TickDateTime.Date.AddDays(1);
+        }
+
+        /// <summary>
         /// Check for order integrity from the brokers perspective
         /// </summary>
         /// <param name="o"></param>
@@ -659,23 +673,6 @@ namespace Quantler.Broker
             //Send updates to any templates
             if (GotOrderUpdate != null)
                 GotOrderUpdate(pendingorder);
-        }
-
-        /// <summary>
-        /// Perform any cost calculations
-        /// </summary>
-        /// <param name="t"></param>
-        private void BrokerCostCalculation(Tick t)
-        {
-            //Check for timing
-            if (t.TickDateTime < _nextcostcalc)
-                return;
-
-            foreach (var trade in Default.Positions.SelectMany(x => x.Trades))
-                ((TradeImpl)trade).Swap += BrokerModel.CalculateMarginInterest(trade);
-
-            //Set next calculation date and time
-            _nextcostcalc = t.TickDateTime.Date.AddDays(1);
         }
 
         #endregion Private Methods

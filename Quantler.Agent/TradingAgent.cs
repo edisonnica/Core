@@ -1,5 +1,4 @@
-﻿#region License
-/*
+﻿/*
 Copyright (c) Quantler B.V., All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -12,7 +11,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
 */
-#endregion
 
 using NLog;
 using Quantler.Interfaces;
@@ -22,34 +20,18 @@ using Quantler.Trades;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Quantler.Agent
 {
     public abstract partial class TradingAgent : TradingAgentManager
     {
-        #region Protected Fields
-
-        protected Reflection.InvokeFactory Exec = new Reflection.InvokeFactory();
-        protected List<Reflection.InvokeLinkVoid<PendingOrder, AgentState>> InvokeMm = new List<Reflection.InvokeLinkVoid<PendingOrder, AgentState>>();
-        protected List<Reflection.InvokeLinkFunc<PendingOrder, AgentState, PendingOrder>> InvokeRm = new List<Reflection.InvokeLinkFunc<PendingOrder, AgentState, PendingOrder>>();
-        protected List<Reflection.InvokeLinkVoid> OnCalcEvents = new List<Reflection.InvokeLinkVoid>();
-
-        #endregion Protected Fields
-
         #region Private Fields
 
-        private readonly List<Reflection.InvokeLinkVoid<PendingOrder>> _invokeOnOrderUpdate = new List<Reflection.InvokeLinkVoid<PendingOrder>>();
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
         private readonly ILogger _loggerUser = LogManager.GetLogger("User");
         private int _agentid = -1;
         private bool _initialized;
-        private List<Reflection.InvokeLinkVoid<Bar>> _invokeOnBar = new List<Reflection.InvokeLinkVoid<Bar>>();
-        private List<Reflection.InvokeLinkVoid<Trade, PendingOrder>> _invokeOnFill = new List<Reflection.InvokeLinkVoid<Trade, PendingOrder>>();
-        private List<Reflection.InvokeLinkVoid<PendingOrder>> _invokeOnOrder = new List<Reflection.InvokeLinkVoid<PendingOrder>>();
-        private List<Reflection.InvokeLinkVoid<Position>> _invokeOnPosition = new List<Reflection.InvokeLinkVoid<Position>>();
-        private List<Reflection.InvokeLinkVoid<Tick>> _invokeOnTick = new List<Reflection.InvokeLinkVoid<Tick>>();
         private string _name = "TestAgent";
         private PortfolioManager _portfolio;
         private Results _results;
@@ -221,189 +203,6 @@ namespace Quantler.Agent
         #region Public Methods
 
         /// <summary>
-        /// Add a new sample to this agent for processing (can only be done if the agent is not already running)
-        /// </summary>
-        /// <param name="stream"></param>
-        public void AddDataStream(DataStream stream)
-        {
-            _logger.Debug("AddDataStream: Processing request for symbol {0} and timeframe {1}", stream.Security.Name, stream.DefaultInterval);
-            if (!IsRunning)
-            {
-                _portfolio.AddStream(stream);
-            }
-            else
-                _logger.Debug("AddDataStream: Could not add datastream, agent is already running.");
-        }
-
-        public void AddDataStream(SecurityType type, string name)
-        {
-            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, type]));
-        }
-
-        public void AddDataStream(SecurityType type, string name, TimeSpan interval)
-        {
-            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, type], (int)interval.TotalSeconds));
-        }
-
-        public void AddDataStream(SecurityType type, string name, int interval)
-        {
-            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, type], interval));
-        }
-
-        public void AddDataStream(SecurityType type, string name, BarInterval interval)
-        {
-            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, type], (int)interval));
-        }
-
-        public void AddEvent(object template)
-        {
-            Type baseType = template.GetType().BaseType;
-            DataStream[] streams = new DataStream[0];
-            if (baseType == typeof(IndicatorTemplate) || baseType == typeof(Indicators.IndicatorBase))
-                streams = ((Indicator)template).DataStreams;
-
-            //Search for OnBars
-            var found = SearchTemplateMethod(template.GetType(), "OnBar", typeof(Bar));
-            if (found != null)
-            {
-                var referencedTemplate = Expression.Constant(template);
-                var parameter = Expression.Parameter(typeof(Bar), found.GetParameters()[0].Name);
-                var call = Expression.Call(referencedTemplate, found, parameter);
-
-                _invokeOnBar.Add(new Reflection.InvokeLinkVoid<Bar>()
-                    {
-                        Action = Expression.Lambda<Action<Bar>>(call, parameter).Compile(),
-                        BaseType = baseType,
-                        ParmType = typeof(Bar),
-                        DataStreams = streams
-                    });
-            }
-
-            //Search for OnOrders
-            found = SearchTemplateMethod(template.GetType(), "OnOrder", typeof(PendingOrder));
-            if (found != null)
-            {
-                var referencedTemplate = Expression.Constant(template);
-                var parameter = Expression.Parameter(typeof(PendingOrder), found.GetParameters()[0].Name);
-                var call = Expression.Call(referencedTemplate, found, parameter);
-                _invokeOnOrder.Add(new Reflection.InvokeLinkVoid<PendingOrder>()
-                {
-                    Action = Expression.Lambda<Action<PendingOrder>>(call, parameter).Compile(),
-                    BaseType = baseType,
-                    ParmType = typeof(PendingOrder),
-                    DataStreams = streams
-                });
-            }
-
-            //Search for OnOrderUpdate
-            found = SearchTemplateMethod(template.GetType(), "OnOrderUpdate", typeof(PendingOrder));
-            if (found != null)
-            {
-                var referencedTemplate = Expression.Constant(template);
-                var parameter = Expression.Parameter(typeof(PendingOrder), found.GetParameters()[0].Name);
-                var call = Expression.Call(referencedTemplate, found, parameter);
-                _invokeOnOrderUpdate.Add(new Reflection.InvokeLinkVoid<PendingOrder>()
-                {
-                    Action = Expression.Lambda<Action<PendingOrder>>(call, parameter).Compile(),
-                    BaseType = baseType,
-                    ParmType = typeof(PendingOrder),
-                    DataStreams = streams
-                });
-            }
-
-            //Search for OnTicks
-            found = SearchTemplateMethod(template.GetType(), "OnTick", typeof(Tick));
-            if (found != null)
-            {
-                var referencedTemplate = Expression.Constant(template);
-                var parameter = Expression.Parameter(typeof(Tick), found.GetParameters()[0].Name);
-                var call = Expression.Call(referencedTemplate, found, parameter);
-                _invokeOnTick.Add(new Reflection.InvokeLinkVoid<Tick>()
-                {
-                    Action = Expression.Lambda<Action<Tick>>(call, parameter).Compile(),
-                    BaseType = baseType,
-                    ParmType = typeof(Tick),
-                    DataStreams = streams
-                });
-            }
-
-            //Search for OnFills
-            found = SearchTemplateMethod(template.GetType(), "OnFill", typeof(Trade), typeof(PendingOrder));
-            if (found != null)
-            {
-                var referencedTemplate = Expression.Constant(template);
-                var parameter = Expression.Parameter(typeof(Trade), found.GetParameters()[0].Name);
-                var secondparameter = Expression.Parameter(typeof(PendingOrder), found.GetParameters()[1].Name);
-                var call = Expression.Call(referencedTemplate, found, parameter, secondparameter);
-                _invokeOnFill.Add(new Reflection.InvokeLinkVoid<Trade, PendingOrder>()
-                {
-                    Action = Expression.Lambda<Action<Trade, PendingOrder>>(call, parameter, secondparameter).Compile(),
-                    BaseType = baseType,
-                    ParmType = typeof(Trade),
-                    DataStreams = streams
-                });
-            }
-
-            //Search for OnCalculates
-            found = template.GetType().GetMethod("OnCalculate");
-            if (found != null)
-            {
-                var referencedTemplate = Expression.Constant(template);
-                var call = Expression.Call(referencedTemplate, found);
-                OnCalcEvents.Add(new Reflection.InvokeLinkVoid()
-                {
-                    Action = Expression.Lambda<Action>(call).Compile(),
-                    BaseType = template.GetType().BaseType,
-                    DataStreams = streams
-                });
-            }
-
-            //Unique events
-            if (template is RiskManagementTemplate)
-            {
-                found = template.GetType().GetMethod("RiskManagement");
-                if (found != null)
-                {
-                    var referencedTemplate = Expression.Constant(template);
-                    var parameter = Expression.Parameter(typeof(PendingOrder), found.GetParameters()[0].Name);
-                    var secondparameter = Expression.Parameter(typeof(AgentState), found.GetParameters()[0].Name);
-                    var call = Expression.Call(referencedTemplate, found, parameter, secondparameter);
-                    InvokeRm.Add(new Reflection.InvokeLinkFunc<PendingOrder, AgentState, PendingOrder>()
-                    {
-                        Action = Expression.Lambda<Func<PendingOrder, AgentState, PendingOrder>>(call, parameter, secondparameter).Compile(),
-                        BaseType = template.GetType().BaseType,
-                        ParmType = typeof(PendingOrder),
-                        ReturnType = typeof(PendingOrder)
-                    });
-                }
-            }
-            else if (template is MoneyManagementTemplate)
-            {
-                found = template.GetType().GetMethod("PositionSize");
-                if (found != null)
-                {
-                    var referencedTemplate = Expression.Constant(template);
-                    var parameter = Expression.Parameter(typeof(PendingOrder), found.GetParameters()[0].Name);
-                    var secondparameter = Expression.Parameter(typeof(AgentState), found.GetParameters()[0].Name);
-                    var call = Expression.Call(referencedTemplate, found, parameter, secondparameter);
-                    InvokeMm.Add(new Reflection.InvokeLinkVoid<PendingOrder, AgentState>()
-                    {
-                        Action = Expression.Lambda<Action<PendingOrder, AgentState>>(call, parameter, secondparameter).Compile(),
-                        BaseType = template.GetType().BaseType,
-                        ParmType = typeof(PendingOrder)
-                    });
-                }
-            }
-
-            //Order priorities
-            _invokeOnBar = _invokeOnBar.OrderByDescending(x => x.BaseType.GetInterfaces().Contains(typeof(Indicator))).ToList();
-            _invokeOnFill = _invokeOnFill.OrderByDescending(x => x.BaseType.GetInterfaces().Contains(typeof(Indicator))).ToList();
-            _invokeOnOrder = _invokeOnOrder.OrderByDescending(x => x.BaseType.GetInterfaces().Contains(typeof(Indicator))).ToList();
-            _invokeOnPosition = _invokeOnPosition.OrderByDescending(x => x.BaseType.GetInterfaces().Contains(typeof(Indicator))).ToList();
-            _invokeOnTick = _invokeOnTick.OrderByDescending(x => x.BaseType.GetInterfaces().Contains(typeof(Indicator))).ToList();
-        }
-
-        /// <summary>
         /// Add a new template to the existing templates (not needed when using the dep inj method)
         /// </summary>
         /// <param name="template"></param>
@@ -429,16 +228,6 @@ namespace Quantler.Agent
             return SubmitOrder(CreateOrder(pos.Security.Name, Direction.Flat, pos.Quantity));
         }
 
-        public PendingOrder CreateOrder(ISecurity security, Direction direction, decimal quantity, decimal limitPrice = 0, decimal stopPrice = 0, string comment = "")
-        {
-            return CreateOrder(security.Name, direction, quantity, limitPrice, stopPrice, comment);
-        }
-
-        public PendingOrder CreateOrder(string symbol, Direction direction, decimal quantity, decimal limitPrice = 0, decimal stopPrice = 0, string comment = "")
-        {
-            return _portfolio.OrderFactory.CreateOrder(symbol, direction, quantity, limitPrice, stopPrice, comment, AgentId);
-        }
-
         public void Deinitialize()
         {
             if (IsRunning)
@@ -451,16 +240,6 @@ namespace Quantler.Agent
         public abstract void Entry();
 
         public abstract void Exit();
-
-        public void Flatten()
-        {
-            LocalLog(LogLevel.Info, "Agent flatten signal received, flattening all positions.");
-            foreach (var pos in Positions.Where(x => x.UnsignedSize > 0))
-            {
-                LocalLog(LogLevel.Debug, "Flattening position {0} with quantity {1}", pos.Security.Name, pos.Quantity);
-                ClosePosition(pos);
-            }
-        }
 
         /// <summary>
         /// Initialize this agent, should be runned only once when booting up the agent
@@ -519,115 +298,7 @@ namespace Quantler.Agent
 
         public abstract void MoneyManagement(PendingOrder order);
 
-        /// <summary>
-        /// Execute the on bar event for each new bar to be processed by the associated templates
-        /// </summary>
-        /// <param name="bar"></param>
-        public void OnBar(Bar bar)
-        {
-            LocalLog(LogLevel.Trace, "OnBar: Processing bar Symbol: {0}, Interval: {1}", bar.Symbol, bar.CustomInterval);
-
-            //Execute all OnBar events (Indicators first)
-            if (string.IsNullOrWhiteSpace(bar.Symbol)) return;
-            DataStream stream = Portfolio.Streams[bar.Symbol];
-
-            if (stream == null || stream.Security == null || stream.Security.Name != bar.Symbol)
-                LocalLog(LogLevel.Error, "Could not find stream for symbol {0}", bar.Symbol);
-
-            //Execute all OnBar events (Indicators)
-            Exec.InvokeAll(_invokeOnBar, bar, stream, typeof(IndicatorTemplate), typeof(Indicators.IndicatorBase));
-
-            //Execute all OnBar events (nonIndicators)
-            Exec.InvokeAllExclude(_invokeOnBar, bar, typeof(IndicatorTemplate), typeof(Indicators.IndicatorBase));
-
-            //check for main timeframe
-            if (bar.CustomInterval != (int)TimeFrame.TotalSeconds)
-            {
-                LocalLog(LogLevel.Trace, "OnBar: Bar is discarded for agent calc events, expected interval: {0} but found interval: {1}", TimeFrame.TotalSeconds, bar.CustomInterval);
-                return;
-            }
-            else
-                LocalLog(LogLevel.Trace, "OnBar: Bar is processed for agent calc event, found interval: {0}", bar.CustomInterval);
-
-            //Check all entry template logic
-            ClearAgentSate();
-            Exec.InvokeAll(OnCalcEvents, typeof(EntryTemplate));
-            Entry();
-
-            //Check all exit template logic
-            ClearAgentSate();
-            Exec.InvokeAll(OnCalcEvents, typeof(ExitTemplate));
-            Exit();
-        }
-
-        public void OnFill(Trade fill, PendingOrder order)
-        {
-            //Debug logging
-            LocalLog(LogLevel.Debug, "OnFill: filling order with fill {0} and order {1}", fill.Id, order.OrderId);
-
-            //Process fill for current trading agent
-            Positions.GotFill(fill);
-
-            //Execute all OnFill events
-            if (_invokeOnFill.Count > 0 && IsRunning)
-                Exec.InvokeAll(_invokeOnFill, fill, order);
-        }
-
-        public void OnOrder(PendingOrder order)
-        {
-            //Debug logging
-            LocalLog(LogLevel.Debug, "OnOrder: receiving order event for order with id {0}", order.OrderId);
-
-            //Execute all OnOrder events
-            if (_invokeOnOrder.Count > 0 && IsRunning)
-                Exec.InvokeAll(_invokeOnOrder, order);
-        }
-
-        public void OnOrderUpdate(PendingOrder order)
-        {
-            //Debug logging
-            LocalLog(LogLevel.Debug, "OnOrder: receiving order update event for order with id {0}", order.OrderId);
-
-            if (_invokeOnOrderUpdate.Count > 0 && IsRunning)
-                Exec.InvokeAll(_invokeOnOrderUpdate, order);
-        }
-
-        public void OnPosition(Position pos)
-        {
-            //Debug logging
-            LocalLog(LogLevel.Debug, "OnOrder: receiving position update event for position with symbol {0}", pos.Security.Name);
-
-            //Execute all OnPosition events
-            if (_invokeOnPosition.Count > 0 && IsRunning)
-                Exec.InvokeAll(_invokeOnPosition, pos);
-        }
-
-        /// <summary>
-        /// Execute the on tick event for each new tick to be processed by the associated templates
-        /// </summary>
-        /// <param name="tick"></param>
-        public void OnTick(Tick tick)
-        {
-            //Check tick
-            if (string.IsNullOrWhiteSpace(tick.Symbol) || CurrentTick == null)
-                return;
-
-            //Set the current Tick
-            CurrentTick[tick.Symbol] = tick;
-
-            //Execute all OnBar events (Indicators first)
-            if (_invokeOnTick.Count > 0 && IsRunning)
-                Exec.InvokeAll(_invokeOnTick, tick, Portfolio.Streams[tick.Symbol]);
-        }
-
         public abstract void RiskManagement(PendingOrder order);
-
-        public void SetDefaultStream(DataStream stream)
-        {
-            LocalLog(LogLevel.Debug, "Setting new default stream Symbol = {0} current timeframe = {1}", stream.Security.Name, TimeFrame);
-            Stream = stream;
-            AddDataStream(stream);
-        }
 
         public void SetName(string name)
         {
@@ -663,90 +334,7 @@ namespace Quantler.Agent
             IsRunning = false;
         }
 
-        /// <summary>
-        /// Submit a new order to the portfolio
-        /// </summary>
-        /// <param name="pendingorder"></param>
-        /// <returns></returns>
-        public StatusType SubmitOrder(PendingOrder pendingorder)
-        {
-            //Debug logging
-            LocalLog(LogLevel.Debug, "SubmitOrder: submitting pending order for symbol {0}, direction {1} and type {2}", pendingorder.Order.Security.Name, pendingorder.Order.Direction, pendingorder.Order.Type);
-
-            //Check if order is cancelled, then do not send this order
-            if (pendingorder.IsCancelled)
-            {
-                LocalLog(LogLevel.Warn, "SubmitOrder: pending order for symbol {0} and type {1} was cancelled before submitting: {2}", pendingorder.Order.Security.Name, pendingorder.Order.Type, pendingorder.OrderStatus.ToString());
-                return pendingorder.OrderStatus;
-            }
-
-            _portfolio.QueueOrder(pendingorder);
-            return pendingorder.OrderStatus;
-        }
-
         #endregion Public Methods
-
-        #region Protected Methods
-
-        /// <summary>
-        /// Submit an order that is going through the regular template cycle of orders
-        /// </summary>
-        /// <param name="pendingorder"></param>
-        /// <param name="state"></param>
-        /// <returns></returns>
-        protected bool ProcessOrder(PendingOrder pendingorder, AgentState state)
-        {
-            //Track Orders
-            PendingOrder entryOrder = pendingorder;
-            PendingOrder rmOrder = null;
-
-            //Check if we are allowed to trade
-            var types = Templates.Select(x => x.GetType());
-            RiskManagementTemplate rm = (RiskManagementTemplate)Templates.FirstOrDefault(x => x.GetType().BaseType == typeof(RiskManagementTemplate));
-
-            if (rm != null 
-                && !rm.IsTradingAllowed() 
-                && (state != AgentState.EntryLong || state != AgentState.EntryShort))
-                return false;
-
-            //Check risk management
-            if (InvokeRm.Count > 0)
-            {
-                //Check all Risk Management template logics
-                Exec.InvokeAll(InvokeRm, pendingorder, state);
-
-                //On Order Event
-                if (InvokeRm[0].Result != null)
-                {
-                    rmOrder = InvokeRm[0].Result;
-                    RiskManagement(rmOrder);
-                }
-            }
-
-            //Submit our new stop order
-            if (rmOrder != null && rmOrder.Order.IsValid)
-                SubmitOrder(rmOrder);
-            else if (rmOrder != null && !rmOrder.Order.IsValid)
-                _logger.Warn("RM: INVALID ORDER {0} - {1}", rmOrder.OrderStatus, rmOrder.Order.Security.Name);
-
-            //Check money management
-            if (InvokeMm.Count > 0)
-            {
-                Exec.InvokeAll(InvokeMm, pendingorder, state);
-
-                MoneyManagement(pendingorder);
-            }
-
-            //Submit our new entry order
-            if (entryOrder.Order.IsValid)
-                SubmitOrder(entryOrder);
-            else
-                _logger.Warn("MM: INVALID ORDER {0} - {1}", entryOrder.OrderStatus, entryOrder.Order.Security.Name);
-
-            return true;
-        }
-
-        #endregion Protected Methods
 
         #region Private Methods
 
@@ -783,8 +371,7 @@ namespace Quantler.Agent
                 CurrentBar[symbol] = Portfolio.Streams[symbol][interval][-1, interval];
             }
             catch
-            { //TODO: fix this error
-            }
+            {}
 
             //Execute the bar event if this agent is running
             if (IsRunning)

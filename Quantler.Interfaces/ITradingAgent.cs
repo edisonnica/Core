@@ -1,5 +1,4 @@
-﻿#region License
-/*
+﻿/*
 Copyright (c) Quantler B.V., All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -12,7 +11,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
 */
-#endregion
 
 using System;
 using System.Collections.Generic;
@@ -59,6 +57,11 @@ namespace Quantler.Interfaces
         /// Get latest ticks occured based on symbol name
         /// </summary>
         Dictionary<string, Tick> CurrentTick { get; }
+
+        /// <summary>
+        /// True if this agent is loading historical data
+        /// </summary>
+        bool IsBackfilling { get; }
 
         /// <summary>
         /// True if this agent is currently being used for backtesting
@@ -233,6 +236,18 @@ namespace Quantler.Interfaces
         void OnTick(Tick tick);
 
         void RiskManagement(PendingOrder order);
+
+        /// <summary>
+        /// Backfill this agent's data for a specific timeperiod
+        /// </summary>
+        /// <param name="period"></param>
+        void SetBackfilling(TimeSpan period);
+
+        /// <summary>
+        /// Backfill this agent's data for a specific amount of bars
+        /// </summary>
+        /// <param name="Bars"></param>
+        void SetBackFilling(int Bars);
 
         /// <summary>
         /// Set the name of this agent

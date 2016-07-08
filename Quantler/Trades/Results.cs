@@ -62,7 +62,7 @@ namespace Quantler.Trades
         #region Public Constructors
 
         /// <summary>
-        /// create default results instance
+        /// Create default results instance
         /// </summary>
         public Results()
             : this(.01m, null)
@@ -70,7 +70,7 @@ namespace Quantler.Trades
         }
 
         /// <summary>
-        /// create results instance with risk free return, comission and report time
+        /// Create results instance with risk free rate and an Account attached
         /// </summary>
         /// <param name="rfr"></param>
         /// <param name="account"></param>

@@ -1,6 +1,5 @@
-﻿#region License
-/*
-Copyright Quantler BV, based on original code copyright Tradelink.org. 
+﻿/*
+Copyright Quantler BV, based on original code copyright Tradelink.org.
 This file is released under the GNU Lesser General Public License v3. http://www.gnu.org/copyleft/lgpl.html
 
 This library is free software; you can redistribute it and/or
@@ -13,7 +12,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
 */
-#endregion
 
 using Quantler.Interfaces;
 using Quantler.Tracker;
@@ -50,7 +48,6 @@ namespace Quantler.Trades
         private int _livecheckafterXticks = 1;
         private int _livetickdelaymax = 60;
         private decimal _losepnl;
-        private List<string> _persym = new List<string>();
         private Position _prevPos;
         private string _resultid = string.Empty;
 
@@ -162,6 +159,12 @@ namespace Quantler.Trades
 
         public string LoseSeqProbEffHyp { get { return V2S(Math.Min(100, (decimal)Math.Pow(1 / 2.0, ConsecLose) * (Trades - Flats - ConsecLose + 1) * 100)) + @" %"; } }
 
+        public decimal MarginInterest
+        {
+            get;
+            set;
+        }
+
         public decimal MaxDD { get; set; }
 
         public string MaxDdNice { get { return MaxDD.ToString("P2"); } }
@@ -191,8 +194,6 @@ namespace Quantler.Trades
         public string NetPlNice { get { return V2S(NetPL); } }
 
         public decimal[] PctReturns { get; private set; }
-
-        public List<string> PerSymbolStats { get { return _persym; } set { _persym = value; } }
 
         public decimal[] PortfolioNegPctReturns { get; private set; }
 
@@ -288,7 +289,6 @@ namespace Quantler.Trades
                     value = Math.Round(Calc.MaxDDPct(PortfolioPctReturns), 5);
                     MaxDDPortfolio = MaxDDPortfolio < value ? MaxDDPortfolio : value;
 
-                    SymbolCount = ((PositionTracker)_positions).Count;
                     DaysTraded = _days.Count;
                     GrossPerDay = Math.Round(GrossPL / DaysTraded, 2);
                     GrossPerSymbol = Math.Round(GrossPL / SymbolCount, 2);
@@ -340,8 +340,12 @@ namespace Quantler.Trades
         private void ProcessTrade(TradeResult tr, Position pos, decimal pospl)
         {
             //Compare to prevpos
+            bool initial = false;
             if (_prevPos == null)
+            {
                 _prevPos = pos;
+                initial = true;
+            }
 
             if (_tradecount.ContainsKey(tr.Source.Symbol))
                 _tradecount[tr.Source.Symbol]++;
@@ -354,7 +358,7 @@ namespace Quantler.Trades
             var miubefore = _prevPos.IsFlat ? 0 : _prevPos.UnsignedSize * _prevPos.AvgPrice;
 
             //Use new position from here
-            bool isroundturn = (usizebefore != 0) && (pos.Direction != _prevPos.Direction);
+            bool isroundturn = (usizebefore > 0) && pospl != 0 && !initial && (pos.Direction != _prevPos.Direction);
 
             // get comissions
             Commissions += tr.Commission;
@@ -380,7 +384,7 @@ namespace Quantler.Trades
             _pctrets.Add(pctret);
 
             //adjust initial capital based balance
-            decimal portfolioreturn = netpl / InitialCapital;
+            decimal portfolioreturn = netpl / Balance;
             _portfPctreturns.Add(portfolioreturn);
 
             // add to neg returns if negative
@@ -391,7 +395,6 @@ namespace Quantler.Trades
             Balance += netpl;
 
             // if it is below our zero, count it as negative return
-
             if (pctret < 0)
                 _negret.Add(pctret);
 
@@ -405,14 +408,17 @@ namespace Quantler.Trades
             }
 
             if (!Symbols.Contains(tr.Source.Symbol))
+            {
                 Symbols += tr.Source.Symbol + ",";
+                SymbolCount++;
+            }
             Trades++;
             SharesTraded += Math.Abs(tr.Source.Xsize / tr.Source.Security.LotSize);
             GrossPL += tr.ClosedPl;
 
             if ((tr.ClosedPl > 0) && !_exitscounted.Contains(tr.Source.Id))
             {
-                if (tr.Source.Direction == Direction.Short)
+                if (tr.Source.Direction == Direction.Long)
                 {
                     SellWins++;
                     SellPL += tr.ClosedPl;
@@ -430,7 +436,7 @@ namespace Quantler.Trades
             }
             else if ((tr.ClosedPl < 0) && !_exitscounted.Contains(tr.Source.Id))
             {
-                if (tr.Source.Direction == Direction.Short)
+                if (tr.Source.Direction == Direction.Long)
                 {
                     SellLosers++;
                     SellPL += tr.ClosedPl;

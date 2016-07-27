@@ -24,11 +24,11 @@ namespace Quantler.Interfaces
         #region Public Methods
 
         /// <summary>
-        /// Calculate current swap for this order
+        /// Calculate margin interest (swap) for this order
         /// </summary>
         /// <param name="o"></param>
         /// <returns></returns>
-        decimal CalculateSwap(Order o);
+        decimal CalculateMarginInterest(Order o);
 
         /// <summary>
         /// Returns the total commission for the order presented
@@ -71,6 +71,13 @@ namespace Quantler.Interfaces
         /// <param name="s"></param>
         /// <returns></returns>
         int OrderVolumeStepSize(ISecurity s);
+
+        /// <summary>
+        /// Returns the maximum order size (1.000 equals 1 microlot)
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        int MaximumOrderVolume(ISecurity s);
 
         /// <summary>
         /// Return the stop out level used, before giving a margin call

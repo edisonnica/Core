@@ -1,8 +1,6 @@
-﻿#region License
-/*
-Copyright Quantler BV, based on original code copyright Tradelink.org. 
+﻿/*
+Copyright Quantler BV, based on original code copyright Tradelink.org.
 This file is released under the GNU Lesser General Public License v3. http://www.gnu.org/copyleft/lgpl.html
-
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -14,9 +12,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
 */
-#endregion
-
-using System.Collections.Generic;
 
 namespace Quantler.Interfaces
 {
@@ -27,17 +22,17 @@ namespace Quantler.Interfaces
         /// <summary>
         /// average gross per losing trade
         /// </summary>
-        decimal AvgLoser { get; set; }
+        decimal AvgLoser { get; }
 
         /// <summary>
         /// average gross pl per trade
         /// </summary>
-        decimal AvgPerTrade { get; set; }
+        decimal AvgPerTrade { get; }
 
         /// <summary>
         /// average gross per win trade
         /// </summary>
-        decimal AvgWin { get; set; }
+        decimal AvgWin { get; }
 
         /// <summary>
         /// Initial account balance for results
@@ -47,17 +42,17 @@ namespace Quantler.Interfaces
         /// <summary>
         /// number of buy losers
         /// </summary>
-        int BuyLosers { get; set; }
+        int BuyLosers { get; }
 
         /// <summary>
         /// long trade pl
         /// </summary>
-        decimal BuyPL { get; set; }
+        decimal BuyPL { get; }
 
         /// <summary>
         /// number of long winners
         /// </summary>
-        int BuyWins { get; set; }
+        int BuyWins { get; }
 
         /// <summary>
         /// Total amount of commissions paid
@@ -67,33 +62,42 @@ namespace Quantler.Interfaces
         /// <summary>
         /// Total amount consecutive losses
         /// </summary>
-        int ConsecLose { get; set; }
+        int ConsecLose { get; }
 
         /// <summary>
         /// Total amount of consecutive wins
         /// </summary>
-        int ConsecWin { get; set; }
+        int ConsecWin { get; }
 
         /// <summary>
         /// Amount of days traded (tades made not hold)
         /// </summary>
-        int DaysTraded { get; set; }
+        int DaysTraded { get; }
 
-        decimal[] DollarReturns { get; set; }
+        /// <summary>
+        /// Absolute dollar returns per trade
+        /// </summary>
+        decimal[] DollarReturns { get; }
 
         /// <summary>
         /// number of break even trades
         /// </summary>
-        int Flats { get; set; }
+        int Flats { get; }
 
-        decimal GrossPerDay { get; set; }
+        /// <summary>
+        /// Gross return averaged per day
+        /// </summary>
+        decimal GrossPerDay { get; }
 
-        decimal GrossPerSymbol { get; set; }
+        /// <summary>
+        /// Gross return averaged per symbol
+        /// </summary>
+        decimal GrossPerSymbol { get; }
 
         /// <summary>
         /// gross pl of result
         /// </summary>
-        decimal GrossPL { get; set; }
+        decimal GrossPL { get; }
 
         /// <summary>
         /// Amount of lots traded
@@ -108,53 +112,61 @@ namespace Quantler.Interfaces
         /// <summary>
         /// number of total losers
         /// </summary>
-        int Losers { get; set; }
+        int Losers { get; }
 
         /// <summary>
-        /// Max drawdown based on money in use
+        /// Total amount of margin paid
         /// </summary>
-        decimal MaxDD { get; set; }
+        decimal MarginInterest { get; }
 
         /// <summary>
-        /// Max drawdown absed on equity
+        /// Max drawdown (based on money in use)
+        /// </summary>
+        decimal MaxDD { get; }
+
+        /// <summary>
+        /// Max drawdown (based on initial capital)
         /// </summary>
         decimal MaxDDPortfolio { get; }
 
         /// <summary>
         /// biggest loser gross
         /// </summary>
-        decimal MaxLoss { get; set; }
+        decimal MaxLoss { get; }
 
         /// <summary>
         /// max unclosed losing gross
         /// </summary>
-        decimal MaxOpenLoss { get; set; }
+        decimal MaxOpenLoss { get; }
 
         /// <summary>
         /// max unclosed winning gross
         /// </summary>
-        decimal MaxOpenWin { get; set; }
+        decimal MaxOpenWin { get; }
 
         /// <summary>
-        /// highest gross pl to acheive final result
+        /// highest gross pl to achieve final result
         /// </summary>
-        decimal MaxPL { get; set; }
+        decimal MaxPL { get; }
 
         /// <summary>
         /// biggest winner gross
         /// </summary>
-        decimal MaxWin { get; set; }
+        decimal MaxWin { get; }
 
         /// <summary>
-        /// lowest gross pl to acheive final result
+        /// lowest gross pl to achieve final result
         /// </summary>
-        decimal MinPL { get; set; }
+        decimal MinPL { get; }
 
         /// <summary>
-        /// total/max money used to acheive result
+        /// total/max money used to achieve result
         /// </summary>
-        decimal MoneyInUse { get; set; }
+        decimal MoneyInUse { get; }
 
+        /// <summary>
+        /// Negative result in percentage (based on money in use)
+        /// </summary>
         decimal[] NegPctReturns { get; }
 
         /// <summary>
@@ -162,74 +174,102 @@ namespace Quantler.Interfaces
         /// </summary>
         decimal NetPL { get; }
 
+        /// <summary>
+        /// Percentage returns of past trades
+        /// </summary>
         decimal[] PctReturns { get; }
-        List<string> PerSymbolStats { get; set; }
+
+        /// <summary>
+        /// Negative percentage returns of past trades (based on initial capital)
+        /// </summary>
         decimal[] PortfolioNegPctReturns { get; }
+
+        /// <summary>
+        /// Percentage resturns of past trades (based on initial capital)
+        /// </summary>
         decimal[] PortfolioPctReturns { get; }
+
+        /// <summary>
+        /// Calculated profit factor
+        /// </summary>
         decimal ProfitFactor { get; }
 
         /// <summary>
         /// date time in ticks
         /// </summary>
-        long ResultsDateTime { get; set; }
+        long ResultsDateTime { get; }
 
-        string ResultsId { get; set; }
+        string ResultsId { get; }
 
+        /// <summary>
+        /// Return on investment (based on initial capital)
+        /// </summary>
         decimal ROI { get; }
-        int RoundLosers { get; set; }
+
+        /// <summary>
+        /// Round turn losers
+        /// </summary>
+        int RoundLosers { get; }
 
         /// <summary>
         /// round turns
         /// </summary>
-        int RoundTurns { get; set; }
+        int RoundTurns { get; }
 
-        int RoundWinners { get; set; }
+        /// <summary>
+        /// Rount turn winners
+        /// </summary>
+        int RoundWinners { get; }
 
         /// <summary>
         /// number of short losers
         /// </summary>
-        int SellLosers { get; set; }
+        int SellLosers { get; }
 
         /// <summary>
         /// short trade pl
         /// </summary>
-        decimal SellPL { get; set; }
+        decimal SellPL { get; }
 
         /// <summary>
         /// number of short winners
         /// </summary>
-        int SellWins { get; set; }
+        int SellWins { get; }
 
         /// <summary>
         /// shares/contracts traded during result
         /// </summary>
-        int SharesTraded { get; set; }
+        int SharesTraded { get; }
 
         /// <summary>
         /// Current sharpe ratio
         /// </summary>
-        decimal SharpeRatio { get; set; }
-
-        string SimParameters { get; set; }
+        decimal SharpeRatio { get; }
 
         /// <summary>
         /// Current sortino ratio
         /// </summary>
-        decimal SortinoRatio { get; set; }
+        decimal SortinoRatio { get; }
 
-        int SymbolCount { get; set; }
+        /// <summary>
+        /// Amount of symbols traded
+        /// </summary>
+        int SymbolCount { get; }
 
         /// <summary>
         /// symbols traded in result
         /// </summary>
-        string Symbols { get; set; }
+        string Symbols { get; }
 
-        int Trades { get; set; }
+        /// <summary>
+        /// Total amount of trades made
+        /// </summary>
+        int Trades { get; }
 
         /// <summary>
         /// number of winning trades
         /// </summary>
-        int Winners { get; set; }
+        int Winners { get; }
 
         #endregion Public Properties
     }

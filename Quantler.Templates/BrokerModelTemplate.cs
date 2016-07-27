@@ -22,7 +22,7 @@ namespace Quantler.Templates
     {
         #region Public Methods
 
-        public virtual decimal CalculateSwap(Order o)
+        public virtual decimal CalculateMarginInterest(Order o)
         {
             return 0;
         }
@@ -55,6 +55,11 @@ namespace Quantler.Templates
         public int OrderVolumeStepSize(ISecurity s)
         {
             return 1000;
+        }
+
+        public int MaximumOrderVolume(ISecurity s)
+        {
+            return 1000 * 1000;
         }
 
         public virtual decimal StopOutLevel()

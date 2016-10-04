@@ -70,6 +70,7 @@
     <Compile Include="Broker\SimAccount.cs" />
     <Compile Include="Broker\FillMode.cs" />
     <Compile Include="Data\Bars\BarIndexerImpl.cs" />
+    <Compile Include="Securities\CFDSecurity.cs" />
     <Compile Include="Securities\EquitySecurity.cs" />
     <Compile Include="Data\Ticks\TickField.cs" />
     <Compile Include="LINQExtensions.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Orders\PendingOrderImpl.cs" />
     <Compile Include="Reflection\InvokeFactory.cs" />
     <Compile Include="Reflection\InvokeLink.cs" />
+    <Compile Include="Securities\UnkownSecurity.cs" />
     <Compile Include="Simulator\MultiSimImpl.cs" />
     <Compile Include="Data\Bars\BarImpl.cs" />
     <Compile Include="Data\Bars\BarListImpl.cs" />

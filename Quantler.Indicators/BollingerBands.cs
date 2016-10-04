@@ -58,7 +58,7 @@ namespace Quantler.Indicators
 
         public new bool IsReady
         {
-            get { return (_upperBand.Count > 0 && _upperBand[0] != 0); }
+            get { return (_upperBand.Count > 0 && _upperBand[0] != 0) && !IsBackfilling; }
         }
 
         public DataSerie Lower

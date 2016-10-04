@@ -37,6 +37,11 @@ namespace Quantler.Templates
             protected set;
         }
 
+        public bool IsBackfilling
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public abstract bool IsReady { get; }
 
         public int Period { get; protected set; }

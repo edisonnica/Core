@@ -18,7 +18,7 @@ Lesser General Public License for more details.
 
 namespace Quantler.Tests.Templates
 {
-    internal class TestStatistic
+    public class TestStatistic
     {
     }
 }

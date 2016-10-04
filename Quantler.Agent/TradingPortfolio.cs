@@ -179,7 +179,7 @@ namespace Quantler.Agent
         {
             //Check all agents
             foreach (var agent in Agents)
-                agent.OnTick(tick);
+                agent.OnData(tick);
 
             //Go through all streams
             foreach (var stream in _streams.Values.Where(x => x.Security.Name == tick.Symbol))

@@ -1,4 +1,20 @@
-﻿using NLog;
+﻿#region License
+/*
+Copyright (c) Quantler B.V., All rights reserved.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 3.0 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+*/
+#endregion
+
+using NLog;
 using Quantler.Interfaces;
 using Quantler.Reflection;
 using Quantler.Templates;
@@ -191,6 +207,9 @@ namespace Quantler.Agent
         public void OnBar(Bar bar)
         {
             LocalLog(LogLevel.Trace, "OnBar: Processing bar Symbol: {0}, Interval: {1}", bar.Symbol, bar.CustomInterval);
+            
+            //Check for BackFilling
+            IsBackfilling = BackFillingBars > 0;
 
             //Execute all OnBar events (Indicators first)
             if (string.IsNullOrWhiteSpace(bar.Symbol)) return;
@@ -271,7 +290,7 @@ namespace Quantler.Agent
         /// Execute the on tick event for each new tick to be processed by the associated templates
         /// </summary>
         /// <param name="tick"></param>
-        public void OnTick(Tick tick)
+        public void OnData(Tick tick)
         {
             //Check tick
             if (string.IsNullOrWhiteSpace(tick.Symbol) || CurrentTick == null)

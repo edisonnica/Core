@@ -14,25 +14,22 @@ Lesser General Public License for more details.
 */
 
 using Quantler.Interfaces;
-using System;
 
 namespace Quantler.Tracker
 {
     /// <summary>
     /// Tracks and contains multiple securities, can be used as a single reference point for all securities used
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class SecurityTracker<T> : GenericTrackerImpl<ISecurity>, ISecurityTracker
-        where T : ISecurity
+    public class SecurityTracker : GenericTrackerImpl<ISecurity>, ISecurityTracker
     {
         #region Public Constructors
 
         /// <summary>
         /// Initialize a new securitytracker object
         /// </summary>
-        public SecurityTracker(string defaultExchange)
+        public SecurityTracker(DataSource defaultsource)
         {
-            DefaultExchange = defaultExchange;
+            DefaultSource = defaultsource;
         }
 
         #endregion Public Constructors
@@ -42,7 +39,7 @@ namespace Quantler.Tracker
         /// <summary>
         /// Default exchange for this tracker
         /// </summary>
-        public string DefaultExchange { get; private set; }
+        public DataSource DefaultSource { get; private set; }
 
         #endregion Public Properties
 
@@ -57,10 +54,10 @@ namespace Quantler.Tracker
         {
             get
             {
-                int idx = getindex(symbol + DefaultExchange);
+                int idx = getindex(symbol + DefaultSource.ToString());
                 if (idx < 0)
                 {
-                    var security = (T)Activator.CreateInstance(typeof(T), symbol);
+                    var security = GetNewSecurity(SecurityType.Forex, symbol, DefaultSource);
                     AddSecurity(security);
                     return security;
                 }
@@ -77,10 +74,10 @@ namespace Quantler.Tracker
         {
             get
             {
-                int idx = getindex(symbol + DefaultExchange);
+                int idx = getindex(symbol + DefaultSource.ToString());
                 if (idx < 0)
                 {
-                    var security = GetNewtSecurity(type, symbol);
+                    var security = GetNewSecurity(type, symbol, DefaultSource);
                     AddSecurity(security);
                     return security;
                 }
@@ -89,19 +86,19 @@ namespace Quantler.Tracker
         }
 
         /// <summary>
-        /// Get the security object based on the symbol and the associated exchange
+        /// Get the security object based on the symbol and the associated source
         /// </summary>
         /// <param name="symbol"></param>
-        /// <param name="exchange"></param>
+        /// <param name="source"></param>
         /// <returns></returns>
-        public ISecurity this[string symbol, string exchange]
+        public ISecurity this[string symbol, DataSource source]
         {
             get
             {
-                int idx = getindex(symbol + exchange);
+                int idx = getindex(symbol + source.ToString());
                 if (idx < 0)
                 {
-                    var security = (T)Activator.CreateInstance(typeof(T), symbol);
+                    var security = GetNewSecurity(SecurityType.Forex, symbol, source);
                     AddSecurity(security);
                     return security;
                 }
@@ -110,20 +107,20 @@ namespace Quantler.Tracker
         }
 
         /// <summary>
-        /// Get security by symbol, exchange and security type
+        /// Get security by symbol, source and security type
         /// </summary>
         /// <param name="symbol"></param>
-        /// <param name="exchange"></param>
+        /// <param name="source"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public ISecurity this[string symbol, string exchange, SecurityType type]
+        public ISecurity this[string symbol, DataSource source, SecurityType type]
         {
             get
             {
-                int idx = getindex(symbol + exchange);
+                int idx = getindex(symbol + source.ToString());
                 if (idx < 0)
                 {
-                    var security = GetNewtSecurity(type, symbol);
+                    var security = GetNewSecurity(type, symbol, source);
                     AddSecurity(security);
                     return security;
                 }
@@ -140,7 +137,7 @@ namespace Quantler.Tracker
         {
             get
             {
-                return idx < 0 ? (T)Activator.CreateInstance(typeof(T), "UNKOWN") : base[idx];
+                return idx < 0 ? GetNewSecurity(SecurityType.NIL, "UNKOWN", DataSource.Broker) : base[idx];
             }
         }
 
@@ -155,43 +152,61 @@ namespace Quantler.Tracker
         public void AddSecurity(ISecurity security)
         {
             //Try and get the current index
-            int idx = getindex(security.Name + security.DestEx);
+            int idx = getindex(security.Name + DefaultSource.ToString());
 
             //If index does not exist, add it
             if (idx < 0)
-                addindex(security.Name + security.DestEx, security);
+                addindex(security.Name + DefaultSource.ToString(), security);
+        }
+
+        public void AddSecurity(ISecurity security, DataSource source)
+        {
+            //Try and get the current index
+            int idx = getindex(security.Name + source.ToString());
+
+            //If index does not exist, add it
+            if (idx < 0)
+                addindex(security.Name + source.ToString(), security);
         }
 
         #endregion Public Methods
 
         #region Private Methods
 
-        private ISecurity GetNewtSecurity(SecurityType type, string name)
+        private ISecurity GetNewSecurity(SecurityType type, string name, DataSource source)
         {
             switch (type)
             {
                 case SecurityType.NIL:
+                    return new Securities.UnkownSecurity(name);
                     break;
 
                 case SecurityType.Equity:
-                    return new Securities.EquitySecurity(name);
+                    return new Securities.EquitySecurity(name, source);
+                    break;
 
                 case SecurityType.Option:
+                    return new Securities.UnkownSecurity(name);
                     break;
 
                 case SecurityType.Future:
+                    return new Securities.UnkownSecurity(name);
                     break;
 
                 case SecurityType.Forex:
-                    return new Securities.ForexSecurity(name);
+                    return new Securities.ForexSecurity(name, source);
+                    break;
 
                 case SecurityType.Index:
+                    return new Securities.UnkownSecurity(name);
                     break;
 
                 case SecurityType.Bond:
+                    return new Securities.UnkownSecurity(name);
                     break;
 
                 case SecurityType.CFD:
+                    return new Securities.CFDSecurity(name, source);
                     break;
 
                 default:

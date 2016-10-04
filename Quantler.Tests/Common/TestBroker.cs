@@ -51,7 +51,7 @@ namespace Quantler.Tests.Common
             tsec.PipSize = 1;
             tsec.OrderStepSize = 1;
 
-            SimAccount account = new SimAccount("TEST", "testing", 1000M, 100, "SIM");
+            SimAccount account = new SimAccount("TEST", "testing", 1000M, 100);
             account.Securities.AddSecurity(tsec);
 
             SimBroker broker = new SimBroker(account, _trans);

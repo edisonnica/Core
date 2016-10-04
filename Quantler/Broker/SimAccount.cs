@@ -48,28 +48,28 @@ namespace Quantler.Broker
         #region Public Constructors
 
         public SimAccount()
-            : this("empty", "", 10000, 100, "Unkown")
+            : this("empty", "", 10000, 100)
         {
         }
 
         public SimAccount(string accountId)
-            : this(accountId, "", 10000, 100, "Unkown")
+            : this(accountId, "", 10000, 100)
         {
         }
 
         public SimAccount(string accountId, string description)
-            : this(accountId, description, 10000, 100, "Unkown")
+            : this(accountId, description, 10000, 100)
         {
         }
 
-        public SimAccount(string accountId, string description, decimal startingbalance, int leverage, string name)
+        public SimAccount(string accountId, string description, decimal startingbalance, int leverage, DataSource source = DataSource.Broker)
         {
             _id = accountId;
             Desc = description;
             _startingbalance = startingbalance;
             Leverage = leverage;
 
-            _securities = new SecurityTracker<SecurityImpl>(name);
+            _securities = new SecurityTracker(source);
             _currentpositions = new PositionTracker(this);
             _pipvalueconversionsymbols = Util.GetPipValueSymbolCrosses(Currency);
             _positionvalueconversionsymbols = Util.GetPositionValueSymbolCrosses(Currency);

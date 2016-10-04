@@ -39,6 +39,16 @@ namespace Quantler.Interfaces
         int AgentId { get; set; }
 
         /// <summary>
+        /// Returns the period in bars needed for backfilling as set by any of the templates
+        /// </summary>
+        int BackFillingBars { get; }
+
+        /// <summary>
+        /// Returns the period in time needed for backfilling as set by any of the templates
+        /// </summary>
+        TimeSpan BackFillingPeriod { get; }
+
+        /// <summary>
         /// Get any BarList available
         /// </summary>
         BarIndexer Bars { get; }
@@ -59,7 +69,7 @@ namespace Quantler.Interfaces
         Dictionary<string, Tick> CurrentTick { get; }
 
         /// <summary>
-        /// True if this agent is loading historical data
+        /// True if this agent is in the process of loading historical data
         /// </summary>
         bool IsBackfilling { get; }
 
@@ -144,11 +154,17 @@ namespace Quantler.Interfaces
         #region Public Methods
 
         /// <summary>
+        /// Add another datastream for this agent and the portfolio
+        /// </summary>
+        /// <param name="sample"></param>
+        void AddDataStream(DataStream sample);
+
+        /// <summary>
         /// Add a new datastream
         /// </summary>
         /// <param name="type"></param>
         /// <param name="name"></param>
-        void AddDataStream(SecurityType type, string name);
+        void AddDataStream(SecurityType type, string name, DataSource source);
 
         /// <summary>
         /// Add a new datastream, using timespan as interval
@@ -156,7 +172,7 @@ namespace Quantler.Interfaces
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <param name="interval"></param>
-        void AddDataStream(SecurityType type, string name, TimeSpan interval);
+        void AddDataStream(SecurityType type, string name, TimeSpan interval, DataSource source);
 
         /// <summary>
         /// Add a new datastream, using an integer as interval
@@ -164,7 +180,7 @@ namespace Quantler.Interfaces
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <param name="interval"></param>
-        void AddDataStream(SecurityType type, string name, int interval);
+        void AddDataStream(SecurityType type, string name, int interval, DataSource source);
 
         /// <summary>
         /// Add a new datastream, using a barinterval as interval
@@ -172,7 +188,7 @@ namespace Quantler.Interfaces
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <param name="interval"></param>
-        void AddDataStream(SecurityType type, string name, BarInterval interval);
+        void AddDataStream(SecurityType type, string name, BarInterval interval, DataSource source);
 
         /// <summary>
         /// Sends a chart update to all subscribed events if applicable
@@ -233,7 +249,7 @@ namespace Quantler.Interfaces
         void OnOrderUpdate(PendingOrder order);
 
         //Events
-        void OnTick(Tick tick);
+        void OnData(Tick tick);
 
         void RiskManagement(PendingOrder order);
 
@@ -241,7 +257,7 @@ namespace Quantler.Interfaces
         /// Backfill this agent's data for a specific timeperiod
         /// </summary>
         /// <param name="period"></param>
-        void SetBackfilling(TimeSpan period);
+        void SetBackFilling(TimeSpan period);
 
         /// <summary>
         /// Backfill this agent's data for a specific amount of bars

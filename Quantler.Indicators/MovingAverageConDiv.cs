@@ -55,7 +55,7 @@ namespace Quantler.Indicators
 
         public new bool IsReady
         {
-            get { return (_line.Count > 0 && _line[0] != 0); }
+            get { return (_line.Count > 0 && _line[0] != 0) && !IsBackfilling; }
         }
 
         public DataSerie Line

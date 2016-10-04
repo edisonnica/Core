@@ -63,7 +63,7 @@ namespace Quantler.Backtester
             security.PipValue = 1M;         //PipValue, if unable to calculate to base currency
             security.Digits = 5;
 
-            var account = new SimAccount("SIMULATED", "Sim account for backtesting", 10000, 100, "SIM");
+            var account = new SimAccount("SIMULATED", "Sim account for backtesting", 10000, 100);
             np.SetAccount(account);
             np.Securities.AddSecurity(security);
 

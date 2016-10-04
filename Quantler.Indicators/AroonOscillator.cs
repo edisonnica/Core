@@ -54,7 +54,7 @@ namespace Quantler.Indicators
 
         public new bool IsReady
         {
-            get { return (Result.Count > 0 && Result[0] != 0); }
+            get { return (Result.Count > 0 && Result[0] != 0) && !IsBackfilling; }
         }
 
         public DataSerie Result
@@ -88,7 +88,7 @@ namespace Quantler.Indicators
 
             //Add to current values
             if (calced.IsValid)
-                _result[0] = (decimal) calced.CurrentValue;
+                _result[0] = (decimal)calced.CurrentValue;
         }
 
         #endregion Public Methods

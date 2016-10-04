@@ -105,6 +105,7 @@
     <Compile Include="Common\TestReflectionInvoke.cs" />
     <Compile Include="Common\TestResults.cs" />
     <Compile Include="Common\TestSecurity.cs" />
+    <Compile Include="Common\TestSecurityTracker.cs" />
     <Compile Include="Common\TestSingleSim.cs" />
     <Compile Include="Common\TestTick.cs" />
     <Compile Include="Common\TestTickArchiver.cs" />
@@ -136,6 +137,10 @@
     <Compile Include="Regression\Algorithms\Templates\EMACrossEntry.cs" />
     <Compile Include="Regression\Algorithms\Templates\MultiCrossEntry.cs" />
     <Compile Include="Regression\BacktestResults.cs" />
+    <Compile Include="Regression\MultiAssetTest.cs" />
+    <Compile Include="Regression\EntryOnlyTest.cs" />
+    <Compile Include="Regression\FullAgentTest.cs" />
+    <Compile Include="Regression\MarginCallTest.cs" />
     <Compile Include="Regression\Util.cs" />
     <Compile Include="Templates\TestEntryTemplate.cs" />
     <Compile Include="Templates\TestExitTemplate.cs" />

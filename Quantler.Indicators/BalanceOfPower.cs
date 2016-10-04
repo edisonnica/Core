@@ -48,7 +48,7 @@ namespace Quantler.Indicators
 
         public new bool IsReady
         {
-            get { return (Result.Count > 0 && Result[0] != 0); }
+            get { return (Result.Count > 0 && Result[0] != 0) && !IsBackfilling; }
         }
 
         public DataSerie Result

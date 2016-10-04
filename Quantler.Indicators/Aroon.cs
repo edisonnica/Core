@@ -60,7 +60,7 @@ namespace Quantler.Indicators
 
         public new bool IsReady
         {
-            get { return (_upResult.Count > 0 && _upResult[0] != 0); }
+            get { return (_upResult.Count > 0 && _upResult[0] != 0) && !IsBackfilling; }
         }
 
         public DataSerie Up

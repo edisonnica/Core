@@ -1,4 +1,5 @@
-﻿/*
+﻿#region License
+/*
 Copyright (c) Quantler B.V., All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -11,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
 */
+#endregion
 
 using NLog;
 using Quantler.Interfaces;
@@ -112,7 +114,7 @@ namespace Quantler.Agent
 
         public PendingOrder[] PendingOrders
         {
-            get { return Portfolio.PendingOrders.Where(x => x.AgentId == AgentId).ToArray(); }
+            get { return Portfolio.PendingOrders.Where(x => x.AgentId == AgentId && !x.IsCancelled).ToArray(); }
         }
 
         /// <summary>
@@ -282,6 +284,10 @@ namespace Quantler.Agent
             Bars = new Data.Bars.BarIndexerImpl(_portfolio);
             _results = new Results(0, Portfolio.Account, AgentId);
             Positions = new PositionTracker(_portfolio.Account);
+
+            //Log backfilling information
+            IsBackfilling = BackFillingBars > 0;
+            LocalLog(LogLevel.Debug, "Backfilling enabled: {0}, bars: {1}, trading time: {2}", IsBackfilling, BackFillingBars, TimeSpan.FromSeconds(BackFillingBars*TimeFrame.TotalSeconds));
 
             //Set current initialization point
             _initialized = true;

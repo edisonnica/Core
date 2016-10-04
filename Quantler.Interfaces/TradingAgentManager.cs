@@ -30,12 +30,6 @@ namespace Quantler.Interfaces
         #region Public Methods
 
         /// <summary>
-        /// Add another datastream for this agent and the portfolio
-        /// </summary>
-        /// <param name="sample"></param>
-        void AddDataStream(DataStream sample);
-
-        /// <summary>
         /// Add an event to be executed on specific data (ontick, onbar etc)
         /// </summary>
         /// <param name="Event"></param>

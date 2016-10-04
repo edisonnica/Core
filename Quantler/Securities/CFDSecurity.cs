@@ -22,16 +22,16 @@ namespace Quantler.Securities
     /// <summary>
     /// Equity Security Implementation
     /// </summary>
-    public class EquitySecurity : SecurityImpl
+    public class CFDSecurity : SecurityImpl
     {
         #region Public Constructors
 
-        public EquitySecurity(string symbol, DataSource source = Interfaces.DataSource.Broker)
+        public CFDSecurity(string symbol, DataSource source = Interfaces.DataSource.Broker)
         {
             BrokerName = symbol;
             DestEx = "SIM";
             Name = symbol;
-            Type = SecurityType.Equity;
+            Type = SecurityType.CFD;
             LotSize = 1;
             PipSize = 0.01M;
             OrderStepSize = 1;

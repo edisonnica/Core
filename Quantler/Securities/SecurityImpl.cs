@@ -52,12 +52,12 @@ namespace Quantler.Securities
         /// <param name="sym"></param>
         /// <param name="exchange"></param>
         /// <param name="type"></param>
-        public SecurityImpl(string sym, string exchange, SecurityType type)
+        public SecurityImpl(string sym, Interfaces.DataSource source, SecurityType type)
         {
             _sym = sym;
-            DestEx = exchange;
+            DestEx = source.ToString();
             _type = type;
-            DataSource = "Local";
+            DataSource = source.ToString();
         }
 
         /// <summary>
@@ -70,14 +70,14 @@ namespace Quantler.Securities
             _type = copy.Type;
             DestEx = copy.DestEx;
             Details = copy.Details;
-            DataSource = "Local";
+            DataSource = copy.DataSource;
         }
 
         /// <summary>
         /// create new security
         /// </summary>
         public SecurityImpl()
-            : this("", "", SecurityType.NIL)
+            : this("", Interfaces.DataSource.Broker, SecurityType.NIL)
         {
         }
 
@@ -86,7 +86,7 @@ namespace Quantler.Securities
         /// </summary>
         /// <param name="sym"></param>
         public SecurityImpl(string sym)
-            : this(sym, "", SecurityType.Forex)
+            : this(sym, Interfaces.DataSource.Broker, SecurityType.Forex)
         {
         }
 
@@ -96,7 +96,7 @@ namespace Quantler.Securities
         /// <param name="sym"></param>
         /// <param name="type"></param>
         public SecurityImpl(string sym, SecurityType type)
-            : this(sym, "", type)
+            : this(sym, Interfaces.DataSource.Broker, type)
         {
         }
 
@@ -239,7 +239,7 @@ namespace Quantler.Securities
         }
 
         /// <summary>
-        /// Get the minimal change in market price, represented in one tick
+        /// Get the minimal change in market price
         /// </summary>
         public decimal PipSize
         {
@@ -257,7 +257,7 @@ namespace Quantler.Securities
         }
 
         /// <summary>
-        /// Current spread in pips
+        /// Current spread in points (1/10 of a pip)
         /// </summary>
         public int Spread
         {
@@ -265,6 +265,9 @@ namespace Quantler.Securities
             set;
         }
 
+        /// <summary>
+        /// Current asset size in tick (Example fx = 0.00001)
+        /// </summary>
         public decimal TickSize
         {
             get;

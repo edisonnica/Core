@@ -46,7 +46,7 @@ namespace Quantler.Tests.Common
         public void AccountBalanceUpdate()
         {
             //Arrange
-            SimAccount testaccount = new SimAccount("SIM1", "Menno's Account", initialbalance, leverage, "SIM");
+            SimAccount testaccount = new SimAccount("SIM1", "Menno's Account", initialbalance, leverage);
             ForexSecurity ts = new ForexSecurity(sym);
             ts.LotSize = 1000;
             ts.PipSize = 0.0001M;
@@ -97,7 +97,7 @@ namespace Quantler.Tests.Common
             a = new SimAccount(myid);
             Assert.True(a.IsValid);
             Assert.True(a.Id == myid);
-            a = new SimAccount("SIM1", "Menno's Account", initialbalance, leverage, "Menno");
+            a = new SimAccount("SIM1", "Menno's Account", initialbalance, leverage);
             Assert.True(a.Balance == initialbalance);
             Assert.True(a.Leverage == leverage);
             Assert.True(a.Margin == 0);
@@ -112,7 +112,7 @@ namespace Quantler.Tests.Common
         public void LowMarginLevel()
         {
             //Arrange
-            SimAccount testaccount = new SimAccount("SIM1", "Menno's Account", initialbalance, leverage, "SIM");
+            SimAccount testaccount = new SimAccount("SIM1", "Menno's Account", initialbalance, leverage);
             ForexSecurity ts = new ForexSecurity(sym);
             ts.LotSize = 1000;
             ts.PipSize = 0.0001M;

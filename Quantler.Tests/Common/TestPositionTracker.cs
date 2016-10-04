@@ -36,7 +36,7 @@ namespace Quantler.Tests.Common
         {
             string s = "IBM";
             ForexSecurity ts = new ForexSecurity(s);
-            IAccount account = new SimAccount("TEST", "testing", 1000M, 100, "SIM");
+            IAccount account = new SimAccount("TEST", "testing", 1000M, 100);
             account.Securities.AddSecurity(ts);
 
             TradeImpl t1 = new TradeImpl(s, 100, 100);

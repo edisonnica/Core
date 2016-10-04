@@ -16,7 +16,7 @@ Lesser General Public License for more details.
 
 namespace Quantler.Tests.Templates
 {
-    internal class TestEntryTemplate
+    public class TestEntryTemplate
     {
     }
 }

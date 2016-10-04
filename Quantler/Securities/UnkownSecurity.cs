@@ -19,26 +19,23 @@ using Quantler.Interfaces;
 
 namespace Quantler.Securities
 {
-    /// <summary>
-    /// Equity Security Implementation
-    /// </summary>
-    public class EquitySecurity : SecurityImpl
+    public class UnkownSecurity : SecurityImpl
     {
         #region Public Constructors
 
-        public EquitySecurity(string symbol, DataSource source = Interfaces.DataSource.Broker)
+        public UnkownSecurity(string symbol)
         {
             BrokerName = symbol;
             DestEx = "SIM";
             Name = symbol;
-            Type = SecurityType.Equity;
+            Type = SecurityType.NIL;
             LotSize = 1;
-            PipSize = 0.01M;
+            PipSize = 1;
             OrderStepSize = 1;
             OrderMinSize = 1;
             TickSize = PipSize;
             PipValue = PipSize;
-            DataSource = source.ToString();
+            DataSource = Interfaces.DataSource.Broker.ToString();
         }
 
         #endregion Public Constructors

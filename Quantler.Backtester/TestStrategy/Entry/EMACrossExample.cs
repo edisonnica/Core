@@ -3,6 +3,8 @@ using Quantler.Interfaces;
 using Quantler.Interfaces.Indicators;
 using Quantler.Templates;
 using System.Linq;
+using MathNet.Numerics.LinearAlgebra;
+using System;
 
 // EMA CrossOver Entry Example
 class EMACrossExample : EntryTemplate
@@ -25,12 +27,7 @@ class EMACrossExample : EntryTemplate
         emaslow = Indicators.ExponentialMovingAverage(slowperiod, Agent.Stream);
         emafast = Indicators.ExponentialMovingAverage(fastperiod, Agent.Stream);
 
-        //AddStream(SecurityType.Forex, "AUDJPY", BarInterval.Hour);
-        //AddStream(SecurityType.Forex, "AUDNZD", BarInterval.Hour);
-        //AddStream(SecurityType.Forex, "AUDUSD", BarInterval.Hour);
-        //AddStream(SecurityType.Forex, "CADJPY", BarInterval.Hour);
-        //AddStream(SecurityType.Forex, "CHFJPY", BarInterval.Hour);
-        //AddStream(SecurityType.Forex, "EURGBP", BarInterval.Hour);
+        Agent.SetBackFilling(slowperiod);
     }
 
     public override void OnCalculate()
@@ -38,6 +35,8 @@ class EMACrossExample : EntryTemplate
         //Charting
         UpdateChart("ROI", ChartType.Step, Agent.Results.ROI);
         UpdateChart("DD", ChartType.Line, Agent.Results.MaxDDPortfolio);
+
+        MathNet.Numerics.LinearAlgebra.ExistingData n = ExistingData.AssumeZeros;
 
         //Check if the indicators are ready for usage
         if (!emaslow.IsReady || !emafast.IsReady)
@@ -57,6 +56,8 @@ class EMACrossExample : EntryTemplate
         }
         else
             NoEntry();
+
+        
     }
 
     // Check if we are currently long (on our default symbol)

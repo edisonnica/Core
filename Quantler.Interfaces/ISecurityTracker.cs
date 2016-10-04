@@ -24,9 +24,9 @@ namespace Quantler.Interfaces
         #region Public Properties
 
         /// <summary>
-        /// Default exchange for which the securities are traded on, this could be a different broker as well
+        /// Default source for which the securities are traded on, this could be a different broker as well
         /// </summary>
-        string DefaultExchange { get; }
+        DataSource DefaultSource { get; }
 
         #endregion Public Properties
 
@@ -48,20 +48,21 @@ namespace Quantler.Interfaces
         ISecurity this[string symbol, SecurityType type] { get; }
 
         /// <summary>
-        /// Return a security based on the symbol name and the exchange on which it is traded
+        /// Return a security based on the symbol name and the source on which it is traded
         /// </summary>
         /// <param name="symbol"></param>
-        /// <param name="exchange"></param>
+        /// <param name="source"></param>
         /// <returns></returns>
-        ISecurity this[string symbol, string exchange] { get; }
+        ISecurity this[string symbol, DataSource source] { get; }
 
         /// <summary>
-        /// Return a security based on the symbol name and the exchange on which it is traded, and its type
+        /// Return a security based on the symbol name and the source on which it is traded, and its type
         /// </summary>
         /// <param name="symbol"></param>
-        /// <param name="exchange"></param>
+        /// <param name="source"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
-        ISecurity this[string symbol, string exchange, SecurityType type] { get; }
+        ISecurity this[string symbol, DataSource source, SecurityType type] { get; }
 
         /// <summary>
         /// Return a security based on the symbol name
@@ -75,10 +76,16 @@ namespace Quantler.Interfaces
         #region Public Methods
 
         /// <summary>
-        /// Add a new security to the security tracker for general use
+        /// Add a new security to the security tracker for general use, using the default source
         /// </summary>
         /// <param name="security"></param>
         void AddSecurity(ISecurity security);
+
+        /// <summary>
+        /// Add a new security to the security tracker for general use, connected to a specific source
+        /// </summary>
+        /// <param name="security"></param>
+        void AddSecurity(ISecurity security, DataSource source);
 
         /// <summary>
         /// Get all current securities in an array

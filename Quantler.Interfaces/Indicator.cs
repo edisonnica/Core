@@ -44,6 +44,11 @@ namespace Quantler.Interfaces
         bool IsReady { get; }
 
         /// <summary>
+        /// True if this indicator is going through a process of backfilling its data
+        /// </summary>
+        bool IsBackfilling { get; }
+
+        /// <summary>
         /// Indicator period on whcih the calculations are based
         /// </summary>
         int Period { get; }

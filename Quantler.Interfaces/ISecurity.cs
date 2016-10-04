@@ -40,6 +40,11 @@ namespace Quantler.Interfaces
         string BrokerName { get; }
 
         /// <summary>
+        /// Base currency of this security
+        /// </summary>
+        CurrencyType Currency { get; }
+
+        /// <summary>
         /// Datasource used for this security
         /// </summary>
         string DataSource { get; }

@@ -34,8 +34,6 @@ namespace Quantler.Broker
 
         private readonly IPositionTracker _currentpositions;
         private readonly string _id;
-        private readonly Dictionary<string, string> _pipvalueconversionsymbols;
-        private readonly Dictionary<string, string> _positionvalueconversionsymbols;
         private readonly Dictionary<string, Tick> _priceinformation = new Dictionary<string, Tick>();
         private readonly ISecurityTracker _securities;
         private readonly decimal _startingbalance;
@@ -71,8 +69,6 @@ namespace Quantler.Broker
 
             _securities = new SecurityTracker(source);
             _currentpositions = new PositionTracker(this);
-            _pipvalueconversionsymbols = Util.GetPipValueSymbolCrosses(Currency);
-            _positionvalueconversionsymbols = Util.GetPositionValueSymbolCrosses(Currency);
         }
 
         #endregion Public Constructors
@@ -174,20 +170,16 @@ namespace Quantler.Broker
                     if (pos.IsFlat)
                         continue;
 
-                    string basesymbol;
+                    string basesymbol = Util.GetPositionValueSymbolCrosses(CurrencyType.USD, pos.Security);
+                    decimal price;
 
-                    if (_positionvalueconversionsymbols.TryGetValue(sym.Name, out basesymbol))
-                    {
-                        decimal price;
-                        
-                        if (_priceinformation.ContainsKey(basesymbol))
-                            price = _priceinformation[basesymbol].HasBid ? _priceinformation[basesymbol].Bid : _priceinformation[basesymbol].Trade;
-                        else
-                            price = 1;
+                    if (_priceinformation.ContainsKey(basesymbol))
+                        price = _priceinformation[basesymbol].HasBid ? _priceinformation[basesymbol].Bid : _priceinformation[basesymbol].Trade;
+                    else
+                        price = 1;
 
-                        //Margin = (Trade Size / leverage) * account currency exchange rate (if different from the base currency in the pair being traded).
-                        toreturn += pos.UnsignedSize / Leverage * price;
-                    }
+                    //Margin = (Trade Size / leverage) * account currency exchange rate (if different from the base currency in the pair being traded).
+                    toreturn += pos.UnsignedSize / Leverage * price;
                 }
                 return toreturn;
             }
@@ -285,21 +277,18 @@ namespace Quantler.Broker
                 sec.Spread = (int)((double)(t.Ask - t.Bid) * Math.Pow(10, sec.Digits));
 
             //Set pip value
-            string conversionsymbol;
-            if (_pipvalueconversionsymbols.TryGetValue(t.Symbol, out conversionsymbol))
+            string conversionsymbol = Util.GetPipValueSymbolCrosses(CurrencyType.USD, sec);
+            if (_priceinformation.ContainsKey(conversionsymbol))
             {
-                if (_priceinformation.ContainsKey(conversionsymbol))
-                {
-                    //get current price based on tick received
-                    decimal price = _priceinformation[conversionsymbol].IsFullQuote ? _priceinformation[conversionsymbol].Bid : _priceinformation[conversionsymbol].Trade;
+                //get current price based on tick received
+                decimal price = _priceinformation[conversionsymbol].IsFullQuote ? _priceinformation[conversionsymbol].Bid : _priceinformation[conversionsymbol].Trade;
 
-                    //convert to pip value
-                    sec.PipValue = sec.PipSize / price * sec.LotSize;
-                }
-                else if (conversionsymbol == "USDUSD")
-                {
-                    sec.PipValue = 10 * (sec.LotSize / 100000M);
-                }
+                //convert to pip value
+                sec.PipValue = sec.PipSize / price * sec.LotSize;
+            }
+            else if (conversionsymbol == "USDUSD")
+            {
+                sec.PipValue = 10 * (sec.LotSize / 100000M);
             }
         }
 

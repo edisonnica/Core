@@ -156,28 +156,19 @@ namespace Quantler
         /// </summary>
         /// <param name="basecurrency"></param>
         /// <returns></returns>
-        public static Dictionary<string, string> GetPipValueSymbolCrosses(CurrencyType basecurrency)
+        public static string GetPipValueSymbolCrosses(CurrencyType basecurrency, ISecurity basesecurity)
         {
-            Dictionary<string, string> toreturn = new Dictionary<string, string>();
 
-            if (basecurrency == CurrencyType.USD)
+            //Check for forex security
+            if (basesecurity.Type == SecurityType.Forex)
             {
-                toreturn.Add("EURJPY", "USDJPY");
-                toreturn.Add("AUDJPY", "USDJPY");
-                toreturn.Add("AUDUSD", "USDUSD");
-                toreturn.Add("EURGBP", "USDGBP");
-                toreturn.Add("EURUSD", "USDUSD");
-                toreturn.Add("GBPJPY", "USDJPY");
-                toreturn.Add("GBPUSD", "USDUSD");
-                toreturn.Add("NZDUSD", "USDUSD");
-                toreturn.Add("USDCAD", "USDCAD");
-                toreturn.Add("USDCHF", "USDCHF");
-                toreturn.Add("USDJPY", "USDJPY");
-                toreturn.Add("EURCHF", "USDCHF");
-                toreturn.Add("USDNZD", "USDUSD");
+                string ends = basesecurity.Name.Substring(2, 3);
+                return basecurrency.ToString() + ends;
             }
-
-            return toreturn;
+            else if (basesecurity.Type == SecurityType.CFD)
+                return basesecurity.Currency.ToString() + basecurrency.ToString();
+            else
+                return string.Empty;
         }
 
         /// <summary>
@@ -185,28 +176,17 @@ namespace Quantler
         /// </summary>
         /// <param name="basecurrency"></param>
         /// <returns></returns>
-        public static Dictionary<string, string> GetPositionValueSymbolCrosses(CurrencyType basecurrency)
+        public static string GetPositionValueSymbolCrosses(CurrencyType basecurrency, ISecurity basesecurity)
         {
-            Dictionary<string, string> toreturn = new Dictionary<string, string>();
-
-            if (basecurrency == CurrencyType.USD)
+            if (basesecurity.Type == SecurityType.Forex)
             {
-                toreturn.Add("EURJPY", "EURUSD");
-                toreturn.Add("AUDJPY", "AUDUSD");
-                toreturn.Add("AUDNZD", "AUDUSD");
-                toreturn.Add("AUDUSD", "AUDUSD");
-                toreturn.Add("EURGBP", "EURUSD");
-                toreturn.Add("EURUSD", "EURUSD");
-                toreturn.Add("GBPJPY", "GBPUSD");
-                toreturn.Add("GBPUSD", "GBPUSD");
-                toreturn.Add("NZDUSD", "NZDUSD");
-                toreturn.Add("USDCAD", "USDUSD");
-                toreturn.Add("USDCHF", "USDUSD");
-                toreturn.Add("USDJPY", "USDUSD");
-                toreturn.Add("EURCHF", "EURUSD");
+                string starts = basesecurity.Name.Substring(0, 3);
+                return starts + basecurrency.ToString().ToUpper();
             }
-
-            return toreturn;
+            else if (basesecurity.Type == SecurityType.CFD)
+                return basesecurity.Currency.ToString() + basecurrency.ToString();
+            else
+                return string.Empty;
         }
 
         public static TickFileInfo ParseFile(string filepath)

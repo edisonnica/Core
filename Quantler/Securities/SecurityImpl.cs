@@ -58,6 +58,7 @@ namespace Quantler.Securities
             DestEx = source.ToString();
             _type = type;
             DataSource = source.ToString();
+            Currency = CurrencyType.USD;
         }
 
         /// <summary>
@@ -71,6 +72,7 @@ namespace Quantler.Securities
             DestEx = copy.DestEx;
             Details = copy.Details;
             DataSource = copy.DataSource;
+            Currency = CurrencyType.USD;
         }
 
         /// <summary>
@@ -125,6 +127,12 @@ namespace Quantler.Securities
         /// Name of the broker for this security
         /// </summary>
         public string BrokerName { get; set; }
+
+        public CurrencyType Currency
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Name of the datasource used for this security

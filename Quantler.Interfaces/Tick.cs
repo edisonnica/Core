@@ -30,9 +30,9 @@ namespace Quantler.Interfaces
         decimal Ask { get; }
 
         /// <summary>
-        /// offer exchange
+        /// offer source
         /// </summary>
-        string AskExchange { get; }
+        string AskSource { get; }
 
         /// <summary>
         /// offer size
@@ -45,9 +45,9 @@ namespace Quantler.Interfaces
         decimal Bid { get; }
 
         /// <summary>
-        /// bid exchange
+        /// bid source
         /// </summary>
-        string BidExchange { get; }
+        string BidSource { get; }
 
         /// <summary>
         /// bid size
@@ -71,9 +71,9 @@ namespace Quantler.Interfaces
         int Depth { get; }
 
         /// <summary>
-        /// trade exchange
+        /// trade source
         /// </summary>
-        string Exchange { get; }
+        string Source { get; }
 
         /// <summary>
         /// True if this tick contains an ask price

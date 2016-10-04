@@ -66,9 +66,9 @@ namespace Quantler.Tests.Common
             pre.Ask = p;
             pre.OfferSize = s;
             pre.BidSize = s;
-            pre.Exchange = t;
-            pre.BidExchange = t;
-            pre.AskExchange = t;
+            pre.Source = t;
+            pre.BidSource = t;
+            pre.AskSource = t;
             pre.Depth = 5;
             string serialize = TickImpl.Serialize(pre);
             Tick post = TickImpl.Deserialize(serialize);
@@ -78,9 +78,9 @@ namespace Quantler.Tests.Common
             Assert.True(post.Bid == pre.Bid);
             Assert.True(post.Ask == pre.Ask);
             Assert.True(post.AskSize == pre.OfferSize);
-            Assert.True(post.Exchange == pre.Exchange);
-            Assert.True(post.BidExchange == pre.BidExchange);
-            Assert.True(post.AskExchange == pre.AskExchange);
+            Assert.True(post.Source == pre.Source);
+            Assert.True(post.BidSource == pre.BidSource);
+            Assert.True(post.AskSource == pre.AskSource);
             Assert.True(post.Depth == pre.Depth);
         }
 

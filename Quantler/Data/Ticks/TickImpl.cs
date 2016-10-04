@@ -82,11 +82,11 @@ namespace Quantler.Data.Ticks
 
         public decimal Ask { get { return _ask * Const.IPRECV; } set { _ask = (ulong)(value * Const.IPREC); } }
 
-        public string AskExchange { get { return _oe; } set { _oe = value; } }
+        public string AskSource { get { return _oe; } set { _oe = value; } }
         public int AskSize { get { return _os; } set { _os = value; } }
 
         public decimal Bid { get { return _bid * Const.IPRECV; } set { _bid = (ulong)(value * Const.IPREC); } }
-        public string BidExchange { get { return _be; } set { _be = value; } }
+        public string BidSource { get { return _be; } set { _be = value; } }
         public int BidSize { get { return _bs; } set { _bs = value; } }
 
         public int Date { get { return _date; } set { _date = value; } }
@@ -95,7 +95,7 @@ namespace Quantler.Data.Ticks
 
         public int Depth { get { return _depth; } set { _depth = value; } }
 
-        public string Exchange { get { return _ex; } set { _ex = value; } }
+        public string Source { get { return _ex; } set { _ex = value; } }
 
         public bool HasAsk { get { return (Ask != 0) && (_os != 0); } }
 
@@ -156,9 +156,9 @@ namespace Quantler.Data.Ticks
             k.Ask = c.Ask;
             k._bs = c.BidSize;
             k._os = c.AskSize;
-            k._be = c.BidExchange;
-            k._oe = c.AskExchange;
-            k._ex = c.Exchange;
+            k._be = c.BidSource;
+            k._oe = c.AskSource;
+            k._ex = c.Source;
             k._symidx = c.Symidx;
             return k;
         }
@@ -184,14 +184,14 @@ namespace Quantler.Data.Ticks
             {
                 k.Trade = b.Trade;
                 k.Size = b.Size;
-                k.Exchange = b.Exchange;
+                k.Source = b.Source;
                 //
                 k.Bid = a.Bid;
                 k.Ask = a.Ask;
                 k.OfferSize = a.OfferSize;
                 k.BidSize = a.BidSize;
-                k.BidExchange = a.BidExchange;
-                k.AskExchange = a.AskExchange;
+                k.BidSource = a.BidSource;
+                k.AskSource = a.AskSource;
             }
             if (b.HasAsk && b.HasBid)
             {
@@ -199,38 +199,38 @@ namespace Quantler.Data.Ticks
                 k.Ask = b.Ask;
                 k.BidSize = b.BidSize;
                 k.OfferSize = b.OfferSize;
-                k.BidExchange = b.BidExchange;
-                k.AskExchange = b.AskExchange;
+                k.BidSource = b.BidSource;
+                k.AskSource = b.AskSource;
                 //
                 k.Trade = a.Trade;
                 k.Size = a.Size;
-                k.Exchange = a.Exchange;
+                k.Source = a.Source;
             }
             else if (b.HasAsk)
             {
                 k.Ask = b.Ask;
                 k.OfferSize = b.OfferSize;
-                k.AskExchange = b.AskExchange;
+                k.AskSource = b.AskSource;
                 //
                 k.Bid = a.Bid;
                 k.BidSize = a.BidSize;
-                k.BidExchange = a.BidExchange;
+                k.BidSource = a.BidSource;
                 k.Trade = a.Trade;
                 k.Size = a.Size;
-                k.Exchange = a.Exchange;
+                k.Source = a.Source;
             }
             else if (b.HasBid)
             {
                 k.Bid = b.Bid;
                 k.BidSize = b.BidSize;
-                k.BidExchange = b.BidExchange;
+                k.BidSource = b.BidSource;
                 //
                 k.Ask = a.Ask;
                 k.OfferSize = a.OfferSize;
-                k.AskExchange = a.AskExchange;
+                k.AskSource = a.AskSource;
                 k.Trade = a.Trade;
                 k.Size = a.Size;
-                k.Exchange = a.Exchange;
+                k.Source = a.Source;
             }
             return k;
         }
@@ -260,9 +260,9 @@ namespace Quantler.Data.Ticks
                 t.Date = i;
             if (int.TryParse(r[(int)TickField.Tdepth], out i))
                 t.Depth = i;
-            t.Exchange = r[(int)TickField.Tex];
-            t.BidExchange = r[(int)TickField.Bidex];
-            t.AskExchange = r[(int)TickField.Askex];
+            t.Source = r[(int)TickField.Tex];
+            t.BidSource = r[(int)TickField.Bidex];
+            t.AskSource = r[(int)TickField.Askex];
             t.Datetime = t.Date * 1000000 + t.Time;
             return t;
         }
@@ -301,8 +301,8 @@ namespace Quantler.Data.Ticks
                 Time = time,
                 Bid = bid,
                 Ask = ask,
-                BidExchange = be.Trim(),
-                AskExchange = oe.Trim(),
+                BidSource = be.Trim(),
+                AskSource = oe.Trim(),
                 AskSize = asksize,
                 BidSize = bidsize,
                 Trade = 0,
@@ -320,8 +320,8 @@ namespace Quantler.Data.Ticks
                 Time = time,
                 Bid = bid,
                 Ask = ask,
-                BidExchange = be.Trim(),
-                AskExchange = oe.Trim(),
+                BidSource = be.Trim(),
+                AskSource = oe.Trim(),
                 AskSize = asksize,
                 BidSize = bidsize,
                 Trade = 0,
@@ -344,7 +344,7 @@ namespace Quantler.Data.Ticks
                 Time = time,
                 Trade = trade,
                 Size = size,
-                Exchange = ex.Trim(),
+                Source = ex.Trim(),
                 Bid = 0
             };
             return t;
@@ -366,7 +366,7 @@ namespace Quantler.Data.Ticks
             sb.Append(d);
             sb.Append(t.Size);
             sb.Append(d);
-            sb.Append(t.Exchange);
+            sb.Append(t.Source);
             sb.Append(d);
             sb.Append(t.Bid.ToString(CultureInfo.InvariantCulture));
             sb.Append(d);
@@ -376,9 +376,9 @@ namespace Quantler.Data.Ticks
             sb.Append(d);
             sb.Append(t.AskSize);
             sb.Append(d);
-            sb.Append(t.BidExchange);
+            sb.Append(t.BidSource);
             sb.Append(d);
-            sb.Append(t.AskExchange);
+            sb.Append(t.AskSource);
             sb.Append(d);
             sb.Append(t.Depth);
             return sb.ToString();
@@ -402,8 +402,8 @@ namespace Quantler.Data.Ticks
             Ask = ask;
             BidSize = bidsize;
             OfferSize = asksize;
-            BidExchange = bidex;
-            AskExchange = askex;
+            BidSource = bidex;
+            AskSource = askex;
             Trade = 0;
             Size = 0;
             Depth = 0;
@@ -418,17 +418,17 @@ namespace Quantler.Data.Ticks
             Ask = ask;
             BidSize = bidsize;
             OfferSize = asksize;
-            BidExchange = bidex;
-            AskExchange = askex;
+            BidSource = bidex;
+            AskSource = askex;
             Trade = 0;
             Size = 0;
             Depth = depth;
         }
 
-        //date, time, sec, Convert.ToDecimal(r[(int)T.PRICE]), isize, r[(int)T.ExchangeCH]
-        public void SetTrade(int date, int time, int sec, decimal price, int size, string exch)
+        //date, time, sec, Convert.ToDecimal(r[(int)T.PRICE]), isize, r[(int)T.SourceCH]
+        public void SetTrade(int date, int time, int sec, decimal price, int size, string sourch)
         {
-            Exchange = exch;
+            Source = sourch;
             Date = date;
             Time = time;
             Trade = price;
@@ -442,8 +442,8 @@ namespace Quantler.Data.Ticks
         public override string ToString()
         {
             if (!HasTick) return "";
-            if (IsTrade) return Symbol + " " + Size + "@" + Trade + " " + Exchange;
-            return Symbol + " " + Bid + "x" + Ask + " (" + BidSize + "x" + OfferSize + ") " + BidExchange + "x" + AskExchange;
+            if (IsTrade) return Symbol + " " + Size + "@" + Trade + " " + Source;
+            return Symbol + " " + Bid + "x" + Ask + " (" + BidSize + "x" + OfferSize + ") " + BidSource + "x" + AskSource;
         }
 
         #endregion Public Methods

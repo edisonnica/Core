@@ -233,13 +233,13 @@ namespace Quantler.Tests.Common
                 bool start = equal;
                 equal &= data[i].Bid == _readdata[i].Bid;
                 equal &= data[i].BidSize == _readdata[i].BidSize;
-                equal &= data[i].BidExchange == _readdata[i].BidExchange;
+                equal &= data[i].BidSource == _readdata[i].BidSource;
                 equal &= data[i].Ask == _readdata[i].Ask;
                 equal &= data[i].AskSize == _readdata[i].AskSize;
-                equal &= data[i].AskExchange == _readdata[i].AskExchange;
+                equal &= data[i].AskSource == _readdata[i].AskSource;
                 equal &= data[i].Trade == _readdata[i].Trade;
                 equal &= data[i].Size == _readdata[i].Size;
-                equal &= data[i].Exchange == _readdata[i].Exchange;
+                equal &= data[i].Source == _readdata[i].Source;
                 equal &= data[i].Depth == _readdata[i].Depth;
                 if (equal != start)
                     sb.Append(i + " ");

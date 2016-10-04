@@ -142,7 +142,7 @@ namespace Quantler.Data.TikFile
                             k.Datetime = (long)k.Date * 1000000000 + k.Time;
                             k._ask = ReadUInt64();
                             k.AskSize = ReadInt32();
-                            k.AskExchange = ReadString();
+                            k.AskSource = ReadString();
                             k.Depth = ReadInt32();
                             break;
                         }
@@ -153,7 +153,7 @@ namespace Quantler.Data.TikFile
                             k.Datetime = (long)k.Date * 1000000000 + k.Time;
                             k._bid = ReadUInt64();
                             k.BidSize = ReadInt32();
-                            k.BidExchange = ReadString();
+                            k.BidSource = ReadString();
                             k.Depth = ReadInt32();
                         }
                         break;
@@ -165,13 +165,13 @@ namespace Quantler.Data.TikFile
                             k.Datetime = (long)k.Date * 1000000000 + k.Time;
                             k._trade = ReadUInt64();
                             k.Size = ReadInt32();
-                            k.Exchange = ReadString();
+                            k.Source = ReadString();
                             k._bid = ReadUInt64();
                             k.BidSize = ReadInt32();
-                            k.BidExchange = ReadString();
+                            k.BidSource = ReadString();
                             k._ask = ReadUInt64();
                             k.AskSize = ReadInt32();
-                            k.AskExchange = ReadString();
+                            k.AskSource = ReadString();
                             k.Depth = ReadInt32();
                         }
                         break;
@@ -183,10 +183,10 @@ namespace Quantler.Data.TikFile
                             k.Datetime = (long)k.Date * 1000000000 + k.Time;
                             k._bid = ReadUInt64();
                             k.BidSize = ReadInt32();
-                            k.BidExchange = ReadString();
+                            k.BidSource = ReadString();
                             k._ask = ReadUInt64();
                             k.OfferSize = ReadInt32();
-                            k.AskExchange = ReadString();
+                            k.AskSource = ReadString();
                             k.Depth = ReadInt32();
                         }
                         break;
@@ -198,7 +198,7 @@ namespace Quantler.Data.TikFile
                             k.Datetime = (long)k.Date * 1000000000 + k.Time;
                             k._trade = ReadUInt64();
                             k.Size = ReadInt32();
-                            k.Exchange = ReadString();
+                            k.Source = ReadString();
                         }
                         break;
 

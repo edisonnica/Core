@@ -376,7 +376,7 @@ namespace Quantler.Tests.Common
 
             // build a tick on another exchange
             TickImpl it = TickImpl.NewTrade(s, 9, 100);
-            it.Exchange = "ISLD";
+            it.Source = "ISLD";
 
             // fill order (should fail)
             int c = broker.Execute(it);
@@ -384,7 +384,7 @@ namespace Quantler.Tests.Common
 
             // build opening price for desired exchange
             TickImpl nt = TickImpl.NewTrade(s, 9, 10000);
-            nt.Exchange = "NYS";
+            nt.Source = "NYS";
             // fill order (should work)
 
             c = broker.Execute(nt);
@@ -394,7 +394,7 @@ namespace Quantler.Tests.Common
             // add another OPG, make sure it's not filled with another tick
 
             TickImpl next = TickImpl.NewTrade(s, 9, 2000);
-            next.Exchange = "NYS";
+            next.Source = "NYS";
 
             OrderImpl late = new OrderImpl(tsec, Direction.Long, 200, 10);
             PendingOrderImpl plate = new PendingOrderImpl(late);

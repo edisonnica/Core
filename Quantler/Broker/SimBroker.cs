@@ -311,7 +311,7 @@ namespace Quantler.Broker
                         if (_hasopened.Contains(o.Symbol))
                             continue;
                         // otherwise make sure it's really the opening
-                        if (tick.Exchange == Opgex)
+                        if (tick.Source == Opgex)
                         {
                             // it's the opening tick, so fill it as an opg
                             po.OrderStatus = o.Fill(tick, BrokerModel, UseBidAskFills, true);

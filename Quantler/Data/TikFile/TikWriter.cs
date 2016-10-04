@@ -199,7 +199,7 @@ namespace Quantler.Data.TikFile
                 Write(k.Time);
                 Write(k._bid);
                 Write(k.BidSize);
-                Write(k.BidExchange);
+                Write(k.BidSource);
                 Write(k.Depth);
             }
             else if (!fq && a) // ask only
@@ -209,7 +209,7 @@ namespace Quantler.Data.TikFile
                 Write(k.Time);
                 Write(k._ask);
                 Write(k.OfferSize);
-                Write(k.AskExchange);
+                Write(k.AskSource);
                 Write(k.Depth);
             }
             else if ((t && !fq) || i) // trade or index
@@ -219,7 +219,7 @@ namespace Quantler.Data.TikFile
                 Write(k.Time);
                 Write(k._trade);
                 Write(k.Size);
-                Write(k.Exchange);
+                Write(k.Source);
             }
             else if (t && fq) // full quote
             {
@@ -228,13 +228,13 @@ namespace Quantler.Data.TikFile
                 Write(k.Time);
                 Write(k._trade);
                 Write(k.Size);
-                Write(k.Exchange);
+                Write(k.Source);
                 Write(k._bid);
                 Write(k.BidSize);
-                Write(k.BidExchange);
+                Write(k.BidSource);
                 Write(k._ask);
                 Write(k.OfferSize);
-                Write(k.AskExchange);
+                Write(k.AskSource);
                 Write(k.Depth);
             }
             else if (!t && fq) // quote only
@@ -244,10 +244,10 @@ namespace Quantler.Data.TikFile
                 Write(k.Time);
                 Write(k._bid);
                 Write(k.BidSize);
-                Write(k.BidExchange);
+                Write(k.BidSource);
                 Write(k._ask);
                 Write(k.OfferSize);
-                Write(k.AskExchange);
+                Write(k.AskSource);
                 Write(k.Depth);
             }
             // end tick

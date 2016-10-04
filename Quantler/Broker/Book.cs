@@ -141,7 +141,7 @@ namespace Quantler.Broker
             {
                 Bidprice[k.Depth] = k.Bid;
                 Bidsize[k.Depth] = k.BidSize;
-                Bidex[k.Depth] = k.BidExchange;
+                Bidex[k.Depth] = k.BidSource;
                 if (k.Depth > ActualDepth)
                     ActualDepth = k.Depth;
             }
@@ -150,7 +150,7 @@ namespace Quantler.Broker
             {
                 Askprice[k.Depth] = k.Ask;
                 Asksize[k.Depth] = k.AskSize;
-                Askex[k.Depth] = k.AskExchange;
+                Askex[k.Depth] = k.AskSource;
                 if (k.Depth > ActualDepth)
                     ActualDepth = k.Depth;
             }

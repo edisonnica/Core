@@ -47,22 +47,22 @@ namespace Quantler.Templates
 
         #region Public Methods
 
-        public void AddStream(SecurityType type, string name, DataSource source = DataSource.FXCM)
+        public void AddStream(SecurityType type, string name, DataSource source = DataSource.Broker)
         {
             Agent.AddDataStream(type, name, source);
         }
 
-        public void AddStream(SecurityType type, string name, TimeSpan interval, DataSource source = DataSource.FXCM)
+        public void AddStream(SecurityType type, string name, TimeSpan interval, DataSource source = DataSource.Broker)
         {
             Agent.AddDataStream(type, name, interval, source);
         }
 
-        public void AddStream(SecurityType type, string name, int interval, DataSource source = DataSource.FXCM)
+        public void AddStream(SecurityType type, string name, int interval, DataSource source = DataSource.Broker)
         {
             Agent.AddDataStream(type, name, interval, source);
         }
 
-        public void AddStream(SecurityType type, string name, BarInterval interval, DataSource source = DataSource.FXCM)
+        public void AddStream(SecurityType type, string name, BarInterval interval, DataSource source = DataSource.Broker)
         {
             Agent.AddDataStream(type, name, interval, source);
         }

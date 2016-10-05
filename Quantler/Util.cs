@@ -162,7 +162,7 @@ namespace Quantler
             //Check for forex security
             if (basesecurity.Type == SecurityType.Forex)
             {
-                string ends = basesecurity.Name.Substring(2, 3);
+                string ends = basesecurity.Name.Substring(3, 3);
                 return basecurrency.ToString() + ends;
             }
             else if (basesecurity.Type == SecurityType.CFD)

@@ -31,7 +31,7 @@ namespace Quantler.Tests.Common
     {
         #region Private Fields
 
-        private const string S = "TST";
+        private const string S = "EURUSD";
         private readonly SimBroker _broker = new SimBroker();
         private readonly Research.ZeroTransactionCosts _trans = new Research.ZeroTransactionCosts();
         private int _fills;
@@ -153,8 +153,7 @@ namespace Quantler.Tests.Common
         {
             SimBroker broker = new SimBroker();
             broker.BrokerModel = _trans;
-            const string s = "TST";
-            ForexSecurity tsec = new ForexSecurity(s);
+            ForexSecurity tsec = new ForexSecurity(S);
             tsec.LotSize = 1;
             tsec.OrderStepSize = 1;
 
@@ -162,10 +161,10 @@ namespace Quantler.Tests.Common
             PendingOrderImpl pday = new PendingOrderImpl(day);
             broker.SendOrderStatus(pday);
 
-            TickImpl openingTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(9, 30, 00, 000), 9, 10000, "NYS");
-            TickImpl endMornTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(12, 00, 00, 000), 9, 10000, "NYS");
-            TickImpl endLunchTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(14, 15, 00, 000), 9, 10000, "NYS");
-            TickImpl closingTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(16, 00, 00, 000), 9, 10000, "NYS");
+            TickImpl openingTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(9, 30, 00, 000), 9, 10000, "NYS");
+            TickImpl endMornTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(12, 00, 00, 000), 9, 10000, "NYS");
+            TickImpl endLunchTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(14, 15, 00, 000), 9, 10000, "NYS");
+            TickImpl closingTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(16, 00, 00, 000), 9, 10000, "NYS");
 
             int c;
             c = broker.Execute(openingTick); Assert.Equal(1, c); // should execute on first received tick
@@ -181,16 +180,15 @@ namespace Quantler.Tests.Common
             SimBroker broker = new SimBroker();
             broker.BrokerModel = _trans;
             broker.UseHighLiquidityFillsEod = true;
-            const string s = "SPY";
-            ForexSecurity tsec = new ForexSecurity(s);
+            ForexSecurity tsec = new ForexSecurity(S);
             tsec.LotSize = 1;
             tsec.OrderStepSize = 1;
 
             // OHLC for 6/21/2012 on SPY
-            TickImpl openingTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(9, 30, 00, 000), 135.67m, 10670270, "NYS");
-            TickImpl endMornTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(12, 00, 00, 000), 135.78m, 10670270, "NYS");
-            TickImpl endLunchTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(14, 15, 00, 000), 132.33m, 10670270, "NYS");
-            TickImpl closingTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(16, 00, 00, 000), 132.44m, 10670270, "NYS");
+            TickImpl openingTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(9, 30, 00, 000), 135.67m, 10670270, "NYS");
+            TickImpl endMornTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(12, 00, 00, 000), 135.78m, 10670270, "NYS");
+            TickImpl endLunchTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(14, 15, 00, 000), 132.33m, 10670270, "NYS");
+            TickImpl closingTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(16, 00, 00, 000), 132.44m, 10670270, "NYS");
 
             tsec.LastTickEvent = openingTick.TickDateTime;
 
@@ -236,8 +234,7 @@ namespace Quantler.Tests.Common
         {
             SimBroker broker = new SimBroker();
             broker.BrokerModel = _trans;
-            const string s = "SPY";
-            ForexSecurity tsec = new ForexSecurity(s);
+            ForexSecurity tsec = new ForexSecurity(S);
             tsec.LotSize = 1;
             tsec.OrderStepSize = 1;
 
@@ -257,10 +254,10 @@ namespace Quantler.Tests.Common
             broker.SendOrderStatus(pstopSell);
 
             // OHLC for 6/21/2012 on SPY
-            TickImpl openingTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(9, 30, 00, 000), 135.67m, 10670270, "NYS");
-            TickImpl endMornTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(12, 00, 00, 000), 135.78m, 10670270, "NYS");
-            TickImpl endLunchTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(14, 15, 00, 000), 132.33m, 10670270, "NYS");
-            TickImpl closingTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(16, 00, 00, 000), 132.44m, 10670270, "NYS");
+            TickImpl openingTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(9, 30, 00, 000), 135.67m, 10670270, "NYS");
+            TickImpl endMornTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(12, 00, 00, 000), 135.78m, 10670270, "NYS");
+            TickImpl endLunchTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(14, 15, 00, 000), 132.33m, 10670270, "NYS");
+            TickImpl closingTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(16, 00, 00, 000), 132.44m, 10670270, "NYS");
 
             broker.Execute(openingTick);
             broker.Execute(endMornTick);
@@ -289,8 +286,7 @@ namespace Quantler.Tests.Common
         {
             SimBroker broker = new SimBroker();
             broker.BrokerModel = _trans;
-            const string s = "TST";
-            ForexSecurity tsec = new ForexSecurity(s);
+            ForexSecurity tsec = new ForexSecurity(S);
             tsec.LotSize = 1;
             tsec.OrderStepSize = 1;
 
@@ -300,10 +296,10 @@ namespace Quantler.Tests.Common
             Assert.True(moc.ValidInstruct == OrderInstructionType.MOC, "unexpected order instruction: " + moc.ValidInstruct);
             Assert.Equal(0, broker.SendOrderStatus(pmoc));
 
-            TickImpl openingTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(9, 30, 00, 000), 9, 10000, "NYS");
-            TickImpl endMornTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(12, 00, 00, 000), 9, 10000, "NYS");
-            TickImpl endLunchTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(14, 15, 00, 000), 9, 10000, "NYS");
-            TickImpl closingTick = TickImpl.NewTrade(s, Util.ToQLDate(DateTime.Now), Util.QL2FT(16, 00, 00, 000), 9, 10000, "NYS");
+            TickImpl openingTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(9, 30, 00, 000), 9, 10000, "NYS");
+            TickImpl endMornTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(12, 00, 00, 000), 9, 10000, "NYS");
+            TickImpl endLunchTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(14, 15, 00, 000), 9, 10000, "NYS");
+            TickImpl closingTick = TickImpl.NewTrade(S, Util.ToQLDate(DateTime.Now), Util.QL2FT(16, 00, 00, 000), 9, 10000, "NYS");
 
             int c = 0;
             c = broker.Execute(openingTick); Assert.Equal(0, c);
@@ -317,8 +313,7 @@ namespace Quantler.Tests.Common
         public void MultiAccount()
         {
             _broker.BrokerModel = _trans;
-            const string sym = "TST";
-            ForexSecurity tsec = new ForexSecurity(sym);
+            ForexSecurity tsec = new ForexSecurity(S);
             tsec.LotSize = 1;
             tsec.OrderStepSize = 1;
 
@@ -339,7 +334,7 @@ namespace Quantler.Tests.Common
             _broker.SendOrderStatus(poa);
             _broker.SendOrderStatus(pob);
 
-            TickImpl t = new TickImpl(sym)
+            TickImpl t = new TickImpl(S)
             {
                 Trade = 100m,
                 Size = 200
@@ -364,8 +359,7 @@ namespace Quantler.Tests.Common
         {
             SimBroker broker = new SimBroker();
             broker.BrokerModel = _trans;
-            const string s = "NYS";
-            ForexSecurity tsec = new ForexSecurity(s);
+            ForexSecurity tsec = new ForexSecurity(S);
             tsec.LotSize = 1;
             tsec.OrderStepSize = 1;
 
@@ -375,7 +369,7 @@ namespace Quantler.Tests.Common
             Assert.Equal(0, broker.SendOrderStatus(popg));
 
             // build a tick on another exchange
-            TickImpl it = TickImpl.NewTrade(s, 9, 100);
+            TickImpl it = TickImpl.NewTrade(S, 9, 100);
             it.Source = "ISLD";
 
             // fill order (should fail)
@@ -383,7 +377,7 @@ namespace Quantler.Tests.Common
             Assert.Equal(0, c);
 
             // build opening price for desired exchange
-            TickImpl nt = TickImpl.NewTrade(s, 9, 10000);
+            TickImpl nt = TickImpl.NewTrade(S, 9, 10000);
             nt.Source = "NYS";
             // fill order (should work)
 
@@ -393,7 +387,7 @@ namespace Quantler.Tests.Common
 
             // add another OPG, make sure it's not filled with another tick
 
-            TickImpl next = TickImpl.NewTrade(s, 9, 2000);
+            TickImpl next = TickImpl.NewTrade(S, 9, 2000);
             next.Source = "NYS";
 
             OrderImpl late = new OrderImpl(tsec, Direction.Long, 200, 10);

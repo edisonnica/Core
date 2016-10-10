@@ -46,6 +46,11 @@ namespace Quantler.Interfaces
         /// <summary>
         /// Currently no entry allowed, state
         /// </summary>
-        NoEntry
+        NoEntry,
+
+        /// <summary>
+        /// Some error has occured, therefore the execution of this agent is halted
+        /// </summary>
+        Error
     }
 }

@@ -91,6 +91,55 @@ namespace Quantler.Tests.Common
 
         [Fact]
         [Trait("Quantler.Common", "Quantler")]
+        public void AccountBalanceUpdateCFD()
+        {
+            //Arrange
+            SimAccount testaccount = new SimAccount("SIM1", "Menno's Account", initialbalance, leverage);
+            CFDSecurity ts = new CFDSecurity(sym);
+            ts.LotSize = 100;
+            ts.ContractSize = 50;
+            ts.PipSize = 0.1M;
+            ts.TickSize = ts.PipSize;
+            ts.TickValue = 5;
+            ts.Currency = CurrencyType.USD;
+            int size = 100;
+            testaccount.Securities.AddSecurity(ts);
+            TickImpl tick = TickImpl.NewQuote(sym, p, p, int.MaxValue, int.MaxValue, ts.DestEx, ts.DestEx);
+            TickImpl secondtick = TickImpl.NewQuote(sym, p + inc, p + inc, int.MaxValue, int.MaxValue, ts.DestEx, ts.DestEx);
+
+            List<Trade> fills = new List<Trade>(new Trade[] {
+                // go long
+                new TradeImpl(sym,p,size) { Security = ts, Account = testaccount, Commission = 1},             // 1 @ $1
+                // increase bet
+                new TradeImpl(sym,p+inc,size*2) { Security = ts, Account = testaccount, Commission = 2},       // 2 @ $1.1
+                // take some profits
+                new TradeImpl(sym,p+inc*2,size*-1) { Security = ts, Account = testaccount, Commission = 1},    // -1 @ $1.2 (profit = 1 * (1.2 - 1.0) * 50 = 100)
+                // go flat (round turn)
+                new TradeImpl(sym,p+inc*2,size*-2) { Security = ts, Account = testaccount, Commission = 2},    // -2 @ $1.2 (profit = 2 * (1.2 - 1.1) * 50 = 200)
+                // go short
+                new TradeImpl(sym,p,size*-2) { Security = ts, Account = testaccount, Commission = 2},          // -2 @ $1
+                // decrease bet
+                new TradeImpl(sym,p,size) { Security = ts, Account = testaccount, Commission = 1},             // 1 @ $1
+                // exit (round turn)
+                new TradeImpl(sym,p+inc,size) { Security = ts, Account = testaccount, Commission = 1},         // 1 @ $1 (loss = 1000 * (1.2 - 1.0) * 50 = 100)
+                // do another entry
+                new TradeImpl(sym,p,size) { Security = ts, Account = testaccount, Commission = 1}              // 1 @ $1
+            });
+
+            //Act, fill all trades
+            testaccount.OnTick(tick);
+            testaccount.OnTick(secondtick);
+            foreach (var t in fills)
+                testaccount.OnFill(t);
+
+            //Assert
+            Assert.True(testaccount.Balance == 10015);
+            Assert.True(testaccount.Margin == 0);
+            Assert.True(testaccount.MarginLevel == 1001500);
+        }
+
+        [Fact]
+        [Trait("Quantler.Common", "Quantler")]
         public void Basics()
         {
             SimAccount a = new SimAccount();

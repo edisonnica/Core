@@ -475,9 +475,24 @@ namespace Quantler
 
             decimal closedlots = closedsize / (decimal)existing.Security.LotSize;
 
-            decimal pips = ClosePt(existing, adjust) / existing.Security.PipSize;
+            if (existing.Security.Type == SecurityType.Forex)
+            {
+                decimal pips = ClosePt(existing, adjust) / existing.Security.PipSize;
 
-            return closedlots * pips * existing.Security.PipValue;
+                return closedlots * pips * existing.Security.PipValue;
+            }
+            else if (existing.Security.Type == SecurityType.CFD)
+            {
+                decimal closedpoints = ClosePt(existing, adjust);
+
+                return closedpoints * closedlots * existing.Security.PipValue;
+            }
+            else
+            {
+                decimal pips = ClosePt(existing, adjust) / existing.Security.PipSize;
+
+                return closedlots * pips * existing.Security.PipValue;
+            }
         }
 
         /// <summary>

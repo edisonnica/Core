@@ -37,6 +37,7 @@ namespace Quantler.Securities
             OrderStepSize = 1000;
             OrderMinSize = 1000;
             TickSize = PipSize / 10;
+            ContractSize = LotSize;
 
             //For initial pipvalue
             PipValue = 0.00807M;

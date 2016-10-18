@@ -40,6 +40,11 @@ namespace Quantler.Interfaces
         string BrokerName { get; }
 
         /// <summary>
+        /// Returns the size of a full lot for the underlying asset (100K for FX and 1.0 or 0.1 for CFDs)
+        /// </summary>
+        decimal ContractSize { get; }
+
+        /// <summary>
         /// Base currency of this security
         /// </summary>
         CurrencyType Currency { get; }
@@ -90,7 +95,12 @@ namespace Quantler.Interfaces
         DateTime LastTickEvent { get; }
 
         /// <summary>
-        /// Returns the size of a full lot
+        /// Symbol specific leverage
+        /// </summary>
+        int Leverage { get; }
+
+        /// <summary>
+        /// Amount of units represents one full lot (1.00)
         /// </summary>
         int LotSize { get; }
 
@@ -145,9 +155,29 @@ namespace Quantler.Interfaces
         int Spread { get; }
 
         /// <summary>
+        /// Swap currency used for this security
+        /// </summary>
+        CurrencyType SwapCurrency { get; }
+
+        /// <summary>
+        /// Swap for long positions
+        /// </summary>
+        decimal SwapLong { get; }
+
+        /// <summary>
+        /// Swap for short positions
+        /// </summary>
+        decimal SwapShort { get; }
+
+        /// <summary>
         /// Returns the mimimum change in price for this security
         /// </summary>
         decimal TickSize { get; }
+
+        /// <summary>
+        /// Value set by the broker defined for the tick value, use the pip value instead (being more accurate)
+        /// </summary>
+        decimal TickValue { get; }
 
         /// <summary>
         /// type associated with security

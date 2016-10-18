@@ -34,6 +34,7 @@ namespace Quantler.Securities
             Type = SecurityType.CFD;
             LotSize = 1;
             PipSize = 0.01M;
+            TickSize = 0.01m;
             OrderStepSize = 1;
             OrderMinSize = 1;
             TickSize = PipSize;

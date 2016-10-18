@@ -158,7 +158,6 @@ namespace Quantler
         /// <returns></returns>
         public static string GetPipValueSymbolCrosses(CurrencyType basecurrency, ISecurity basesecurity)
         {
-
             //Check for forex security
             if (basesecurity.Type == SecurityType.Forex)
             {
@@ -166,7 +165,7 @@ namespace Quantler
                 return basecurrency.ToString() + ends;
             }
             else if (basesecurity.Type == SecurityType.CFD)
-                return basesecurity.Currency.ToString() + basecurrency.ToString();
+                return basecurrency.ToString() + basesecurity.Currency.ToString();
             else
                 return string.Empty;
         }

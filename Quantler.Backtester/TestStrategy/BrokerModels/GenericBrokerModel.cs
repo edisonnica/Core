@@ -1,5 +1,4 @@
-﻿#region License
-/*
+﻿/*
 Copyright (c) Quantler B.V., All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -12,7 +11,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
 */
-#endregion
 
 using Quantler.Interfaces;
 using Quantler.Templates;
@@ -51,6 +49,63 @@ public class GenericBrokerModel : BrokerModelTemplate
     public override decimal GetSpread(Order o)
     {
         return SpreadInPips;
+    }
+
+    public override int MinimumOrderVolume(ISecurity s)
+    {
+        if (s.Type == SecurityType.Forex)
+            return 1000;
+        else if (s.Type == SecurityType.CFD)
+            switch (s.Name)
+            {
+                case "JPN225":
+                    return 10;
+                default:
+                    return 1;
+            }
+        else
+            return 1;
+    }
+
+    public override int OrderVolumeStepSize(ISecurity s)
+    {
+        return MinimumOrderVolume(s);
+    }
+
+    public override int MaximumOrderVolume(ISecurity s)
+    {
+        if (s.Type == SecurityType.Forex)
+            return 500 * 1000; // 500 microlots
+        else if (s.Type == SecurityType.CFD) //Min size for CFD contracts
+            switch (s.Name)
+            {
+                case "US30":
+                    return 10000;
+                case "SPX500":
+                    return 5000;
+                case "NAS100":
+                    return 10000;
+                case "UK100":
+                    return 10000;
+                case "GER30":
+                    return 1000;
+                case "ESP35":
+                    return 10000;
+                case "FRA40":
+                    return 10000;
+                case "HKG33":
+                    return 300;
+                case "JPN225":
+                    return 1000;
+                case "AUS200":
+                    return 2000;
+                case "EUSTX50":
+                    return 10000;
+                default:
+                    return 10000;
+            }
+        else
+            return 1; //Default return
     }
 
     #endregion Public Methods

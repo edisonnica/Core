@@ -50,17 +50,17 @@ namespace Quantler.Templates
             return 0;
         }
 
-        public int MinimumOrderVolume(ISecurity s)
+        public virtual int MinimumOrderVolume(ISecurity s)
         {
             return 1000;
         }
 
-        public int OrderVolumeStepSize(ISecurity s)
+        public virtual int OrderVolumeStepSize(ISecurity s)
         {
             return 1000;
         }
 
-        public int MaximumOrderVolume(ISecurity s)
+        public virtual int MaximumOrderVolume(ISecurity s)
         {
             return 1000 * 1000;
         }

@@ -179,7 +179,10 @@ namespace Quantler.Broker
                         price = 1;
 
                     //Margin = (Trade Size / leverage) * account currency exchange rate (if different from the base currency in the pair being traded).
-                    toreturn += pos.UnsignedSize / Leverage * price;
+                    if (pos.Security.Type == SecurityType.Forex)
+                        toreturn += (pos.UnsignedSize / Leverage) * price;
+                    else
+                        toreturn += (pos.UnsignedSize * price) * (1 / Leverage);
                 }
                 return toreturn;
             }
@@ -278,13 +281,28 @@ namespace Quantler.Broker
 
             //Set pip value
             string conversionsymbol = Util.GetPipValueSymbolCrosses(CurrencyType.USD, sec);
-            if (_priceinformation.ContainsKey(conversionsymbol))
+            if (_priceinformation.ContainsKey(conversionsymbol) && sec.Type == SecurityType.Forex)
             {
                 //get current price based on tick received
                 decimal price = _priceinformation[conversionsymbol].IsFullQuote ? _priceinformation[conversionsymbol].Bid : _priceinformation[conversionsymbol].Trade;
 
                 //convert to pip value
-                sec.PipValue = sec.PipSize / price * sec.LotSize;
+                sec.PipValue = sec.PipSize / price * sec.ContractSize;
+            }
+            else if (sec.Type == SecurityType.CFD)
+            {
+                //get current price based on tick received
+                decimal price = 1;
+                if (conversionsymbol != "USDUSD")
+                    price = _priceinformation[conversionsymbol].IsFullQuote ? _priceinformation[conversionsymbol].Bid : _priceinformation[conversionsymbol].Trade;
+
+                //convert to pip value (depending on the info that we have of this security)
+                if (sec.ContractSize > 1 && sec.TickValue > 0) //CFD has a tickvalue and a contract size
+                    sec.PipValue = (1M / sec.TickSize) * sec.TickValue;
+                else if (sec.ContractSize > 1 || sec.TickValue == 0) //CFD has no tickvalue
+                    sec.PipValue = (1M / sec.TickSize) * price * (sec.ContractSize * sec.TickSize);
+                else
+                    sec.PipValue = ((1M / sec.TickSize) * sec.TickValue) / price;
             }
             else if (conversionsymbol == "USDUSD")
             {

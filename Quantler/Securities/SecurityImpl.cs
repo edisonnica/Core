@@ -128,10 +128,16 @@ namespace Quantler.Securities
         /// </summary>
         public string BrokerName { get; set; }
 
+        public decimal ContractSize
+        {
+            get;
+            set;
+        }
+
         public CurrencyType Currency
         {
             get;
-            private set;
+            set;
         }
 
         /// <summary>
@@ -197,6 +203,12 @@ namespace Quantler.Securities
         public virtual bool IsValid { get { return _sym != ""; } }
 
         public DateTime LastTickEvent
+        {
+            get;
+            set;
+        }
+
+        public int Leverage
         {
             get;
             set;
@@ -273,10 +285,34 @@ namespace Quantler.Securities
             set;
         }
 
+        public CurrencyType SwapCurrency
+        {
+            get;
+            set;
+        }
+
+        public decimal SwapLong
+        {
+            get;
+            set;
+        }
+
+        public decimal SwapShort
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Current asset size in tick (Example fx = 0.00001)
         /// </summary>
         public decimal TickSize
+        {
+            get;
+            set;
+        }
+
+        public decimal TickValue
         {
             get;
             set;

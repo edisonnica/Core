@@ -111,7 +111,7 @@ namespace Quantler.Data.Bars
             {
                 var result = GetList(symbol, interval);
                 if (result != null)
-                    return result[-barsBack];
+                    return result[-Math.Abs(barsBack)];
                 return null;
             }
         }
@@ -129,7 +129,7 @@ namespace Quantler.Data.Bars
             {
                 var result = GetList(symbol, (int)interval.TotalSeconds);
                 if (result != null)
-                    return result[-barsBack];
+                    return result[-Math.Abs(barsBack)];
                 return null;
             }
         }
@@ -197,7 +197,7 @@ namespace Quantler.Data.Bars
             {
                 var result = GetList(symbol.Name, interval);
                 if (result != null)
-                    return result[-barsBack];
+                    return result[-Math.Abs(barsBack)];
                 return null;
             }
         }
@@ -215,7 +215,7 @@ namespace Quantler.Data.Bars
             {
                 var result = GetList(symbol.Name, (int)interval.TotalSeconds);
                 if (result != null)
-                    return result[-barsBack];
+                    return result[-Math.Abs(barsBack)];
                 return null;
             }
         }

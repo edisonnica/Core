@@ -50,11 +50,6 @@ namespace Quantler.Interfaces
         CurrencyType Currency { get; }
 
         /// <summary>
-        /// Datasource used for this security
-        /// </summary>
-        string DataSource { get; }
-
-        /// <summary>
         /// exchange associated with security
         /// </summary>
         string DestEx { get; }

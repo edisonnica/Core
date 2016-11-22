@@ -47,24 +47,24 @@ namespace Quantler.Templates
 
         #region Public Methods
 
-        public void AddStream(SecurityType type, string name, DataSource source = DataSource.Broker)
+        public void AddStream(SecurityType type, string name)
         {
-            Agent.AddDataStream(type, name, source);
+            Agent.AddDataStream(type, name);
         }
 
-        public void AddStream(SecurityType type, string name, TimeSpan interval, DataSource source = DataSource.Broker)
+        public void AddStream(SecurityType type, string name, TimeSpan interval)
         {
-            Agent.AddDataStream(type, name, interval, source);
+            Agent.AddDataStream(type, name, interval);
         }
 
-        public void AddStream(SecurityType type, string name, int interval, DataSource source = DataSource.Broker)
+        public void AddStream(SecurityType type, string name, int interval)
         {
-            Agent.AddDataStream(type, name, interval, source);
+            Agent.AddDataStream(type, name, interval);
         }
 
-        public void AddStream(SecurityType type, string name, BarInterval interval, DataSource source = DataSource.Broker)
+        public void AddStream(SecurityType type, string name, BarInterval interval)
         {
-            Agent.AddDataStream(type, name, interval, source);
+            Agent.AddDataStream(type, name, interval);
         }
 
         public PendingOrder CreateOrder(string symbol, Direction direction, decimal quantity, decimal limitPrice = 0, decimal stopPrice = 0, string comment = "")

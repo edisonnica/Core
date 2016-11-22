@@ -47,21 +47,6 @@ namespace Quantler.Securities
         #region Public Constructors
 
         /// <summary>
-        /// create new security
-        /// </summary>
-        /// <param name="sym"></param>
-        /// <param name="exchange"></param>
-        /// <param name="type"></param>
-        public SecurityImpl(string sym, Interfaces.DataSource source, SecurityType type)
-        {
-            _sym = sym;
-            DestEx = source.ToString();
-            _type = type;
-            DataSource = source.ToString();
-            Currency = CurrencyType.USD;
-        }
-
-        /// <summary>
         /// clone a security
         /// </summary>
         /// <param name="copy"></param>
@@ -71,7 +56,6 @@ namespace Quantler.Securities
             _type = copy.Type;
             DestEx = copy.DestEx;
             Details = copy.Details;
-            DataSource = copy.DataSource;
             Currency = CurrencyType.USD;
         }
 
@@ -79,7 +63,7 @@ namespace Quantler.Securities
         /// create new security
         /// </summary>
         public SecurityImpl()
-            : this("", Interfaces.DataSource.Broker, SecurityType.NIL)
+            : this("", SecurityType.NIL)
         {
         }
 
@@ -88,7 +72,7 @@ namespace Quantler.Securities
         /// </summary>
         /// <param name="sym"></param>
         public SecurityImpl(string sym)
-            : this(sym, Interfaces.DataSource.Broker, SecurityType.Forex)
+            : this(sym, SecurityType.Forex)
         {
         }
 
@@ -98,8 +82,9 @@ namespace Quantler.Securities
         /// <param name="sym"></param>
         /// <param name="type"></param>
         public SecurityImpl(string sym, SecurityType type)
-            : this(sym, Interfaces.DataSource.Broker, type)
         {
+            _sym = sym;
+            Type = type;
         }
 
         #endregion Public Constructors
@@ -135,15 +120,6 @@ namespace Quantler.Securities
         }
 
         public CurrencyType Currency
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Name of the datasource used for this security
-        /// </summary>
-        public string DataSource
         {
             get;
             set;

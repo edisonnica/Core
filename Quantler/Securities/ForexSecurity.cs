@@ -26,7 +26,7 @@ namespace Quantler.Securities
     {
         #region Public Constructors
 
-        public ForexSecurity(string symbol, DataSource source = Interfaces.DataSource.Broker)
+        public ForexSecurity(string symbol)
         {
             BrokerName = symbol;
             DestEx = "SIM";
@@ -41,9 +41,6 @@ namespace Quantler.Securities
 
             //For initial pipvalue
             PipValue = 0.00807M;
-
-            //Set source
-            DataSource = source.ToString();
         }
 
         #endregion Public Constructors

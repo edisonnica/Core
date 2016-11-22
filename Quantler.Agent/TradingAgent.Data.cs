@@ -33,7 +33,7 @@ namespace Quantler.Agent
         /// <param name="stream"></param>
         public void AddDataStream(DataStream stream)
         {
-            _logger.Debug("AddDataStream: Processing request for symbol {0}, source {1} and timeframe {2}", stream.Security.Name, stream.Security.DataSource, stream.DefaultInterval);
+            _logger.Debug("AddDataStream: Processing request for symbol {0} and timeframe {1}", stream.Security.Name, stream.DefaultInterval);
             if (!IsRunning)
             {
                 _portfolio.AddStream(stream);
@@ -42,29 +42,29 @@ namespace Quantler.Agent
                 _logger.Debug("AddDataStream: Could not add datastream, agent is already running.");
         }
 
-        public void AddDataStream(SecurityType type, string name, DataSource source = DataSource.Broker)
+        public void AddDataStream(SecurityType type, string name)
         {
-            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, source, type]));
+            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, type]));
         }
 
-        public void AddDataStream(SecurityType type, string name, TimeSpan interval, DataSource source = DataSource.Broker)
+        public void AddDataStream(SecurityType type, string name, TimeSpan interval)
         {
-            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, source, type], (int)interval.TotalSeconds));
+            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, type], (int)interval.TotalSeconds));
         }
 
-        public void AddDataStream(SecurityType type, string name, int interval, DataSource source = DataSource.Broker)
+        public void AddDataStream(SecurityType type, string name, int interval)
         {
-            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, source, type], interval));
+            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, type], interval));
         }
 
-        public void AddDataStream(SecurityType type, string name, BarInterval interval, DataSource source = DataSource.Broker)
+        public void AddDataStream(SecurityType type, string name, BarInterval interval)
         {
-            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, source, type], (int)interval));
+            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, type], (int)interval));
         }
 
         public void SetDefaultStream(DataStream stream)
         {
-            LocalLog(LogLevel.Debug, "Setting new default stream Symbol = {0}, data source = {1} current timeframe = {2}", stream.Security.Name, stream.Security.DataSource, TimeFrame);
+            LocalLog(LogLevel.Debug, "Setting new default stream Symbol = {0}, current timeframe = {1}", stream.Security.Name, TimeFrame);
             Stream = stream;
             AddDataStream(stream);
         }

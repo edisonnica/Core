@@ -26,13 +26,11 @@ namespace Quantler.Tests.Common
 {
     public class TestSecurityTracker
     {
-        private DataSource Source;
         private ISecurityTracker sut;
 
         public TestSecurityTracker()
         {
-            Source = DataSource.FXCM;
-            sut = new SecurityTracker(Source);
+            sut = new SecurityTracker();
         }
 
         [Fact]
@@ -40,7 +38,7 @@ namespace Quantler.Tests.Common
         public void InitTest_Succeed()
         {
             //Exchange should be set
-            sut.DefaultSource.Should().Be(Source);
+            sut.Should().NotBeNull();
         }
 
         [Theory]
@@ -79,33 +77,32 @@ namespace Quantler.Tests.Common
 
         [Theory]
         [Trait("Quantler.Common", "Quantler")]
-        [InlineData(SecurityType.CFD, "US300", DataSource.Broker)]
-        [InlineData(SecurityType.Equity, "SHELL", DataSource.Broker)]
-        [InlineData(SecurityType.Forex, "EURUSD", DataSource.Broker)]
-        [InlineData(SecurityType.CFD, "US300", DataSource.FXCM)]
-        [InlineData(SecurityType.Equity, "SHELL", DataSource.FXCM)]
-        [InlineData(SecurityType.Forex, "EURUSD", DataSource.FXCM)]
-        public void RequestBroker_Fixed_Succeed(SecurityType type, string name, DataSource broker)
+        [InlineData(SecurityType.CFD, "US300")]
+        [InlineData(SecurityType.Equity, "SHELL")]
+        [InlineData(SecurityType.Forex, "EURUSD")]
+        [InlineData(SecurityType.CFD, "US300")]
+        [InlineData(SecurityType.Equity, "SHELL")]
+        [InlineData(SecurityType.Forex, "EURUSD")]
+        public void RequestBroker_Fixed_Succeed(SecurityType type, string name)
         {
             //Act
-            var security = sut[name, broker, type];
+            var security = sut[name, type];
 
             //Assert
             security.Should().NotBeNull();
             security.Name.Should().Be(name);
             security.Type.Should().Be(type);
-            security.DataSource.Should().Be(broker.ToString());
         }
 
         [Theory]
         [Trait("Quantler.Common", "Quantler")]
-        [InlineData(SecurityType.CFD, "US300", DataSource.FXCM)]
-        [InlineData(SecurityType.Equity, "SHELL", DataSource.FXCM)]
-        [InlineData(SecurityType.Forex, "EURUSD", DataSource.FXCM)]
-        public void RequestBroker_Default_Succeed(SecurityType type, string name, DataSource broker)
+        [InlineData(SecurityType.CFD, "US300")]
+        [InlineData(SecurityType.Equity, "SHELL")]
+        [InlineData(SecurityType.Forex, "EURUSD")]
+        public void RequestBroker_Default_Succeed(SecurityType type, string name)
         {
             //Arrange
-            sut = new SecurityTracker(DataSource.Broker);
+            sut = new SecurityTracker();
 
             //Act
             var security = sut[name, type];
@@ -114,7 +111,6 @@ namespace Quantler.Tests.Common
             security.Should().NotBeNull();
             security.Name.Should().Be(name);
             security.Type.Should().Be(type);
-            security.DataSource.Should().NotBe(broker.ToString());
         }
     }
 }

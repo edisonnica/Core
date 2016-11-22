@@ -73,7 +73,7 @@ namespace Quantler.Interfaces
         /// </summary>
         /// <param name="type"></param>
         /// <param name="name"></param>
-        void AddStream(SecurityType type, string name, DataSource source);
+        void AddStream(SecurityType type, string name);
 
         /// <summary>
         /// Add another datastream, with a bar interval
@@ -81,7 +81,7 @@ namespace Quantler.Interfaces
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <param name="interval"></param>
-        void AddStream(SecurityType type, string name, TimeSpan interval, DataSource source);
+        void AddStream(SecurityType type, string name, TimeSpan interval);
 
         /// <summary>
         /// Add another datastream, with a bar interval
@@ -89,7 +89,7 @@ namespace Quantler.Interfaces
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <param name="interval"></param>
-        void AddStream(SecurityType type, string name, int interval, DataSource source);
+        void AddStream(SecurityType type, string name, int interval);
 
         /// <summary>
         /// Add another datastream, with a bar interval
@@ -97,7 +97,7 @@ namespace Quantler.Interfaces
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <param name="interval"></param>
-        void AddStream(SecurityType type, string name, BarInterval interval, DataSource source);
+        void AddStream(SecurityType type, string name, BarInterval interval);
 
         /// <summary>
         /// Create a new pending order

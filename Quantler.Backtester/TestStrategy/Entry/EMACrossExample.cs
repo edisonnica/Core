@@ -36,8 +36,6 @@ class EMACrossExample : EntryTemplate
         UpdateChart("ROI", ChartType.Step, Agent.Results.ROI);
         UpdateChart("DD", ChartType.Line, Agent.Results.MaxDDPortfolio);
 
-        MathNet.Numerics.LinearAlgebra.ExistingData n = ExistingData.AssumeZeros;
-
         //Check if the indicators are ready for usage
         if (!emaslow.IsReady || !emafast.IsReady)
         {
@@ -56,8 +54,6 @@ class EMACrossExample : EntryTemplate
         }
         else
             NoEntry();
-
-        
     }
 
     // Check if we are currently long (on our default symbol)

@@ -60,14 +60,14 @@ namespace Quantler.Broker
         {
         }
 
-        public SimAccount(string accountId, string description, decimal startingbalance, int leverage, DataSource source = DataSource.Broker)
+        public SimAccount(string accountId, string description, decimal startingbalance, int leverage)
         {
             _id = accountId;
             Desc = description;
             _startingbalance = startingbalance;
             Leverage = leverage;
 
-            _securities = new SecurityTracker(source);
+            _securities = new SecurityTracker();
             _currentpositions = new PositionTracker(this);
         }
 

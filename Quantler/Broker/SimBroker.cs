@@ -571,6 +571,7 @@ namespace Quantler.Broker
             if (t.TickDateTime < _nextcostcalc)
                 return;
 
+            //Check swap pricing
             foreach (var trade in Default.Positions.SelectMany(x => x.Trades))
                 ((TradeImpl)trade).Swap += BrokerModel.CalculateMarginInterest(trade);
 

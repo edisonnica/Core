@@ -164,7 +164,7 @@ namespace Quantler.Interfaces
         /// </summary>
         /// <param name="type"></param>
         /// <param name="name"></param>
-        void AddDataStream(SecurityType type, string name, DataSource source);
+        void AddDataStream(SecurityType type, string name);
 
         /// <summary>
         /// Add a new datastream, using timespan as interval
@@ -172,7 +172,7 @@ namespace Quantler.Interfaces
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <param name="interval"></param>
-        void AddDataStream(SecurityType type, string name, TimeSpan interval, DataSource source);
+        void AddDataStream(SecurityType type, string name, TimeSpan interval);
 
         /// <summary>
         /// Add a new datastream, using an integer as interval
@@ -180,7 +180,7 @@ namespace Quantler.Interfaces
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <param name="interval"></param>
-        void AddDataStream(SecurityType type, string name, int interval, DataSource source);
+        void AddDataStream(SecurityType type, string name, int interval);
 
         /// <summary>
         /// Add a new datastream, using a barinterval as interval
@@ -188,7 +188,7 @@ namespace Quantler.Interfaces
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <param name="interval"></param>
-        void AddDataStream(SecurityType type, string name, BarInterval interval, DataSource source);
+        void AddDataStream(SecurityType type, string name, BarInterval interval);
 
         /// <summary>
         /// Sends a chart update to all subscribed events if applicable

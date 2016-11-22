@@ -54,7 +54,6 @@
   <ItemGroup>
     <Compile Include="BarIndexer.cs" />
     <Compile Include="ChartType.cs" />
-    <Compile Include="DataSource.cs" />
     <Compile Include="LogSeverity.cs" />
     <Compile Include="OrderFactory.cs" />
     <Compile Include="TradingAgentManager.cs" />

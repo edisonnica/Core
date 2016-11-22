@@ -26,7 +26,7 @@ namespace Quantler.Securities
     {
         #region Public Constructors
 
-        public CFDSecurity(string symbol, DataSource source = Interfaces.DataSource.Broker)
+        public CFDSecurity(string symbol)
         {
             BrokerName = symbol;
             DestEx = "SIM";
@@ -39,7 +39,6 @@ namespace Quantler.Securities
             OrderMinSize = 1;
             TickSize = PipSize;
             PipValue = PipSize;
-            DataSource = source.ToString();
         }
 
         #endregion Public Constructors

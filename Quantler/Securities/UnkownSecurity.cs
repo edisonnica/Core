@@ -35,7 +35,6 @@ namespace Quantler.Securities
             OrderMinSize = 1;
             TickSize = PipSize;
             PipValue = PipSize;
-            DataSource = Interfaces.DataSource.Broker.ToString();
         }
 
         #endregion Public Constructors

@@ -44,7 +44,7 @@ namespace Quantler.Trades
         #region Public Constructors
 
         public PositionImpl()
-            : this(new ForexSecurity("", DataSource.Broker))
+            : this(new ForexSecurity(""))
         {
         }
 

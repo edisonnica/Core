@@ -217,7 +217,7 @@ namespace Quantler.Tests.Common
         public void PipValueCalcutionsCFD(string symbol, decimal tickvalue, decimal contractsize, decimal ticksize, CurrencyType basecurrency, decimal tick, decimal basevalue, decimal value)
         {
             //Arrange
-            SimAccount naccount = new SimAccount("testing", "test account", 1000, 100, DataSource.Broker);
+            SimAccount naccount = new SimAccount("testing", "test account", 1000, 100);
             TickImpl ntick = new TickImpl(symbol);
             ntick.Bid = tick;
             ntick.Ask = tick;
@@ -229,7 +229,7 @@ namespace Quantler.Tests.Common
             ntickbase.BidSize = int.MaxValue;
             ntickbase.AskSize = int.MaxValue;
 
-            CFDSecurity nsecurity = new CFDSecurity(symbol, DataSource.Broker);
+            CFDSecurity nsecurity = new CFDSecurity(symbol);
             nsecurity.TickValue = tickvalue;
             nsecurity.ContractSize = contractsize;
             nsecurity.TickSize = ticksize;
@@ -246,7 +246,6 @@ namespace Quantler.Tests.Common
             //Assert
             naccount.Securities[symbol].PipValue.Should().BeApproximately(value, .00001M);
         }
-
         #endregion Public Methods
     }
 }

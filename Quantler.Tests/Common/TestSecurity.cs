@@ -34,7 +34,6 @@ namespace Quantler.Tests.Common
 
             SecurityImpl t = SecurityImpl.Parse(p);
             Assert.True(t.Name == nyse.Name, t.Name);
-            Assert.True(t.HasDest, t.DestEx);
             Assert.True(t.Type == nyse.Type, t.Type.ToString());
 
             SecurityImpl crude = SecurityImpl.Parse("CLV8 FUT GLOBEX");
@@ -43,7 +42,6 @@ namespace Quantler.Tests.Common
             Assert.True(crude.Type == SecurityType.Future, crude.Type.ToString());
             SecurityImpl goog = SecurityImpl.Parse("GOOG");
             Assert.Equal("GOOG", goog.Name);
-            Assert.Equal("Broker", goog.DataSource);
         }
     }
 }

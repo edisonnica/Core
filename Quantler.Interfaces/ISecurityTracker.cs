@@ -21,15 +21,6 @@ namespace Quantler.Interfaces
     /// </summary>
     public interface ISecurityTracker
     {
-        #region Public Properties
-
-        /// <summary>
-        /// Default source for which the securities are traded on, this could be a different broker as well
-        /// </summary>
-        DataSource DefaultSource { get; }
-
-        #endregion Public Properties
-
         #region Public Indexers
 
         /// <summary>
@@ -48,23 +39,6 @@ namespace Quantler.Interfaces
         ISecurity this[string symbol, SecurityType type] { get; }
 
         /// <summary>
-        /// Return a security based on the symbol name and the source on which it is traded
-        /// </summary>
-        /// <param name="symbol"></param>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        ISecurity this[string symbol, DataSource source] { get; }
-
-        /// <summary>
-        /// Return a security based on the symbol name and the source on which it is traded, and its type
-        /// </summary>
-        /// <param name="symbol"></param>
-        /// <param name="source"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        ISecurity this[string symbol, DataSource source, SecurityType type] { get; }
-
-        /// <summary>
         /// Return a security based on the symbol name
         /// </summary>
         /// <param name="symbol"></param>
@@ -76,16 +50,10 @@ namespace Quantler.Interfaces
         #region Public Methods
 
         /// <summary>
-        /// Add a new security to the security tracker for general use, using the default source
+        /// Add a new security to the security tracker for general use
         /// </summary>
         /// <param name="security"></param>
         void AddSecurity(ISecurity security);
-
-        /// <summary>
-        /// Add a new security to the security tracker for general use, connected to a specific source
-        /// </summary>
-        /// <param name="security"></param>
-        void AddSecurity(ISecurity security, DataSource source);
 
         /// <summary>
         /// Get all current securities in an array

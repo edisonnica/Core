@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Quantler.Interfaces
+﻿namespace Quantler.Interfaces
 {
     public enum DataSource
     {
@@ -40,18 +34,20 @@ namespace Quantler.Interfaces
         NordFX,
         OANDA,
         OctaFX,
-        OneFM,
+        OneFinancial,
         Pepperstone,
         ETXCapital,
-        RoboFX,
+        RoboForex,
+        FortFS,
         STOMarkets,
         StoxMarket,
         SVSFX,
         Swissquote,
         Tallinex,
         Tickmill,
+        ThinkForex,
         TradeKing,
-        Valutrades,
+        ValuTrades,
         VantageFX,
         XM,
         Broker //Data retrieved from the broker currently connected to

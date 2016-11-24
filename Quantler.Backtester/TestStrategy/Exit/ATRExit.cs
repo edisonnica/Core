@@ -16,12 +16,12 @@ Lesser General Public License for more details.
 
 using Quantler;
 using Quantler.Interfaces.Indicators;
-using Quantler.Templates;
+using Quantler.Modules;
 using Quantler.Interfaces;
 using System;
 
 //Use the ATR or Average True Range to determine our exit
-class ATRExit : ExitTemplate
+class ATRExit : ExitModule
 {
     //Private
     private AverageTrueRange atr;
@@ -35,7 +35,7 @@ class ATRExit : ExitTemplate
     [Parameter(1, 2, 1, "multiplier")]
     public int multiplier { get; set; }
 
-    //Initialize this exit template (runs only once, at our start)
+    //Initialize this exit module (runs only once, at our start)
     public override void Initialize()
     {
         atr = Indicators.AverageTrueRange(atrperiod, Agent.Stream);

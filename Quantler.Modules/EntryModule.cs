@@ -17,9 +17,9 @@ Lesser General Public License for more details.
 using Quantler.Interfaces;
 using System;
 
-namespace Quantler.Templates
+namespace Quantler.Modules
 {
-    public abstract class EntryTemplate : Template
+    public abstract class EntryModule : Module
     {
         #region Public Methods
 
@@ -114,7 +114,7 @@ namespace Quantler.Templates
 
         public virtual void OnCalculate()
         {
-            throw new NotImplementedException("Entry templates need OnCalculate Events!");
+            throw new NotImplementedException("Entry modules need OnCalculate Events!");
         }
 
         #endregion Public Methods

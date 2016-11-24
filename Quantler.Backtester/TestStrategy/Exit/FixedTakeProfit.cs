@@ -15,10 +15,10 @@ Lesser General Public License for more details.
 #endregion
 
 using Quantler;
-using Quantler.Templates;
+using Quantler.Modules;
 
 //Use a fixed pip sized amount to exit a currently held position
-class FixedTakeProfit : ExitTemplate
+class FixedTakeProfit : ExitModule
 {
     //Determine the size in pips before exit
     [Parameter(10, 100, 10, "PipSize")]

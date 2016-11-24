@@ -73,9 +73,9 @@
       <Project>{a3893de4-a831-4ff2-97a9-c306f6bfd1f1}</Project>
       <Name>Quantler.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Quantler.Templates\Quantler.Templates.csproj">
+    <ProjectReference Include="..\Quantler.Modules\Quantler.Modules.csproj">
       <Project>{d71f0a11-0ace-46e7-b625-0dd15ff82d6f}</Project>
-      <Name>Quantler.Templates</Name>
+      <Name>Quantler.Modules</Name>
     </ProjectReference>
     <ProjectReference Include="..\Quantler\Quantler.csproj">
       <Project>{896a5737-5764-4251-9963-32ec4853a042}</Project>

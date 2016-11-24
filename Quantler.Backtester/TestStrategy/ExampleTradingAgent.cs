@@ -22,7 +22,7 @@ internal class ExampleTradingAgent : TradingAgent
     #region Public Constructors
 
     /// <summary>
-    /// Constructor where templates are injected
+    /// Constructor where modules are injected
     /// </summary>
     /// <param name="e"></param>
     /// <param name="p"></param>

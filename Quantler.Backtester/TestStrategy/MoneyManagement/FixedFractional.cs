@@ -16,12 +16,12 @@ Lesser General Public License for more details.
 
 using Quantler;
 using Quantler.Interfaces;
-using Quantler.Templates;
+using Quantler.Modules;
 using System;
 using System.Linq;
 
 //Fixed fractional positionsizing
-class FixedFractional : MoneyManagementTemplate
+class FixedFractional : MoneyManagementModule
 {
     // Determine the fixed fractional percentage 100 = 1% and 200 = 2%
     [Parameter(100, 200, 10, "Fixed Percentage")]

@@ -17,9 +17,9 @@ Lesser General Public License for more details.
 using Quantler.Interfaces;
 using System;
 
-namespace Quantler.Templates
+namespace Quantler.Modules
 {
-    public abstract class ExitTemplate : Template
+    public abstract class ExitModule : Module
     {
         #region Public Methods
 
@@ -76,7 +76,7 @@ namespace Quantler.Templates
 
         public virtual void OnCalculate()
         {
-            throw new NotImplementedException("Exit templates need OnCalculate Events!");
+            throw new NotImplementedException("Exit modules need OnCalculate Events!");
         }
 
         #endregion Public Methods

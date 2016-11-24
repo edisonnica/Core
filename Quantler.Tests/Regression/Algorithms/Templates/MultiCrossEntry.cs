@@ -1,13 +1,13 @@
 ﻿using Quantler;
 using Quantler.Interfaces;
 using Quantler.Interfaces.Indicators;
-using Quantler.Templates;
+using Quantler.Modules;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Quantler.Tests.Regression.Algorithms.Templates
+namespace Quantler.Tests.Regression.Algorithms.Modules
 {
-    public class MultiCrossEntry : EntryTemplate
+    public class MultiCrossEntry : EntryModule
     {
         //Private
         Dictionary<ISecurity, ExponentialMovingAverage> _emaslow = new Dictionary<ISecurity, ExponentialMovingAverage>();
@@ -23,7 +23,7 @@ namespace Quantler.Tests.Regression.Algorithms.Templates
 
         public override void Initialize()
         {
-            //initialize this entry template using base symbol
+            //initialize this entry module using base symbol
             _emaslow.Add(Agent.Security, Indicators.ExponentialMovingAverage(fastperiod, Agent.Stream));
             _emafast.Add(Agent.Security, Indicators.ExponentialMovingAverage(fastperiod, Agent.Stream));
 

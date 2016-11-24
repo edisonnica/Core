@@ -16,7 +16,7 @@ Lesser General Public License for more details.
 
 using NLog;
 using Quantler.Interfaces;
-using Quantler.Templates;
+using Quantler.Modules;
 using Quantler.Tracker;
 using Quantler.Trades;
 using System;
@@ -40,7 +40,7 @@ namespace Quantler.Agent
         private DateTime _started = DateTime.UtcNow;
 
         //Storage
-        private List<ITemplate> _templates = new List<ITemplate>();
+        private List<IModule> _modules = new List<IModule>();
 
         #endregion Private Fields
 
@@ -70,7 +70,7 @@ namespace Quantler.Agent
         }
 
         /// <summary>
-        /// Storage for the decisions made by the templates
+        /// Storage for the decisions made by the modules
         /// </summary>
         public Dictionary<string, List<AgentState>> CurrentState
         {
@@ -151,11 +151,11 @@ namespace Quantler.Agent
         }
 
         /// <summary>
-        /// Return the currently associated statistic templates
+        /// Return the currently associated statistic modules
         /// </summary>
-        public ITemplate[] Statistics
+        public IModule[] Statistics
         {
-            get { return Templates.Where(x => x is StatisticTemplate).ToArray(); }
+            get { return Modules.Where(x => x is StatisticModule).ToArray(); }
         }
 
         /// <summary>
@@ -176,18 +176,18 @@ namespace Quantler.Agent
         }
 
         /// <summary>
-        /// Collection of all templates associated to this agent
+        /// Collection of all modules associated to this agent
         /// </summary>
-        public ITemplate[] Templates
+        public IModule[] Modules
         {
             get
             {
-                return _templates.ToArray();
+                return _modules.ToArray();
             }
             set
             {
                 if (!IsRunning)
-                    _templates = value.ToList();
+                    _modules = value.ToList();
             }
         }
 
@@ -205,19 +205,19 @@ namespace Quantler.Agent
         #region Public Methods
 
         /// <summary>
-        /// Add a new template to the existing templates (not needed when using the dep inj method)
+        /// Add a new modules to the existing modules (not needed when using the dep inj method)
         /// </summary>
-        /// <param name="template"></param>
-        public void AddTemplate(ITemplate template)
+        /// <param name="modules"></param>
+        public void AddModule(IModule module)
         {
             if (!IsRunning)
-                _templates.Add(template);
+                _modules.Add(module);
         }
 
-        public void ChartUpdate(ITemplate template, string name, ChartType type, decimal value)
+        public void ChartUpdate(IModule module, string name, ChartType type, decimal value)
         {
             if (OnChartUpdate != null)
-                OnChartUpdate(this, template, name, value, type);
+                OnChartUpdate(this, module, name, value, type);
         }
 
         /// <summary>
@@ -265,13 +265,13 @@ namespace Quantler.Agent
                 stream.GotNewBar += Stream_GotNewBar;
 
             //Associate agent
-            _templates.ForEach(x => x.Agent = this);
+            _modules.ForEach(x => x.Agent = this);
 
-            //init all templates
-            _templates.ForEach(x => x.Initialize());
+            //init all module
+            _modules.ForEach(x => x.Initialize());
 
             //Set all events
-            _templates.ForEach(AddEvent);
+            _modules.ForEach(AddEvent);
 
             //Set current decisions
             CurrentState = new Dictionary<string, List<AgentState>>();
@@ -361,7 +361,7 @@ namespace Quantler.Agent
             _logger.Log(lvl, "[Agent: {0}] " + string.Format(message, args), AgentId);
         }
 
-        private MethodInfo SearchTemplateMethod(Type instance, string name, params Type[] parmType)
+        private MethodInfo SearchModuleMethod(Type instance, string name, params Type[] parmType)
         {
             return instance.GetMethods()
                                  .Where(x => x.Name == name)

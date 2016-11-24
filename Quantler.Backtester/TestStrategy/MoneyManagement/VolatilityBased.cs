@@ -17,11 +17,11 @@ Lesser General Public License for more details.
 using Quantler;
 using Quantler.Interfaces;
 using Quantler.Interfaces.Indicators;
-using Quantler.Templates;
+using Quantler.Modules;
 using System;
 using System.Linq;
 
-class VolatilityBased : MoneyManagementTemplate
+class VolatilityBased : MoneyManagementModule
 {
     //Private
     private AverageTrueRange ATR;

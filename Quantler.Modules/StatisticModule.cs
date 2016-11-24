@@ -1,5 +1,4 @@
-﻿#region License
-/*
+﻿/*
 Copyright (c) Quantler B.V., All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -12,11 +11,19 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
 */
-#endregion
 
-namespace Quantler.Tests.Templates
+namespace Quantler.Modules
 {
-    public class TestTemplate
+    public abstract class StatisticModule : Module
     {
+        #region Public Methods
+
+        public abstract double GetCurrentValue();
+
+        public abstract bool IsReady();
+
+        public abstract double[] OnCalculate();
+
+        #endregion Public Methods
     }
 }

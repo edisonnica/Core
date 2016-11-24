@@ -16,12 +16,12 @@ Lesser General Public License for more details.
 
 using Quantler;
 using Quantler.Interfaces;
-using Quantler.Templates;
+using Quantler.Modules;
 using System;
 using System.Linq;
 
 //Fixed positionsizing based on a fixed amount of units
-class FixedPositionSizing : MoneyManagementTemplate
+class FixedPositionSizing : MoneyManagementModule
 {
     // Determine the amount of units to trade with
     [Parameter(25, 100, 25, "Fixed Unit Size")]

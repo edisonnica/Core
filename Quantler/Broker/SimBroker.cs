@@ -671,7 +671,7 @@ namespace Quantler.Broker
             if (!pendingorder.Order.IsValid || pendingorder.IsCancelled)
                 pendingorder.Cancel();
 
-            //Send updates to any templates
+            //Send updates to any modules
             if (GotOrderUpdate != null)
                 GotOrderUpdate(pendingorder);
         }

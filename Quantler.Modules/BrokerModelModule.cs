@@ -16,9 +16,9 @@ Lesser General Public License for more details.
 
 using Quantler.Interfaces;
 
-namespace Quantler.Templates
+namespace Quantler.Modules
 {
-    public abstract class BrokerModelTemplate : Template, BrokerModel
+    public abstract class BrokerModelModule : Module, BrokerModel
     {
         #region Public Methods
 

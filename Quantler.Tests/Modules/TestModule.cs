@@ -1,8 +1,6 @@
 ﻿#region License
 /*
-Copyright Quantler BV, based on original code copyright Tradelink.org. 
-This file is released under the GNU Lesser General Public License v3. http://www.gnu.org/copyleft/lgpl.html
-
+Copyright (c) Quantler B.V., All rights reserved.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -16,9 +14,9 @@ Lesser General Public License for more details.
 */
 #endregion
 
-namespace Quantler.Tests.Templates
+namespace Quantler.Tests.Modules
 {
-    public class TestStatistic
+    public class TestModules
     {
     }
 }

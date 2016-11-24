@@ -13,12 +13,12 @@ Lesser General Public License for more details.
 */
 
 using Quantler.Interfaces;
-using Quantler.Templates;
+using Quantler.Modules;
 
 /// <summary>
 /// Generic trading costs model
 /// </summary>
-public class GenericBrokerModel : BrokerModelTemplate
+public class GenericBrokerModel : BrokerModelModule
 {
     #region Public Properties
 

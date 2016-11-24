@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Quantler.Tests.Regression
 {
     /// <summary>
-    /// Test a full trading agent (consisting of multiple templates)
+    /// Test a full trading agent (consisting of multiple modules)
     /// </summary>
     public class FullAgentTest
     {

@@ -1,13 +1,13 @@
 ﻿using Quantler;
 using Quantler.Interfaces;
 using Quantler.Interfaces.Indicators;
-using Quantler.Templates;
+using Quantler.Modules;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using System;
 
 // EMA CrossOver Entry Example
-class EMACrossExample : EntryTemplate
+class EMACrossExample : EntryModule
 {
     //Private
     private ExponentialMovingAverage emaslow;
@@ -23,7 +23,7 @@ class EMACrossExample : EntryTemplate
 
     public override void Initialize()
     {
-        //initialize this entry template
+        //initialize this entry module
         emaslow = Indicators.ExponentialMovingAverage(slowperiod, Agent.Stream);
         emafast = Indicators.ExponentialMovingAverage(fastperiod, Agent.Stream);
 

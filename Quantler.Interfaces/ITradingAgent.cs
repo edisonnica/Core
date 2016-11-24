@@ -25,7 +25,7 @@ namespace Quantler.Interfaces
         #region Public Events
 
         /// <summary>
-        /// Chart updates send by a template within an agent
+        /// Chart updates send by a module within an agent
         /// </summary>
         event ChartUpdate OnChartUpdate;
 
@@ -39,12 +39,12 @@ namespace Quantler.Interfaces
         int AgentId { get; set; }
 
         /// <summary>
-        /// Returns the period in bars needed for backfilling as set by any of the templates
+        /// Returns the period in bars needed for backfilling as set by any of the modules
         /// </summary>
         int BackFillingBars { get; }
 
         /// <summary>
-        /// Returns the period in time needed for backfilling as set by any of the templates
+        /// Returns the period in time needed for backfilling as set by any of the modules
         /// </summary>
         TimeSpan BackFillingPeriod { get; }
 
@@ -125,9 +125,9 @@ namespace Quantler.Interfaces
         DateTime StartedDTUTC { get; }
 
         /// <summary>
-        /// Returns all statistic templates used by this agent
+        /// Returns all statistic modules used by this agent
         /// </summary>
-        ITemplate[] Statistics { get; }
+        IModule[] Statistics { get; }
 
         /// <summary>
         /// Default datastream for this agent
@@ -140,9 +140,9 @@ namespace Quantler.Interfaces
         string Symbol { get; }
 
         /// <summary>
-        /// Returns all templates used by this agent
+        /// Returns all modules used by this agent
         /// </summary>
-        ITemplate[] Templates { get; }
+        IModule[] Modules { get; }
 
         /// <summary>
         /// Default timeframe for this agent
@@ -196,7 +196,7 @@ namespace Quantler.Interfaces
         /// <param name="name"></param>
         /// <param name="type"></param>
         /// <param name="value"></param>
-        void ChartUpdate(ITemplate template, string name, ChartType type, decimal value);
+        void ChartUpdate(IModule module, string name, ChartType type, decimal value);
 
         /// <summary>
         /// Create a new order and have it processed by the risk management agent and money management agents

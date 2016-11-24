@@ -15,11 +15,11 @@ Lesser General Public License for more details.
 #endregion
 
 using Quantler;
-using Quantler.Templates;
+using Quantler.Modules;
 using System;
 
 //Use a fixed time event to exit your currently held positions
-internal class VariableTimedExit : ExitTemplate
+internal class VariableTimedExit : ExitModule
 {
     #region Private Fields
 

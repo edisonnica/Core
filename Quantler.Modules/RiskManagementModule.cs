@@ -14,9 +14,13 @@ Lesser General Public License for more details.
 */
 #endregion
 
-namespace Quantler.Tests.Templates
+namespace Quantler.Modules
 {
-    public class TestIndicatorTemplate
+    public abstract class RiskManagementModule : Module
     {
+        public virtual bool IsTradingAllowed()
+        {
+            return true;
+        }
     }
 }

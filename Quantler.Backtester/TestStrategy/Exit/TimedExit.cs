@@ -15,11 +15,11 @@ Lesser General Public License for more details.
 #endregion
 
 using Quantler;
-using Quantler.Templates;
+using Quantler.Modules;
 using System;
 
 //Use a fixed time event to exit your currently held positions
-class TimedExit : ExitTemplate
+class TimedExit : ExitModule
 {
     //Determine the time to exit based on a 24 hour integer format (HHMM)
     [Parameter(2100, 2300, 100, "Exit Time")]

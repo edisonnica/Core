@@ -14,13 +14,9 @@ Lesser General Public License for more details.
 */
 #endregion
 
-namespace Quantler.Templates
+namespace Quantler.Tests.Modules
 {
-    public abstract class RiskManagementTemplate : Template
+    public class TestMoneyManagementModules
     {
-        public virtual bool IsTradingAllowed()
-        {
-            return true;
-        }
     }
 }

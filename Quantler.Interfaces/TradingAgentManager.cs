@@ -36,10 +36,10 @@ namespace Quantler.Interfaces
         void AddEvent(object Event);
 
         /// <summary>
-        /// Add template to the current agent
+        /// Add module to the current agent
         /// </summary>
-        /// <param name="template"></param>
-        void AddTemplate(ITemplate template);
+        /// <param name="module"></param>
+        void AddModule(IModule module);
 
         /// <summary>
         /// Set the default stream on which this agent listens

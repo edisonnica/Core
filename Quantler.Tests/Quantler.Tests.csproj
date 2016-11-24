@@ -142,13 +142,13 @@
     <Compile Include="Regression\FullAgentTest.cs" />
     <Compile Include="Regression\MarginCallTest.cs" />
     <Compile Include="Regression\Util.cs" />
-    <Compile Include="Templates\TestEntryTemplate.cs" />
-    <Compile Include="Templates\TestExitTemplate.cs" />
-    <Compile Include="Templates\TestIndicatorTemplate.cs" />
-    <Compile Include="Templates\TestMoneyManagementTemplate.cs" />
-    <Compile Include="Templates\TestRiskManagementTemplate.cs" />
-    <Compile Include="Templates\TestStatistic.cs" />
-    <Compile Include="Templates\TestTemplate.cs" />
+    <Compile Include="Modules\TestEntryModules.cs" />
+    <Compile Include="Modules\TestExitModules.cs" />
+    <Compile Include="Modules\TestIndicatorModules.cs" />
+    <Compile Include="Modules\TestMoneyManagementModules.cs" />
+    <Compile Include="Modules\TestRiskManagementModules.cs" />
+    <Compile Include="Modules\TestStatistic.cs" />
+    <Compile Include="Modules\TestModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -264,9 +264,9 @@
       <Project>{a3893de4-a831-4ff2-97a9-c306f6bfd1f1}</Project>
       <Name>Quantler.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Quantler.Templates\Quantler.Templates.csproj">
+    <ProjectReference Include="..\Quantler.Modules\Quantler.Modules.csproj">
       <Project>{d71f0a11-0ace-46e7-b625-0dd15ff82d6f}</Project>
-      <Name>Quantler.Templates</Name>
+      <Name>Quantler.Modules</Name>
     </ProjectReference>
     <ProjectReference Include="..\Quantler\Quantler.csproj">
       <Project>{896a5737-5764-4251-9963-32ec4853a042}</Project>

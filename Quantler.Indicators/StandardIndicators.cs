@@ -41,260 +41,248 @@ namespace Quantler.Indicators
 
         public Interfaces.Indicators.Aroon Aroon(int period, DataStream stream, TimeSpan barSize, Func<Bar, decimal> computeLow, Func<Bar, decimal> computeHigh)
         {
-            var ntemplate = new Aroon(period, barSize, stream, computeLow, computeHigh);
-            return _manager.Subscribe<Aroon>(ntemplate);
+            var nmodule = new Aroon(period, barSize, stream, computeLow, computeHigh);
+            return _manager.Subscribe<Aroon>(nmodule);
         }
 
         public Interfaces.Indicators.Aroon Aroon(int period, DataStream stream, TimeSpan barSize)
         {
-            var ntemplate = new Aroon(period, barSize, stream);
-            return _manager.Subscribe<Aroon>(ntemplate);
+            var nmodule = new Aroon(period, barSize, stream);
+            return _manager.Subscribe<Aroon>(nmodule);
         }
 
         public Interfaces.Indicators.Aroon Aroon(int period, DataStream stream)
         {
-            var ntemplate = new Aroon(period, _manager.Agent.TimeFrame, stream);
-            return _manager.Subscribe<Aroon>(ntemplate);
+            var nmodule = new Aroon(period, _manager.Agent.TimeFrame, stream);
+            return _manager.Subscribe<Aroon>(nmodule);
         }
 
         public Interfaces.Indicators.AroonOscillator AroonOscillator(int period, DataStream stream, TimeSpan barSize, Func<Bar, decimal> computeLow, Func<Bar, decimal> computeHigh)
         {
-            var ntemplate = new AroonOscillator(period, barSize, stream, computeLow, computeHigh);
-            return _manager.Subscribe<AroonOscillator>(ntemplate);
+            var nmodule = new AroonOscillator(period, barSize, stream, computeLow, computeHigh);
+            return _manager.Subscribe<AroonOscillator>(nmodule);
         }
 
         public Interfaces.Indicators.AroonOscillator AroonOscillator(int period, DataStream stream, TimeSpan barSize)
         {
-            var ntemplate = new AroonOscillator(period, barSize, stream);
-            return _manager.Subscribe<AroonOscillator>(ntemplate);
+            var nmodule = new AroonOscillator(period, barSize, stream);
+            return _manager.Subscribe<AroonOscillator>(nmodule);
         }
 
         public Interfaces.Indicators.AroonOscillator AroonOscillator(int period, DataStream stream)
         {
-            var ntemplate = new AroonOscillator(period, _manager.Agent.TimeFrame, stream);
-            return _manager.Subscribe<AroonOscillator>(ntemplate);
+            var nmodule = new AroonOscillator(period, _manager.Agent.TimeFrame, stream);
+            return _manager.Subscribe<AroonOscillator>(nmodule);
         }
 
         public Interfaces.Indicators.AverageTrueRange AverageTrueRange(int period, DataStream stream)
         {
-            var ntemplate = new AverageTrueRange(period, _manager.Agent.TimeFrame, stream);
-            return _manager.Subscribe<AverageTrueRange>(ntemplate);
+            var nmodule = new AverageTrueRange(period, _manager.Agent.TimeFrame, stream);
+            return _manager.Subscribe<AverageTrueRange>(nmodule);
         }
 
         public Interfaces.Indicators.AverageTrueRange AverageTrueRange(int period, DataStream stream, TimeSpan barSize)
         {
-            var ntemplate = new AverageTrueRange(period, barSize, stream);
-            return _manager.Subscribe<AverageTrueRange>(ntemplate);
+            var nmodule = new AverageTrueRange(period, barSize, stream);
+            return _manager.Subscribe<AverageTrueRange>(nmodule);
         }
-
-        //public Interfaces.Indicators.BalanceOfPower BalanceOfPower(DataStream stream)
-        //{
-        //    var ntemplate = new BalanceOfPower(stream);
-        //    return Manager.Subscribe<BalanceOfPower>(ntemplate);
-        //}
-
-        //public Interfaces.Indicators.BalanceOfPower BalanceOfPower(DataStream stream, TimeSpan BarSize)
-        //{
-        //    var ntemplate = new BalanceOfPower(stream, BarSize);
-        //    return Manager.Subscribe<BalanceOfPower>(ntemplate);
-        //}
 
         public Interfaces.Indicators.BollingerBands BollingerBands(int period, double sdUp, double sdDown, DataStream stream)
         {
-            var ntemplate = new BollingerBands(period, sdUp, sdDown, stream, _manager.Agent.TimeFrame);
-            return _manager.Subscribe<BollingerBands>(ntemplate);
+            var nmodule = new BollingerBands(period, sdUp, sdDown, stream, _manager.Agent.TimeFrame);
+            return _manager.Subscribe<BollingerBands>(nmodule);
         }
 
         public Interfaces.Indicators.BollingerBands BollingerBands(int period, double sdUp, double sdDown, DataStream stream, TimeSpan barSize)
         {
-            var ntemplate = new BollingerBands(period, sdUp, sdDown, stream, barSize);
-            return _manager.Subscribe<BollingerBands>(ntemplate);
+            var nmodule = new BollingerBands(period, sdUp, sdDown, stream, barSize);
+            return _manager.Subscribe<BollingerBands>(nmodule);
         }
 
         public Interfaces.Indicators.BollingerBands BollingerBands(int period, double sdUp, double sdDown, DataStream stream, TimeSpan barSize, MovingAverageType maType)
         {
-            var ntemplate = new BollingerBands(period, sdUp, sdDown, stream, barSize, maType);
-            return _manager.Subscribe<BollingerBands>(ntemplate);
+            var nmodule = new BollingerBands(period, sdUp, sdDown, stream, barSize, maType);
+            return _manager.Subscribe<BollingerBands>(nmodule);
         }
 
         public Interfaces.Indicators.BollingerBands BollingerBands(int period, double sdUp, double sdDown, DataStream stream, TimeSpan barSize, MovingAverageType maType, Func<Bar, decimal> compute)
         {
-            var ntemplate = new BollingerBands(period, sdUp, sdDown, stream, barSize, maType, compute);
-            return _manager.Subscribe<BollingerBands>(ntemplate);
+            var nmodule = new BollingerBands(period, sdUp, sdDown, stream, barSize, maType, compute);
+            return _manager.Subscribe<BollingerBands>(nmodule);
         }
 
         public Interfaces.Indicators.ChandeMomentumOscillator ChandeMomentumOscillator(int period, DataStream stream)
         {
-            var ntemplate = new ChandeMomentumOscillator(period, _manager.Agent.TimeFrame, stream);
-            return _manager.Subscribe<ChandeMomentumOscillator>(ntemplate);
+            var nmodule = new ChandeMomentumOscillator(period, _manager.Agent.TimeFrame, stream);
+            return _manager.Subscribe<ChandeMomentumOscillator>(nmodule);
         }
 
         public Interfaces.Indicators.ChandeMomentumOscillator ChandeMomentumOscillator(int period, DataStream stream, TimeSpan barSize, Func<Bar, decimal> comp = null)
         {
-            var ntemplate = new ChandeMomentumOscillator(period, barSize, stream, comp);
-            return _manager.Subscribe<ChandeMomentumOscillator>(ntemplate);
+            var nmodule = new ChandeMomentumOscillator(period, barSize, stream, comp);
+            return _manager.Subscribe<ChandeMomentumOscillator>(nmodule);
         }
 
         public Interfaces.Indicators.CommodityChannelIndex CommodityChannelIndex(int period, DataStream stream)
         {
-            var ntemplate = new CommodityChannelIndex(period, _manager.Agent.TimeFrame, stream);
-            return _manager.Subscribe<CommodityChannelIndex>(ntemplate);
+            var nmodule = new CommodityChannelIndex(period, _manager.Agent.TimeFrame, stream);
+            return _manager.Subscribe<CommodityChannelIndex>(nmodule);
         }
 
         public Interfaces.Indicators.CommodityChannelIndex CommodityChannelIndex(int period, DataStream stream, TimeSpan barSize)
         {
-            var ntemplate = new CommodityChannelIndex(period, barSize, stream);
-            return _manager.Subscribe<CommodityChannelIndex>(ntemplate);
+            var nmodule = new CommodityChannelIndex(period, barSize, stream);
+            return _manager.Subscribe<CommodityChannelIndex>(nmodule);
         }
 
         public Interfaces.Indicators.ExponentialMovingAverage ExponentialMovingAverage(int period, DataStream stream)
         {
-            var ntemplate = new ExponentialMovingAverage(period, _manager.Agent.TimeFrame, stream);
-            return _manager.Subscribe<ExponentialMovingAverage>(ntemplate);
+            var nmodule = new ExponentialMovingAverage(period, _manager.Agent.TimeFrame, stream);
+            return _manager.Subscribe<ExponentialMovingAverage>(nmodule);
         }
 
         public Interfaces.Indicators.ExponentialMovingAverage ExponentialMovingAverage(int period, DataStream stream, TimeSpan barSize, Func<Bar, decimal> comp = null)
         {
-            var ntemplate = new ExponentialMovingAverage(period, barSize, stream, comp);
-            return _manager.Subscribe<ExponentialMovingAverage>(ntemplate);
+            var nmodule = new ExponentialMovingAverage(period, barSize, stream, comp);
+            return _manager.Subscribe<ExponentialMovingAverage>(nmodule);
         }
 
         Interfaces.Indicators.AverageDirectionalIndex IndicatorFactory.AverageDirectionalIndex(int period, DataStream stream)
         {
-            var ntemplate = new DirectionalIndex(period, stream, _manager.Agent.TimeFrame);
-            return _manager.Subscribe<DirectionalIndex>(ntemplate);
+            var nmodule = new DirectionalIndex(period, stream, _manager.Agent.TimeFrame);
+            return _manager.Subscribe<DirectionalIndex>(nmodule);
         }
 
         Interfaces.Indicators.AverageDirectionalIndex IndicatorFactory.AverageDirectionalIndex(int period, DataStream stream, TimeSpan barSize)
         {
-            var ntemplate = new DirectionalIndex(period, stream, barSize);
-            return _manager.Subscribe<DirectionalIndex>(ntemplate);
+            var nmodule = new DirectionalIndex(period, stream, barSize);
+            return _manager.Subscribe<DirectionalIndex>(nmodule);
         }
 
         public Interfaces.Indicators.Momentum Momentum(int period, DataStream stream)
         {
-            var ntemplate = new Momentum(period, _manager.Agent.TimeFrame, stream);
-            return _manager.Subscribe<Momentum>(ntemplate);
+            var nmodule = new Momentum(period, _manager.Agent.TimeFrame, stream);
+            return _manager.Subscribe<Momentum>(nmodule);
         }
 
         public Interfaces.Indicators.Momentum Momentum(int period, DataStream stream, TimeSpan barSize, Func<Bar, decimal> comp = null)
         {
-            var ntemplate = new Momentum(period, barSize, stream, comp);
-            return _manager.Subscribe<Momentum>(ntemplate);
+            var nmodule = new Momentum(period, barSize, stream, comp);
+            return _manager.Subscribe<Momentum>(nmodule);
         }
 
         public Interfaces.Indicators.MovingAverage MovingAverage(int period, MovingAverageType maType, DataStream stream)
         {
-            var ntemplate = new MovingAverage(period, maType, stream, _manager.Agent.TimeFrame);
-            return _manager.Subscribe<MovingAverage>(ntemplate);
+            var nmodule = new MovingAverage(period, maType, stream, _manager.Agent.TimeFrame);
+            return _manager.Subscribe<MovingAverage>(nmodule);
         }
 
         public Interfaces.Indicators.MovingAverage MovingAverage(int period, MovingAverageType maType, DataStream stream, TimeSpan barSize, Func<Bar, decimal> comp = null)
         {
-            var ntemplate = new MovingAverage(period, barSize, maType, stream, comp);
-            return _manager.Subscribe<MovingAverage>(ntemplate);
+            var nmodule = new MovingAverage(period, barSize, maType, stream, comp);
+            return _manager.Subscribe<MovingAverage>(nmodule);
         }
 
         public Interfaces.Indicators.MovingAverageConDiv MovingAverageConDiv(int fastPeriod, int slowPeriod, int signalPeriod, TimeSpan barSize, DataStream stream, Func<Bar, decimal> comp = null)
         {
-            var ntemplate = new MovingAverageConDiv(fastPeriod, slowPeriod, signalPeriod, barSize, stream, comp);
-            return _manager.Subscribe<MovingAverageConDiv>(ntemplate);
+            var nmodule = new MovingAverageConDiv(fastPeriod, slowPeriod, signalPeriod, barSize, stream, comp);
+            return _manager.Subscribe<MovingAverageConDiv>(nmodule);
         }
 
         public Interfaces.Indicators.MovingAverageConDiv MovingAverageConDiv(int fastPeriod, int slowPeriod, int signalPeriod, DataStream stream)
         {
-            var ntemplate = new MovingAverageConDiv(fastPeriod, slowPeriod, signalPeriod, stream, _manager.Agent.TimeFrame);
-            return _manager.Subscribe<MovingAverageConDiv>(ntemplate);
+            var nmodule = new MovingAverageConDiv(fastPeriod, slowPeriod, signalPeriod, stream, _manager.Agent.TimeFrame);
+            return _manager.Subscribe<MovingAverageConDiv>(nmodule);
         }
 
         public ParabolicSAR ParabolicSAR(int period, double accelerator, double maximum, DataStream stream)
         {
-            var ntemplate = new ParabolicSar(period, accelerator, maximum, stream, _manager.Agent.TimeFrame);
-            return _manager.Subscribe<ParabolicSar>(ntemplate);
+            var nmodule = new ParabolicSar(period, accelerator, maximum, stream, _manager.Agent.TimeFrame);
+            return _manager.Subscribe<ParabolicSar>(nmodule);
         }
 
         public ParabolicSAR ParabolicSAR(int period, double accelerator, double maximum, DataStream stream, TimeSpan barSize)
         {
-            var ntemplate = new ParabolicSar(period, accelerator, maximum, stream, barSize);
-            return _manager.Subscribe<ParabolicSar>(ntemplate);
+            var nmodule = new ParabolicSar(period, accelerator, maximum, stream, barSize);
+            return _manager.Subscribe<ParabolicSar>(nmodule);
         }
 
         public ParabolicSAR ParabolicSAR(int period, double accelerator, double maximum, DataStream stream, TimeSpan barSize, Func<Bar, decimal> calcHigh, Func<Bar, decimal> calcLow)
         {
-            var ntemplate = new ParabolicSar(period, accelerator, maximum, stream, barSize, calcHigh, calcLow);
-            return _manager.Subscribe<ParabolicSar>(ntemplate);
+            var nmodule = new ParabolicSar(period, accelerator, maximum, stream, barSize, calcHigh, calcLow);
+            return _manager.Subscribe<ParabolicSar>(nmodule);
         }
 
         public Interfaces.Indicators.RateOfChange RateOfChange(int period, DataStream stream)
         {
-            var ntemplate = new RateOfChange(period, _manager.Agent.TimeFrame, stream);
-            return _manager.Subscribe<RateOfChange>(ntemplate);
+            var nmodule = new RateOfChange(period, _manager.Agent.TimeFrame, stream);
+            return _manager.Subscribe<RateOfChange>(nmodule);
         }
 
         public Interfaces.Indicators.RateOfChange RateOfChange(int period, DataStream stream, TimeSpan barSize, Func<Bar, decimal> comp = null)
         {
-            var ntemplate = new RateOfChange(period, barSize, stream, comp);
-            return _manager.Subscribe<RateOfChange>(ntemplate);
+            var nmodule = new RateOfChange(period, barSize, stream, comp);
+            return _manager.Subscribe<RateOfChange>(nmodule);
         }
 
         public Interfaces.Indicators.RelativeStrengthIndex RelativeStrengthIndex(int period, DataStream stream)
         {
-            var ntemplate = new RelativeStrengthIndex(period, stream, _manager.Agent.TimeFrame);
-            return _manager.Subscribe<RelativeStrengthIndex>(ntemplate);
+            var nmodule = new RelativeStrengthIndex(period, stream, _manager.Agent.TimeFrame);
+            return _manager.Subscribe<RelativeStrengthIndex>(nmodule);
         }
 
         public Interfaces.Indicators.RelativeStrengthIndex RelativeStrengthIndex(int period, DataStream stream, TimeSpan barSize, Func<Bar, decimal> comp = null)
         {
-            var ntemplate = new RelativeStrengthIndex(period, stream, barSize, comp);
-            return _manager.Subscribe<RelativeStrengthIndex>(ntemplate);
+            var nmodule = new RelativeStrengthIndex(period, stream, barSize, comp);
+            return _manager.Subscribe<RelativeStrengthIndex>(nmodule);
         }
 
         public Interfaces.Indicators.SimpleMovingAverage SimpleMovingAverage(int period, DataStream stream)
         {
-            var ntemplate = new SimpleMovingAverage(period, _manager.Agent.TimeFrame, stream);
-            return _manager.Subscribe<SimpleMovingAverage>(ntemplate);
+            var nmodule = new SimpleMovingAverage(period, _manager.Agent.TimeFrame, stream);
+            return _manager.Subscribe<SimpleMovingAverage>(nmodule);
         }
 
         public Interfaces.Indicators.SimpleMovingAverage SimpleMovingAverage(int period, DataStream stream, TimeSpan barSize, Func<Bar, decimal> comp = null)
         {
-            var ntemplate = new SimpleMovingAverage(period, barSize, stream, comp);
-            return _manager.Subscribe<SimpleMovingAverage>(ntemplate);
+            var nmodule = new SimpleMovingAverage(period, barSize, stream, comp);
+            return _manager.Subscribe<SimpleMovingAverage>(nmodule);
         }
 
         public Interfaces.Indicators.TrueRange TrueRange(DataStream stream)
         {
-            var ntemplate = new TrueRange(stream, _manager.Agent.TimeFrame);
-            return _manager.Subscribe<TrueRange>(ntemplate);
+            var nmodule = new TrueRange(stream, _manager.Agent.TimeFrame);
+            return _manager.Subscribe<TrueRange>(nmodule);
         }
 
         public Interfaces.Indicators.TrueRange TrueRange(DataStream stream, TimeSpan barSize)
         {
-            var ntemplate = new TrueRange(stream, barSize);
-            return _manager.Subscribe<TrueRange>(ntemplate);
+            var nmodule = new TrueRange(stream, barSize);
+            return _manager.Subscribe<TrueRange>(nmodule);
         }
 
         public Interfaces.Indicators.WeightedMovingAverage WeightedMovingAverage(int period, DataStream stream)
         {
-            var ntemplate = new WeightedMovingAverage(period, _manager.Agent.TimeFrame, stream);
-            return _manager.Subscribe<WeightedMovingAverage>(ntemplate);
+            var nmodule = new WeightedMovingAverage(period, _manager.Agent.TimeFrame, stream);
+            return _manager.Subscribe<WeightedMovingAverage>(nmodule);
         }
 
         public Interfaces.Indicators.WeightedMovingAverage WeightedMovingAverage(int period, DataStream stream, TimeSpan barSize, Func<Bar, decimal> comp = null)
         {
-            var ntemplate = new WeightedMovingAverage(period, barSize, stream, comp);
-            return _manager.Subscribe<WeightedMovingAverage>(ntemplate);
+            var nmodule = new WeightedMovingAverage(period, barSize, stream, comp);
+            return _manager.Subscribe<WeightedMovingAverage>(nmodule);
         }
 
         public Interfaces.Indicators.WilliamsR WilliamsR(int period, DataStream stream)
         {
-            var ntemplate = new WilliamsR(period, stream, _manager.Agent.TimeFrame);
-            return _manager.Subscribe<WilliamsR>(ntemplate);
+            var nmodule = new WilliamsR(period, stream, _manager.Agent.TimeFrame);
+            return _manager.Subscribe<WilliamsR>(nmodule);
         }
 
         public Interfaces.Indicators.WilliamsR WilliamsR(int period, DataStream stream, TimeSpan barSize)
         {
-            var ntemplate = new WilliamsR(period, stream, barSize);
-            return _manager.Subscribe<WilliamsR>(ntemplate);
+            var nmodule = new WilliamsR(period, stream, barSize);
+            return _manager.Subscribe<WilliamsR>(nmodule);
         }
 
         #endregion Public Methods

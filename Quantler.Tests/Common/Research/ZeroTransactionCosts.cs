@@ -1,8 +1,8 @@
-﻿using Quantler.Templates;
+﻿using Quantler.Modules;
 
 namespace Quantler.Tests.Common.Research
 {
-    public class ZeroTransactionCosts : BrokerModelTemplate
+    public class ZeroTransactionCosts : BrokerModelModule
     {
     }
 }

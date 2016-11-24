@@ -16,11 +16,11 @@ Lesser General Public License for more details.
 
 using Quantler;
 using Quantler.Interfaces;
-using Quantler.Templates;
+using Quantler.Modules;
 using System.Linq;
 
 //Use a fixed stop amount to manage new positions
-class FixedStop : RiskManagementTemplate
+class FixedStop : RiskManagementModule
 {
     //Specify stop amount in pips
     [Parameter(20, 50, 10, "Stop Pips")]

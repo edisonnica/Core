@@ -14,9 +14,9 @@ Lesser General Public License for more details.
 */
 #endregion
 
-namespace Quantler.Tests.Templates
+namespace Quantler.Tests.Modules
 {
-    public class TestRiskManagementTemplate
+    public class TestEntryModules
     {
     }
 }

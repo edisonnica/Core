@@ -1,13 +1,13 @@
 ﻿using Quantler;
 using Quantler.Interfaces;
 using Quantler.Interfaces.Indicators;
-using Quantler.Templates;
+using Quantler.Modules;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Quantler.Tests.Regression.Algorithms.Templates
+namespace Quantler.Tests.Regression.Algorithms.Modules
 {
-    public class EMACrossEntry : EntryTemplate
+    public class EMACrossEntry : EntryModule
     {
         //Private
         private ExponentialMovingAverage emaslow;
@@ -23,7 +23,7 @@ namespace Quantler.Tests.Regression.Algorithms.Templates
 
         public override void Initialize()
         {
-            //initialize this entry template
+            //initialize this entry module
             emaslow = Indicators.ExponentialMovingAverage(slowperiod, Agent.Stream);
             emafast = Indicators.ExponentialMovingAverage(fastperiod, Agent.Stream);
         }

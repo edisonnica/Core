@@ -22,7 +22,7 @@ using System;
 
 namespace Quantler.Interfaces
 {
-    public delegate void ChartUpdate(ITradingAgent agent, ITemplate template, string Name, decimal Value, ChartType chart);
+    public delegate void ChartUpdate(ITradingAgent agent, IModule module, string Name, decimal Value, ChartType chart);
 
     public delegate void FillDelegate(Trade t, PendingOrder o);
 

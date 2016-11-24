@@ -17,7 +17,7 @@ Lesser General Public License for more details.
 using NLog;
 using Quantler.Interfaces;
 using Quantler.Reflection;
-using Quantler.Templates;
+using Quantler.Modules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,20 +52,20 @@ namespace Quantler.Agent
 
         #region Public Methods
 
-        public void AddEvent(object template)
+        public void AddEvent(object module)
         {
-            Type baseType = template.GetType().BaseType;
+            Type baseType = module.GetType().BaseType;
             DataStream[] streams = new DataStream[0];
-            if (baseType == typeof(IndicatorTemplate) || baseType == typeof(Indicators.IndicatorBase))
-                streams = ((Indicator)template).DataStreams;
+            if (baseType == typeof(IndicatorModule) || baseType == typeof(Indicators.IndicatorBase))
+                streams = ((Indicator)module).DataStreams;
 
             //Search for OnBars
-            var found = SearchTemplateMethod(template.GetType(), "OnBar", typeof(Bar));
+            var found = SearchModuleMethod(module.GetType(), "OnBar", typeof(Bar));
             if (found != null)
             {
-                var referencedTemplate = Expression.Constant(template);
+                var referencedModule = Expression.Constant(module);
                 var parameter = Expression.Parameter(typeof(Bar), found.GetParameters()[0].Name);
-                var call = Expression.Call(referencedTemplate, found, parameter);
+                var call = Expression.Call(referencedModule, found, parameter);
 
                 _invokeOnBar.Add(new InvokeLinkVoid<Bar>()
                 {
@@ -77,12 +77,12 @@ namespace Quantler.Agent
             }
 
             //Search for OnOrders
-            found = SearchTemplateMethod(template.GetType(), "OnOrder", typeof(PendingOrder));
+            found = SearchModuleMethod(module.GetType(), "OnOrder", typeof(PendingOrder));
             if (found != null)
             {
-                var referencedTemplate = Expression.Constant(template);
+                var referencedModule = Expression.Constant(module);
                 var parameter = Expression.Parameter(typeof(PendingOrder), found.GetParameters()[0].Name);
-                var call = Expression.Call(referencedTemplate, found, parameter);
+                var call = Expression.Call(referencedModule, found, parameter);
                 _invokeOnOrder.Add(new InvokeLinkVoid<PendingOrder>()
                 {
                     Action = Expression.Lambda<Action<PendingOrder>>(call, parameter).Compile(),
@@ -93,12 +93,12 @@ namespace Quantler.Agent
             }
 
             //Search for OnOrderUpdate
-            found = SearchTemplateMethod(template.GetType(), "OnOrderUpdate", typeof(PendingOrder));
+            found = SearchModuleMethod(module.GetType(), "OnOrderUpdate", typeof(PendingOrder));
             if (found != null)
             {
-                var referencedTemplate = Expression.Constant(template);
+                var referencedModule = Expression.Constant(module);
                 var parameter = Expression.Parameter(typeof(PendingOrder), found.GetParameters()[0].Name);
-                var call = Expression.Call(referencedTemplate, found, parameter);
+                var call = Expression.Call(referencedModule, found, parameter);
                 _invokeOnOrderUpdate.Add(new InvokeLinkVoid<PendingOrder>()
                 {
                     Action = Expression.Lambda<Action<PendingOrder>>(call, parameter).Compile(),
@@ -109,12 +109,12 @@ namespace Quantler.Agent
             }
 
             //Search for OnTicks
-            found = SearchTemplateMethod(template.GetType(), "OnTick", typeof(Tick));
+            found = SearchModuleMethod(module.GetType(), "OnTick", typeof(Tick));
             if (found != null)
             {
-                var referencedTemplate = Expression.Constant(template);
+                var referencedModule = Expression.Constant(module);
                 var parameter = Expression.Parameter(typeof(Tick), found.GetParameters()[0].Name);
-                var call = Expression.Call(referencedTemplate, found, parameter);
+                var call = Expression.Call(referencedModule, found, parameter);
                 _invokeOnTick.Add(new InvokeLinkVoid<Tick>()
                 {
                     Action = Expression.Lambda<Action<Tick>>(call, parameter).Compile(),
@@ -125,13 +125,13 @@ namespace Quantler.Agent
             }
 
             //Search for OnFills
-            found = SearchTemplateMethod(template.GetType(), "OnFill", typeof(Trade), typeof(PendingOrder));
+            found = SearchModuleMethod(module.GetType(), "OnFill", typeof(Trade), typeof(PendingOrder));
             if (found != null)
             {
-                var referencedTemplate = Expression.Constant(template);
+                var referencedModule = Expression.Constant(module);
                 var parameter = Expression.Parameter(typeof(Trade), found.GetParameters()[0].Name);
                 var secondparameter = Expression.Parameter(typeof(PendingOrder), found.GetParameters()[1].Name);
-                var call = Expression.Call(referencedTemplate, found, parameter, secondparameter);
+                var call = Expression.Call(referencedModule, found, parameter, secondparameter);
                 _invokeOnFill.Add(new InvokeLinkVoid<Trade, PendingOrder>()
                 {
                     Action = Expression.Lambda<Action<Trade, PendingOrder>>(call, parameter, secondparameter).Compile(),
@@ -142,51 +142,51 @@ namespace Quantler.Agent
             }
 
             //Search for OnCalculates
-            found = template.GetType().GetMethod("OnCalculate");
+            found = module.GetType().GetMethod("OnCalculate");
             if (found != null)
             {
-                var referencedTemplate = Expression.Constant(template);
-                var call = Expression.Call(referencedTemplate, found);
+                var referencedModule = Expression.Constant(module);
+                var call = Expression.Call(referencedModule, found);
                 OnCalcEvents.Add(new InvokeLinkVoid()
                 {
                     Action = Expression.Lambda<Action>(call).Compile(),
-                    BaseType = template.GetType().BaseType,
+                    BaseType = module.GetType().BaseType,
                     DataStreams = streams
                 });
             }
 
             //Unique events
-            if (template is RiskManagementTemplate)
+            if (module is RiskManagementModule)
             {
-                found = template.GetType().GetMethod("RiskManagement");
+                found = module.GetType().GetMethod("RiskManagement");
                 if (found != null)
                 {
-                    var referencedTemplate = Expression.Constant(template);
+                    var referencedModule = Expression.Constant(module);
                     var parameter = Expression.Parameter(typeof(PendingOrder), found.GetParameters()[0].Name);
                     var secondparameter = Expression.Parameter(typeof(AgentState), found.GetParameters()[0].Name);
-                    var call = Expression.Call(referencedTemplate, found, parameter, secondparameter);
+                    var call = Expression.Call(referencedModule, found, parameter, secondparameter);
                     InvokeRm.Add(new InvokeLinkFunc<PendingOrder, AgentState, PendingOrder>()
                     {
                         Action = Expression.Lambda<Func<PendingOrder, AgentState, PendingOrder>>(call, parameter, secondparameter).Compile(),
-                        BaseType = template.GetType().BaseType,
+                        BaseType = module.GetType().BaseType,
                         ParmType = typeof(PendingOrder),
                         ReturnType = typeof(PendingOrder)
                     });
                 }
             }
-            else if (template is MoneyManagementTemplate)
+            else if (module is MoneyManagementModule)
             {
-                found = template.GetType().GetMethod("PositionSize");
+                found = module.GetType().GetMethod("PositionSize");
                 if (found != null)
                 {
-                    var referencedTemplate = Expression.Constant(template);
+                    var referencedModule = Expression.Constant(module);
                     var parameter = Expression.Parameter(typeof(PendingOrder), found.GetParameters()[0].Name);
                     var secondparameter = Expression.Parameter(typeof(AgentState), found.GetParameters()[0].Name);
-                    var call = Expression.Call(referencedTemplate, found, parameter, secondparameter);
+                    var call = Expression.Call(referencedModule, found, parameter, secondparameter);
                     InvokeMm.Add(new InvokeLinkVoid<PendingOrder, AgentState>()
                     {
                         Action = Expression.Lambda<Action<PendingOrder, AgentState>>(call, parameter, secondparameter).Compile(),
-                        BaseType = template.GetType().BaseType,
+                        BaseType = module.GetType().BaseType,
                         ParmType = typeof(PendingOrder)
                     });
                 }
@@ -201,7 +201,7 @@ namespace Quantler.Agent
         }
 
         /// <summary>
-        /// Execute the on bar event for each new bar to be processed by the associated templates
+        /// Execute the on bar event for each new bar to be processed by the associated modules
         /// </summary>
         /// <param name="bar"></param>
         public void OnBar(Bar bar)
@@ -219,10 +219,10 @@ namespace Quantler.Agent
                 LocalLog(LogLevel.Error, "Could not find stream for symbol {0}", bar.Symbol);
 
             //Execute all OnBar events (Indicators)
-            Exec.InvokeAll(_invokeOnBar, bar, stream, typeof(IndicatorTemplate), typeof(Indicators.IndicatorBase));
+            Exec.InvokeAll(_invokeOnBar, bar, stream, typeof(IndicatorModule), typeof(Indicators.IndicatorBase));
 
             //Execute all OnBar events (nonIndicators)
-            Exec.InvokeAllExclude(_invokeOnBar, bar, typeof(IndicatorTemplate), typeof(Indicators.IndicatorBase));
+            Exec.InvokeAllExclude(_invokeOnBar, bar, typeof(IndicatorModule), typeof(Indicators.IndicatorBase));
 
             //check for main timeframe
             if (bar.CustomInterval != (int)TimeFrame.TotalSeconds)
@@ -233,14 +233,14 @@ namespace Quantler.Agent
             else
                 LocalLog(LogLevel.Trace, "OnBar: Bar is processed for agent calc event, found interval: {0}", bar.CustomInterval);
 
-            //Check all entry template logic
+            //Check all entry module logic
             ClearAgentSate();
-            Exec.InvokeAll(OnCalcEvents, typeof(EntryTemplate));
+            Exec.InvokeAll(OnCalcEvents, typeof(EntryModule));
             Entry();
 
-            //Check all exit template logic
+            //Check all exit module logic
             ClearAgentSate();
-            Exec.InvokeAll(OnCalcEvents, typeof(ExitTemplate));
+            Exec.InvokeAll(OnCalcEvents, typeof(ExitModule));
             Exit();
         }
 
@@ -287,7 +287,7 @@ namespace Quantler.Agent
         }
 
         /// <summary>
-        /// Execute the on tick event for each new tick to be processed by the associated templates
+        /// Execute the on tick event for each new tick to be processed by the associated modules
         /// </summary>
         /// <param name="tick"></param>
         public void OnData(Tick tick)

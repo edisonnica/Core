@@ -16,7 +16,7 @@ Lesser General Public License for more details.
 
 using NLog;
 using Quantler.Interfaces;
-using Quantler.Templates;
+using Quantler.Modules;
 using System.Linq;
 
 namespace Quantler.Agent
@@ -74,7 +74,7 @@ namespace Quantler.Agent
         #region Protected Methods
 
         /// <summary>
-        /// Submit an order that is going through the regular template cycle of orders
+        /// Submit an order that is going through the regular modules cycle of orders
         /// </summary>
         /// <param name="pendingorder"></param>
         /// <param name="state"></param>
@@ -86,8 +86,8 @@ namespace Quantler.Agent
             PendingOrder rmOrder = null;
 
             //Check if we are allowed to trade
-            var types = Templates.Select(x => x.GetType());
-            RiskManagementTemplate rm = (RiskManagementTemplate)Templates.FirstOrDefault(x => x.GetType().BaseType == typeof(RiskManagementTemplate));
+            var types = Modules.Select(x => x.GetType());
+            RiskManagementModule rm = (RiskManagementModule)Modules.FirstOrDefault(x => x.GetType().BaseType == typeof(RiskManagementModule));
 
             if (rm != null
                 && !rm.IsTradingAllowed()
@@ -97,7 +97,7 @@ namespace Quantler.Agent
             //Check risk management
             if (InvokeRm.Count > 0)
             {
-                //Check all Risk Management template logics
+                //Check all Risk Management module logics
                 Exec.InvokeAll(InvokeRm, pendingorder, state);
 
                 //On Order Event

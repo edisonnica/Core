@@ -7,8 +7,8 @@
     <ProjectGuid>{D71F0A11-0ACE-46E7-B625-0DD15FF82D6F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Quantler.Templates</RootNamespace>
-    <AssemblyName>Quantler.Templates</AssemblyName>
+    <RootNamespace>Quantler.Modules</RootNamespace>
+    <AssemblyName>Quantler.Modules</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>13f76494</NuGetPackageImportStamp>
@@ -53,15 +53,15 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntryTemplate.cs" />
-    <Compile Include="ExitTemplate.cs" />
-    <Compile Include="IndicatorTemplate.cs" />
-    <Compile Include="MoneyManagementTemplate.cs" />
+    <Compile Include="EntryModule.cs" />
+    <Compile Include="ExitModule.cs" />
+    <Compile Include="IndicatorModule.cs" />
+    <Compile Include="MoneyManagementModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RiskManagementTemplate.cs" />
-    <Compile Include="StatisticTemplate.cs" />
-    <Compile Include="Template.cs" />
-    <Compile Include="BrokerModelTemplate.cs" />
+    <Compile Include="RiskManagementModule.cs" />
+    <Compile Include="StatisticModule.cs" />
+    <Compile Include="Module.cs" />
+    <Compile Include="BrokerModelModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quantler.Indicators\Quantler.Indicators.csproj">

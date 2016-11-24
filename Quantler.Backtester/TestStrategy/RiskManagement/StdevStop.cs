@@ -1,6 +1,6 @@
 ﻿using Quantler;
 using Quantler.Interfaces;
-using Quantler.Templates;
+using Quantler.Modules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using MathNet.Numerics;
 using MathNet.Numerics.Statistics;
 
 //Use a fixed stop amount to manage new positions
-class Risk_Hedger : RiskManagementTemplate
+class Risk_Hedger : RiskManagementModule
 {
     //Specify arbitrage amount
     [Parameter(10, 100, 10, "Hedged %")]

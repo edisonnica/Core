@@ -16,10 +16,10 @@ Lesser General Public License for more details.
 
 using Quantler;
 using Quantler.Interfaces;
-using Quantler.Templates;
+using Quantler.Modules;
 
-// Price action example entry template
-class PriceActionExample : EntryTemplate
+// Price action example entry module
+class PriceActionExample : EntryModule
 {
     //Amount of bars back to look for changes in the market
     [Parameter(30, 45, 5, "Lookback")]

@@ -1,6 +1,8 @@
 ﻿#region License
 /*
-Copyright (c) Quantler B.V., All rights reserved.
+Copyright Quantler BV, based on original code copyright Tradelink.org. 
+This file is released under the GNU Lesser General Public License v3. http://www.gnu.org/copyleft/lgpl.html
+
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -14,18 +16,9 @@ Lesser General Public License for more details.
 */
 #endregion
 
-namespace Quantler.Templates
+namespace Quantler.Tests.Modules
 {
-    public abstract class StatisticTemplate : Template
+    public class TestStatistic
     {
-        public abstract double GetCurrentValue();
-
-        public abstract bool IsReady();
-
-        #region Public Methods
-
-        public abstract double[] OnCalculate();
-
-        #endregion Public Methods
     }
 }

@@ -15,13 +15,13 @@ Lesser General Public License for more details.
 #endregion
 
 using Quantler.Interfaces;
-using Quantler.Templates;
+using Quantler.Modules;
 using System.Linq;
 
 /// <summary>
 /// FXCM Broker trading costs implementation
 /// </summary>
-public class FXCMBrokerModel : BrokerModelTemplate
+public class FXCMBrokerModel : BrokerModelModule
 {
     /*
      * FXCM Spreads And Commissions - https://www.fxcm.com/advantages/spreads-commissions/

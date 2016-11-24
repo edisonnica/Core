@@ -17,9 +17,9 @@ using Quantler.Interfaces;
 using System;
 using System.Collections.Generic;
 
-namespace Quantler.Templates
+namespace Quantler.Modules
 {
-    public abstract class Template : ITemplate
+    public abstract class Module : IModule
     {
         #region Private Fields
 

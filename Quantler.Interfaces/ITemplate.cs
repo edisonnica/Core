@@ -20,14 +20,14 @@ using System.Collections.Generic;
 namespace Quantler.Interfaces
 {
     /// <summary>
-    /// Base implementation of a template
+    /// Base implementation of a module
     /// </summary>
-    public interface ITemplate
+    public interface IModule
     {
         #region Public Properties
 
         /// <summary>
-        /// Associated agent for this template
+        /// Associated agent for this module
         /// </summary>
         ITradingAgent Agent { get; set; }
 
@@ -47,7 +47,7 @@ namespace Quantler.Interfaces
         IReadOnlyDictionary<string, Tick> CurrentTick { get; }
 
         /// <summary>
-        /// Template ID
+        /// Module ID
         /// </summary>
         int Id { get; }
 
@@ -57,7 +57,7 @@ namespace Quantler.Interfaces
         IndicatorFactory Indicators { get; }
 
         /// <summary>
-        /// Name of this template
+        /// Name of this module
         /// </summary>
         string Name { get; }
 
@@ -112,7 +112,7 @@ namespace Quantler.Interfaces
         PendingOrder CreateOrder(string symbol, Direction direction, decimal quantity, decimal limitPrice, decimal stopPrice, string comment = "");
 
         /// <summary>
-        /// Initialize this template, only called once
+        /// Initialize this module, only called once
         /// </summary>
         void Initialize();
 

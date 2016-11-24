@@ -16,12 +16,12 @@ Lesser General Public License for more details.
 
 using Quantler;
 using Quantler.Interfaces;
-using Quantler.Templates;
+using Quantler.Modules;
 using System;
 using System.Linq;
 
 //Fixed positionsizing based on a fixed amount of units
-class FixedAmountEquity : MoneyManagementTemplate
+class FixedAmountEquity : MoneyManagementModule
 {
     // Determine the fixed amount of equity to risk on a trade (250 USD or 500 USD)
     [Parameter(250, 500, 50, "Fixed Equity Risk")]

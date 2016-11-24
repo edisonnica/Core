@@ -221,9 +221,9 @@ namespace Quantler.Agent
 
             var toreturn = (TradingAgentManager)Activator.CreateInstance(ct, args);
 
-            //Associate templates
-            foreach (ITemplate t in args.OfType<ITemplate>())
-                toreturn.AddTemplate(t);
+            //Associate modules
+            foreach (IModule t in args.OfType<IModule>())
+                toreturn.AddModule(t);
 
             //Asscociate portfolio
             toreturn.SetPortfolio(this);

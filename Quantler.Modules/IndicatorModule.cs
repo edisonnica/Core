@@ -15,9 +15,9 @@ Lesser General Public License for more details.
 using Quantler.Interfaces;
 using System;
 
-namespace Quantler.Templates
+namespace Quantler.Modules
 {
-    public abstract class IndicatorTemplate : Template, Indicator
+    public abstract class IndicatorModule : Module, Indicator
     {
         #region Private Fields
 

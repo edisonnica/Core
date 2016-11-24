@@ -67,7 +67,7 @@ namespace Quantler.Backtester
             np.SetAccount(account);
             np.Securities.AddSecurity(security);
 
-            //ADD AGENT AND INJECT TEMPLATES
+            //ADD AGENT AND INJECT MODULES
             np.InjectAgent<ExampleTradingAgent>();
 
             //Set streams

@@ -14,9 +14,9 @@ Lesser General Public License for more details.
 */
 #endregion
 
-namespace Quantler.Templates
+namespace Quantler.Modules
 {
-    public abstract class MoneyManagementTemplate : Template
+    public abstract class MoneyManagementModule : Module
     {
     }
 }

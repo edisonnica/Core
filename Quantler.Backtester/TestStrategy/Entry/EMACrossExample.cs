@@ -3,7 +3,6 @@ using Quantler.Interfaces;
 using Quantler.Interfaces.Indicators;
 using Quantler.Modules;
 using System.Linq;
-using MathNet.Numerics.LinearAlgebra;
 using System;
 
 // EMA CrossOver Entry Example

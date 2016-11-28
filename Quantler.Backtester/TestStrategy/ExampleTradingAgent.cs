@@ -26,10 +26,9 @@ internal class ExampleTradingAgent : TradingAgent
     /// </summary>
     /// <param name="e"></param>
     /// <param name="p"></param>
-    public ExampleTradingAgent(EMACrossExample e, ATRExit atr, FixedFractional ff, Risk_Hedger fs)
+    public ExampleTradingAgent(EMACrossExample e, ATRExit atr, FixedFractional ff)
     {
         e.slowperiod = 100;
-        fs.arbitrage = 80;
 
         ff.FixedPercentage = 200;
 

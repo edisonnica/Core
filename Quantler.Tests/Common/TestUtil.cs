@@ -149,56 +149,6 @@ namespace Quantler.Tests.Common
             Assert.Equal(2, idx.GetLength(1));
         }
 
-        [Fact(Skip = "Reimplement")]
-        [Trait("Quantler.Common", "Quantler")]
-        public void TradesToClosedPLString()
-        {
-            List<Trade> tradelist = new List<Trade>();
-            string s = "WAG";
-            tradelist.Add(new TradeImpl(s, 47.04m, 300)); // enter
-            tradelist.Add(new TradeImpl(s, 47.31m, 500)); // add
-            tradelist.Add(new TradeImpl(s, 47.74m, -800)); // exit
-
-            string[] closedpl = Util.TradesToClosedPL(tradelist);
-            for (int i = 0; i < closedpl.Length; i++)
-            {
-                string plline = closedpl[i];
-                string[] plrec = plline.Split(',');
-
-                // check record length matches expected
-                int numfields = Enum.GetNames(typeof(TradePlField)).Length;
-                Assert.True(numfields == plrec.Length);
-
-                // validate the values
-                switch (i)
-                {
-                    case 0:
-                        Assert.True(plrec[(int)TradePlField.OpenPl] == "0.00", plrec[(int)TradePlField.OpenPl]);
-                        Assert.True(plrec[(int)TradePlField.ClosedPl] == "0.00", plrec[(int)TradePlField.ClosedPl]);
-                        Assert.True(plrec[(int)TradePlField.OpenSize] == "300", plrec[(int)TradePlField.OpenSize]);
-                        Assert.True(plrec[(int)TradePlField.ClosedSize] == "0", plrec[(int)TradePlField.ClosedSize]);
-                        Assert.True(plrec[(int)TradePlField.AvgPrice] == "47.04", plrec[(int)TradePlField.AvgPrice]);
-                        break;
-
-                    case 1:
-                        Assert.True(plrec[(int)TradePlField.OpenPl] == "81.00", plrec[(int)TradePlField.OpenPl]);
-                        Assert.True(plrec[(int)TradePlField.ClosedPl] == "0.00", plrec[(int)TradePlField.ClosedPl]);
-                        Assert.True(plrec[(int)TradePlField.OpenSize] == "800", plrec[(int)TradePlField.OpenSize]);
-                        Assert.True(plrec[(int)TradePlField.ClosedSize] == "0", plrec[(int)TradePlField.ClosedSize]);
-                        Assert.True(plrec[(int)TradePlField.AvgPrice] == "47.20875", plrec[(int)TradePlField.AvgPrice]); //TODO: this test is false if it is based on stocks, the average price of stock should be rounded to 2 decimals (with FX it is 5)
-                        break;
-
-                    case 2:
-                        Assert.True(plrec[(int)TradePlField.OpenPl] == "0.00", plrec[(int)TradePlField.OpenPl]);
-                        Assert.True(plrec[(int)TradePlField.ClosedPl] == "425.00", plrec[(int)TradePlField.ClosedPl]);
-                        Assert.True(plrec[(int)TradePlField.OpenSize] == "0", plrec[(int)TradePlField.OpenSize]);
-                        Assert.True(plrec[(int)TradePlField.ClosedSize] == "-800", plrec[(int)TradePlField.ClosedSize]);
-                        Assert.True(plrec[(int)TradePlField.AvgPrice] == "0.00", plrec[(int)TradePlField.AvgPrice]);
-                        break;
-                }
-            }
-        }
-
         #endregion Public Methods
     }
 }

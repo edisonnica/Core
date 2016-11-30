@@ -114,7 +114,6 @@
     <Compile Include="Data\TikFile\TikUtil.cs" />
     <Compile Include="Data\TikFile\TikWriter.cs" />
     <Compile Include="Trades\TradeImpl.cs" />
-    <Compile Include="Trades\TradePLField.cs" />
     <Compile Include="Trades\TradeResult.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="IndicatorManager.cs" />

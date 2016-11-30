@@ -52,6 +52,10 @@ namespace Quantler.Agent
 
         #region Public Methods
 
+        /// <summary>
+        /// Subscribe events to this agent
+        /// </summary>
+        /// <param name="module"></param>
         public void AddEvent(object module)
         {
             Type baseType = module.GetType().BaseType;
@@ -299,7 +303,7 @@ namespace Quantler.Agent
             //Set the current Tick
             CurrentTick[tick.Symbol] = tick;
 
-            //Execute all OnBar events (Indicators first)
+            //Execute all OnTick events (Indicators first)
             if (_invokeOnTick.Count > 0 && IsRunning)
                 Exec.InvokeAll(_invokeOnTick, tick, Portfolio.Streams[tick.Symbol]);
         }

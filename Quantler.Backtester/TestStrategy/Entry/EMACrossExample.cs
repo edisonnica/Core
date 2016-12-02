@@ -3,14 +3,14 @@ using Quantler.Interfaces;
 using Quantler.Interfaces.Indicators;
 using Quantler.Modules;
 using System.Linq;
-using System;
 
 // EMA CrossOver Entry Example
 class EMACrossExample : EntryModule
 {
+    private ExponentialMovingAverage emafast;
+
     //Private
     private ExponentialMovingAverage emaslow;
-    private ExponentialMovingAverage emafast;
 
     //Fast EMA period
     [Parameter(20, 50, 10, "FastEMA")]
@@ -26,31 +26,18 @@ class EMACrossExample : EntryModule
         emaslow = Indicators.ExponentialMovingAverage(slowperiod, Agent.Stream);
         emafast = Indicators.ExponentialMovingAverage(fastperiod, Agent.Stream);
 
-        Agent.SetBackFilling(slowperiod);
+        AddStream(SecurityType.Forex, "AUDJPY", BarInterval.Hour);
     }
 
     public override void OnCalculate()
     {
-        //Charting
-        UpdateChart("ROI", ChartType.Step, Agent.Results.ROI);
-        UpdateChart("DD", ChartType.Line, Agent.Results.MaxDDPortfolio);
-
         //Check if the indicators are ready for usage
         if (!emaslow.IsReady || !emafast.IsReady)
-        {
             NoEntry();
-            Agent.Log(LogSeverity.Debug, "No entry (Slow: {0}, Fast: {1})", emaslow.IsReady, emafast.IsReady);
-        }
         else if (emafast.Result.CrossedAbove(emaslow.Result) && !IsLong())
-        {
             EnterLong();
-            Agent.Log(LogSeverity.Info, "Entry spotted for long (Slow: {0}, Fast: {1})", emaslow.Result.CurrentValue, emafast.Result.CurrentValue);
-        }
         else if (emafast.Result.CrossedUnder(emaslow.Result) && !IsShort())
-        {
             EnterShort();
-            Agent.Log(LogSeverity.Info, "Entry spotted for short (Slow: {0}, Fast: {1})", emaslow.Result.CurrentValue, emafast.Result.CurrentValue);
-        }
         else
             NoEntry();
     }

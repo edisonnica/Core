@@ -58,9 +58,9 @@ namespace Quantler.Orders
                 var position = _portfolio.Positions[security];
                 if (!position.IsFlat)
                     quantity = (decimal)position.FlatSize / (decimal)security.LotSize;
-                if (position.IsLong || _portfolio.Agents.First(x => x.AgentId == agentid).CurrentState[symbol].TrueForAll(x => x == AgentState.EntryLong))
+                if (position.IsLong || _portfolio.TradingAgents.First(x => x.AgentId == agentid).CurrentState[symbol].TrueForAll(x => x == AgentState.EntryLong))
                     direction = Direction.Short;
-                else if (position.IsShort || _portfolio.Agents.First(x => x.AgentId == agentid).CurrentState[symbol].TrueForAll(x => x == AgentState.EntryShort))
+                else if (position.IsShort || _portfolio.TradingAgents.First(x => x.AgentId == agentid).CurrentState[symbol].TrueForAll(x => x == AgentState.EntryShort))
                     direction = Direction.Long;
             }
 

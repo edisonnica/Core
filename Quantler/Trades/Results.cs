@@ -74,18 +74,18 @@ namespace Quantler.Trades
         /// </summary>
         /// <param name="rfr"></param>
         /// <param name="account"></param>
-        public Results(decimal rfr, IAccount account)
+        public Results(decimal rfr, PortfolioManager portfolio)
         {
             RiskFreeRate = rfr;
 
             //Subscribe for updates (updated during trading)
-            if (account == null) return;
-            _positions = account.Positions;
+            if (portfolio == null) return;
+            _positions = portfolio.Positions;
             _positions.OnPositionUpdate += OnPositionUpdate;
 
             //Set initial values
-            Balance = account.Balance;
-            InitialCapital = account.Balance;
+            Balance = portfolio.Account.Balance;
+            InitialCapital = Balance;
         }
 
         /// <summary>
@@ -94,8 +94,8 @@ namespace Quantler.Trades
         /// <param name="rfr"></param>
         /// <param name="account"></param>
         /// <param name="agentid"></param>
-        public Results(decimal rfr, IAccount account, int agentid)
-            : this(rfr, account)
+        public Results(decimal rfr, PortfolioManager portfolio, int agentid)
+            : this(rfr, portfolio)
         {
             _agentid = agentid;
         }

@@ -94,11 +94,6 @@ namespace Quantler.Interfaces
         decimal MarginLevel { get; }
 
         /// <summary>
-        /// Currently held positions on this account
-        /// </summary>
-        IPositionTracker Positions { get; }
-
-        /// <summary>
         /// Securities associated and thus tradeable on this account.
         /// If a security is not available in this collection, it cannot be traded.
         /// </summary>

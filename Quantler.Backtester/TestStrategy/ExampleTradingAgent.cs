@@ -54,13 +54,13 @@ internal class ExampleTradingAgent : TradingAgent
             if (decisions.Value.Count == 0)
                 continue;
 
-            var sec = Portfolio.Securities[decisions.Key];
+            var sec = Portfolio.Account.Securities[decisions.Key];
 
             if (decisions.Value.TrueForAll(x => x == AgentState.EntryLong))  //thus long
                 ProcessOrder(CreateOrder(sec, Direction.Long, sec.OrderMinQuantity), AgentState.EntryLong);
             else if (decisions.Value.TrueForAll(x => x == AgentState.EntryShort))  //thus short
                 ProcessOrder(CreateOrder(sec, Direction.Short, sec.OrderMinQuantity), AgentState.EntryShort);
-            else if (decisions.Value.Contains(AgentState.Flatten) && Portfolio.Positions[decisions.Key] != null)  //thus flatten
+            else if (decisions.Value.Contains(AgentState.Flatten) && Positions[decisions.Key] != null)  //thus flatten
                 ProcessOrder(CreateOrder(sec, Direction.Flat, sec.OrderMinQuantity), AgentState.Flatten);
         }
     }
@@ -79,8 +79,8 @@ internal class ExampleTradingAgent : TradingAgent
             if (decisions.Value.Count == 0)
                 continue;
 
-            var currentPosition = Portfolio.Positions[decisions.Key];
-            var sec = Portfolio.Securities[decisions.Key];
+            var currentPosition = Positions[decisions.Key];
+            var sec = Portfolio.Account.Securities[decisions.Key];
 
             if (currentPosition != null)
             {

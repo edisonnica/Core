@@ -1,5 +1,4 @@
-﻿#region License
-/*
+﻿/*
 Copyright (c) Quantler B.V., All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -12,7 +11,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
 */
-#endregion
 
 using System;
 using System.Collections.Generic;
@@ -25,6 +23,11 @@ namespace Quantler.Interfaces
     public interface IModule
     {
         #region Public Properties
+
+        /// <summary>
+        /// Returns the account connected to this module and portfolio
+        /// </summary>
+        IAccount Account { get; }
 
         /// <summary>
         /// Associated agent for this module
@@ -67,6 +70,8 @@ namespace Quantler.Interfaces
         IPortfolio Portfolio { get; }
 
         #endregion Public Properties
+
+        #region Public Methods
 
         /// <summary>
         /// Add another stream, without creating bars
@@ -198,5 +203,7 @@ namespace Quantler.Interfaces
         /// <param name="type"></param>
         /// <param name="value"></param>
         void UpdateChart(string name, ChartType type, float value);
+
+        #endregion Public Methods
     }
 }

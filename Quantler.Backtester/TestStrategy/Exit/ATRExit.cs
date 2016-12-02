@@ -58,9 +58,9 @@ class ATRExit : ExitModule
         if (currentprice != 0 && !HasPosition())
             currentprice = 0;
         else if (IsLong() && currentprice == 0)
-            currentprice = Portfolio.Positions[Agent.Symbol].AvgPrice + (atr.Result[0] * multiplier);
+            currentprice = Agent.Positions[Agent.Symbol].AvgPrice + (atr.Result[0] * multiplier);
         else if (IsShort() && currentprice == 0)
-            currentprice = Portfolio.Positions[Agent.Symbol].AvgPrice - (atr.Result[0] * multiplier);
+            currentprice = Agent.Positions[Agent.Symbol].AvgPrice - (atr.Result[0] * multiplier);
 
         //Check for exit strategy
         if (IsLong() && CurrentBar[Agent.Symbol].High > currentprice)

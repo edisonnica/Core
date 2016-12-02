@@ -82,7 +82,7 @@ namespace Quantler.Agent
             set;
         }
 
-        IPositionTracker IPortfolio.Positions
+        IPositionTracker PortfolioManager.Positions
         {
             get { return _positions; }
         }
@@ -276,8 +276,8 @@ namespace Quantler.Agent
             if (Account == null)
             {
                 Account = account;
-                _currentresults = new Results(0, account);
                 _positions = new PositionTracker(account);
+                _currentresults = new Results(0, this);
             }
         }
 

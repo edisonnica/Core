@@ -24,6 +24,7 @@ using System;
 using FluentAssertions;
 using Quantler.Securities;
 using Xunit;
+using Quantler.Agent;
 
 namespace Quantler.Tests.Common
 {
@@ -157,25 +158,27 @@ namespace Quantler.Tests.Common
             ts.PipValue = 1;
             ts.PipSize = 1;
 
+            PortfolioManager portfolio = new TradingPortfolio();
             IAccount account = new SimAccount("TEST");
-            account.Securities.AddSecurity(ts);
+            portfolio.SetAccount(account);
+            portfolio.Securities.AddSecurity(ts);
 
             // long position
             var t = new TradeImpl(s, 100m, 200);
             t.Account = account;
             t.Security = ts;
-            decimal cpl = account.Positions.Adjust(t);
+            decimal cpl = portfolio.Positions.Adjust(t);
             Assert.Equal(cpl, 0);
             // sell more than we've got to change sides
             TradeImpl flip = new TradeImpl(s, 99, -400);
             flip.Account = account;
             flip.Security = ts;
-            cpl = account.Positions.Adjust(flip);
+            cpl = portfolio.Positions.Adjust(flip);
             // make sure we captured close of trade
             Assert.Equal(-200, cpl);
             // make sure we captured new side and price
-            Assert.Equal(-200, account.Positions[s].Size);
-            Assert.Equal(99, account.Positions[s].AvgPrice);
+            Assert.Equal(-200, portfolio.Positions[s].Size);
+            Assert.Equal(99, portfolio.Positions[s].AvgPrice);
         }
 
         [Fact]
@@ -183,8 +186,10 @@ namespace Quantler.Tests.Common
         public void PositionAccountTest()
         {
             ForexSecurity ts = new ForexSecurity(s);
-            IAccount account = new SimAccount("ME");
-            account.Securities.AddSecurity(ts);
+            PortfolioManager portfolio = new TradingPortfolio();
+            IAccount account = new SimAccount("TEST");
+            portfolio.SetAccount(account);
+            portfolio.Securities.AddSecurity(ts);
 
             TradeImpl t = new TradeImpl("TST", 100, 100);
             t.Account = account;
@@ -215,8 +220,10 @@ namespace Quantler.Tests.Common
             ts.PipValue = 1;
             ts.PipSize = 1;
 
+            PortfolioManager portfolio = new TradingPortfolio();
             IAccount account = new SimAccount("TEST");
-            account.Securities.AddSecurity(ts);
+            portfolio.SetAccount(account);
+            portfolio.Securities.AddSecurity(ts);
 
             TradeImpl t1 = new TradeImpl(s, 80, 100, dt);
             t1.Account = account;
@@ -262,8 +269,10 @@ namespace Quantler.Tests.Common
             ts.PipValue = 1;
             ts.PipSize = 1;
 
+            PortfolioManager portfolio = new TradingPortfolio();
             IAccount account = new SimAccount("TEST");
-            account.Securities.AddSecurity(ts);
+            portfolio.SetAccount(account);
+            portfolio.Securities.AddSecurity(ts);
 
             TradeImpl t1 = new TradeImpl(s, 80, 100, dt);
             t1.Account = account;

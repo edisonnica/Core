@@ -1,5 +1,4 @@
-﻿#region License
-/*
+﻿/*
 Copyright (c) Quantler B.V., All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -12,8 +11,8 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
 */
-#endregion
 
+using System.Collections.Generic;
 namespace Quantler.Interfaces
 {
     public interface PortfolioManager : IPortfolio
@@ -35,9 +34,24 @@ namespace Quantler.Interfaces
         OrderFactory OrderFactory { get; set; }
 
         /// <summary>
+        /// List of all currently pending orders from all trading agents, present at the broker
+        /// </summary>
+        PendingOrder[] PendingOrders { get; }
+
+        /// <summary>
+        /// Current opened positions and its status for this portfolio
+        /// </summary>
+        IPositionTracker Positions { get; }
+
+        /// <summary>
         /// All trading agents associated in this portoflio
         /// </summary>
         TradingAgentManager[] TradingAgents { get; }
+
+        /// <summary>
+        /// All subscribed securities
+        /// </summary>
+        ISecurityTracker Securities { get; }
 
         #endregion Public Properties
 
@@ -86,10 +100,23 @@ namespace Quantler.Interfaces
         void Initialize();
 
         /// <summary>
+        /// Attach another trading agent to the portfolio
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        void InjectAgent<T>() where T : ITradingAgent;
+
+        /// <summary>
         /// Queue a new pending order, ready to be sent to the broker
         /// </summary>
         /// <param name="porder"></param>
         void QueueOrder(PendingOrder porder);
+
+        /// <summary>
+        /// Remove Agent from this portfolio
+        /// </summary>
+        /// <param name="agentId"></param>
+        /// <param name="flatten"></param>
+        void RemoveAgent(int agentId, bool flatten = false);
 
         /// <summary>
         /// Set default account to use by this portfolio
@@ -98,29 +125,16 @@ namespace Quantler.Interfaces
         void SetAccount(IAccount account);
 
         /// <summary>
-        /// Set position tracker implementation to use
-        /// </summary>
-        /// <param name="tracker"></param>
-        void SetPositionTracker(IPositionTracker tracker);
-
-        /// <summary>
         /// Set all pending orders currently known at the broker (update)
         /// </summary>
         /// <param name="pendingorders"></param>
         void SetPendingOrders(PendingOrder[] pendingorders);
 
         /// <summary>
-        /// Attach another trading agent to the portfolio
+        /// Set position tracker implementation to use
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        void InjectAgent<T>() where T : ITradingAgent;
-
-        /// <summary>
-        /// Remove Agent from this portfolio
-        /// </summary>
-        /// <param name="agentId"></param>
-        /// <param name="flatten"></param>
-        void RemoveAgent(int agentId, bool flatten = false);
+        /// <param name="tracker"></param>
+        void SetPositionTracker(IPositionTracker tracker);
 
         #endregion Public Methods
     }

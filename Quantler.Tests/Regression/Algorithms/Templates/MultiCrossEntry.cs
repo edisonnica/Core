@@ -30,8 +30,8 @@ namespace Quantler.Tests.Regression.Algorithms.Modules
             //add another item to check
             AddStream(SecurityType.Forex, "AUDJPY", BarInterval.Hour);
             var audjpystream = Portfolio.Streams["AUDJPY"];
-            _emaslow.Add(Portfolio.Securities["AUDJPY"], Indicators.ExponentialMovingAverage(fastperiod, audjpystream));
-            _emafast.Add(Portfolio.Securities["AUDJPY"], Indicators.ExponentialMovingAverage(fastperiod, audjpystream));
+            _emaslow.Add(Portfolio.Account.Securities["AUDJPY"], Indicators.ExponentialMovingAverage(fastperiod, audjpystream));
+            _emafast.Add(Portfolio.Account.Securities["AUDJPY"], Indicators.ExponentialMovingAverage(fastperiod, audjpystream));
         }
 
         public override void OnCalculate()

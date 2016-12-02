@@ -252,6 +252,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Quantler.Agent\Quantler.Agent.csproj">
+      <Project>{92077d53-fdb8-4aa7-b199-8e3799135842}</Project>
+      <Name>Quantler.Agent</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Quantler.Backtester\Quantler.Backtester.csproj">
       <Project>{ccf9fdbe-c0d5-4697-b93c-976b690d75e9}</Project>
       <Name>Quantler.Backtester</Name>

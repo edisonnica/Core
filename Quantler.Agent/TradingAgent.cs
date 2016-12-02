@@ -114,7 +114,7 @@ namespace Quantler.Agent
 
         public PendingOrder[] PendingOrders
         {
-            get { return Portfolio.PendingOrders.Where(x => x.AgentId == AgentId && !x.IsCancelled).ToArray(); }
+            get { return _portfolio.PendingOrders.Where(x => x.AgentId == AgentId && !x.IsCancelled).ToArray(); }
         }
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace Quantler.Agent
             CurrentBar = new Dictionary<string, Bar>();
             CurrentTick = new Dictionary<string, Tick>();
             Bars = new Data.Bars.BarIndexerImpl(_portfolio);
-            _results = new Results(0, Portfolio.Account, AgentId);
+            _results = new Results(0, (PortfolioManager)Portfolio, AgentId);
             Positions = new PositionTracker(_portfolio.Account);
 
             //Log backfilling information

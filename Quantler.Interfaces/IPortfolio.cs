@@ -31,11 +31,6 @@ namespace Quantler.Interfaces
         IAccount Account { get; }
 
         /// <summary>
-        /// Array of all associated agents
-        /// </summary>
-        ITradingAgent[] Agents { get; }
-
-        /// <summary>
         /// Unique identifier for this portfolio of agents
         /// </summary>
         int Id { get; }
@@ -46,24 +41,9 @@ namespace Quantler.Interfaces
         bool IsValid { get; }
 
         /// <summary>
-        /// List of all currently pending orders from all trading agents, present at the broker
-        /// </summary>
-        PendingOrder[] PendingOrders { get; }
-
-        /// <summary>
-        /// Current opened positions and its status for this portfolio
-        /// </summary>
-        IPositionTracker Positions { get; }
-
-        /// <summary>
         /// Updated results of this trading session, for this portfolio
         /// </summary>
         Result Results { get; }
-
-        /// <summary>
-        /// All subscribed securities
-        /// </summary>
-        ISecurityTracker Securities { get; }
 
         /// <summary>
         /// Currently associated datastreams (live or backtest based)

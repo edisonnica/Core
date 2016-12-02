@@ -44,22 +44,22 @@ namespace Quantler.Agent
 
         public void AddDataStream(SecurityType type, string name)
         {
-            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, type]));
+            AddDataStream(new OHLCBarStream(Portfolio.Account.Securities[name, type]));
         }
 
         public void AddDataStream(SecurityType type, string name, TimeSpan interval)
         {
-            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, type], (int)interval.TotalSeconds));
+            AddDataStream(new OHLCBarStream(Portfolio.Account.Securities[name, type], (int)interval.TotalSeconds));
         }
 
         public void AddDataStream(SecurityType type, string name, int interval)
         {
-            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, type], interval));
+            AddDataStream(new OHLCBarStream(Portfolio.Account.Securities[name, type], interval));
         }
 
         public void AddDataStream(SecurityType type, string name, BarInterval interval)
         {
-            AddDataStream(new OHLCBarStream(Portfolio.Securities[name, type], (int)interval));
+            AddDataStream(new OHLCBarStream(Portfolio.Account.Securities[name, type], (int)interval));
         }
 
         public void SetDefaultStream(DataStream stream)

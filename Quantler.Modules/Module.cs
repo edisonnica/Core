@@ -1,5 +1,4 @@
-﻿#region License
-/*
+﻿/*
 Copyright (c) Quantler B.V., All rights reserved.
 
 This library is free software; you can redistribute it and/or
@@ -12,7 +11,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 Lesser General Public License for more details.
 */
-#endregion
+
 using Quantler.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -28,6 +27,11 @@ namespace Quantler.Modules
         #endregion Private Fields
 
         #region Public Properties
+
+        public IAccount Account
+        {
+            get { return Portfolio.Account; }
+        }
 
         public ITradingAgent Agent { get { return _agent; } set { if (_agent == null) _agent = value; } }
 

@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Quantler.Securities;
 using Xunit;
+using Quantler.Agent;
 
 namespace Quantler.Tests.Common
 {
@@ -43,9 +44,11 @@ namespace Quantler.Tests.Common
             ts.LotSize = 1;
             ts.PipValue = 1;
             ts.PipSize = 1;
+            PortfolioManager portfolio = new TradingPortfolio();
             IAccount account = new SimAccount("TEST");
+            portfolio.SetAccount(account);
             account.Securities.AddSecurity(ts);
-            rt = new Results(.01m, account);
+            rt = new Results(.01m, portfolio);
 
             // get some trades
             List<Trade> fills = new List<Trade>(new Trade[] {
@@ -69,7 +72,7 @@ namespace Quantler.Tests.Common
 
             //fill all trades
             foreach (var t in fills)
-                account.Positions.Adjust(t);
+                portfolio.Positions.Adjust(t);
 
             // check ratios
 #if DEBUG
@@ -97,9 +100,11 @@ namespace Quantler.Tests.Common
             ForexSecurity ts = new ForexSecurity(sym);
             ts.LotSize = 1;
             ts.PipSize = 1;
+            PortfolioManager portfolio = new TradingPortfolio();
             IAccount account = new SimAccount("TEST");
-            account.Securities.AddSecurity(ts);
-            rt = new Results(.01m, account);
+            portfolio.SetAccount(account);
+            portfolio.Securities.AddSecurity(ts);
+            rt = new Results(.01m, portfolio);
 
             // get some trades
             List<Trade> fills = new List<Trade>(new Trade[] {
@@ -123,7 +128,7 @@ namespace Quantler.Tests.Common
 
             //fill all trades
             foreach (var t in fills)
-                account.Positions.Adjust(t);
+                portfolio.Positions.Adjust(t);
 
             // check trade count
             Assert.Equal(fills.Count, rt.Trades);
